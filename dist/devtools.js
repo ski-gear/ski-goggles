@@ -16,7 +16,7 @@
      */
     port.onMessage.addListener( function( msg ) {
       if( panelWindow ) {
-        panelWindow.Skig.receive_message( msg );
+        panelWindow.Skig.log( msg );
       } else {
         queuedMessages.push( msg );
       }
@@ -32,11 +32,12 @@
       // Release queued messages
       var msg;
       while( ( msg = queuedMessages.shift() ) ) {
-        panelWindow.Skig.receive_message( msg );
+        panelWindow.Skig.log( msg );
       }
 
       // Inject a reply mechanism into the caller
       panelWindow.Skig.send_message = function( msg ) {
+        alert(2);
         port.postMessage( msg );
       };
     } );

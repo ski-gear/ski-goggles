@@ -73,6 +73,9 @@
     }
   });
 
+  function test(tab){
+    // console.log('callback', tab.url);
+  }
 
   /**
    * Return a pattern that matches the currently enabled providers
@@ -96,17 +99,17 @@
       return;
     }
 
-    // store the current tab's loading state into the details object
-    details.omnibugLoading = tabs[details.tabId].loading;
-
-    chrome.tabs.get(details.tabId, console.log);
+    sendToAllDevTools({
+      type: "data",
+      payload: { url: details.url}
+    });
   };
 
 
   chrome.webRequest.onBeforeRequest.addListener(
-    beforeRequestCallback, {
-      urls: ["<all_urls>"]
-    }, ['requestBody']
+    beforeRequestCallback,
+    { urls: ["<all_urls>"] },
+    ['requestBody']
   );
 
 
