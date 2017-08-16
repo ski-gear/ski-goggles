@@ -1,5 +1,6 @@
 import React from 'react';
-import { Accordion, Button, Icon } from 'semantic-ui-react'
+import { Accordion, Button, Icon } from 'semantic-ui-react';
+import moment from 'moment';
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -32,7 +33,8 @@ export default class Table extends React.Component {
   }
 
   appendRow() {
-    let row = {title: 'stuff', content: 'Awesome'}
+    let time = moment().unix();
+    let row = {title: `stuff-${time}`, content: 'Awesome'}
     let nextState = this.state;
     nextState.rows.push(row);
     this.setState(nextState);
