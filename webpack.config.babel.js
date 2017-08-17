@@ -20,17 +20,28 @@ const Plugins = [
     inject: 'body',
     chunks: ['panel']
   }),
+  new HtmlWebpackPlugin({
+    template: './src/html/options.html',
+    filename: 'options.html',
+    inject: 'body',
+    chunks: ['options']
+  }),
   new CopyWebpackPlugin([
     { from: 'src/assets/styles/semantic-ui.css', to: 'css'},
+    { from: 'src/assets/styles/snow.css', to: 'css'},
     { from: 'src/assets/fonts', to: 'css/themes/default/assets/fonts'},
     { from: 'src/assets/images', to: 'images'},
-    { from: 'src/manifest.json', to: 'manifest.json'},
-    { from: 'src/html/options.html', to: 'options.html'}
+    { from: 'src/manifest.json', to: 'manifest.json'}
   ]),
   new HtmlWebpackIncludeAssetsPlugin({
     assets: ['css/semantic-ui.css'],
     append: false,
-    files: ['panel.html']
+    files: ['panel.html', 'options.html']
+  }),
+  new HtmlWebpackIncludeAssetsPlugin({
+    assets: ['css/snow.css'],
+    append: false,
+    files: ['options.html']
   }),
   new HtmlWebpackPlugin({
     template: './src/html/devtools.html',
@@ -46,7 +57,8 @@ const Config = {
   entry: {
     panel: './src/panel.js',
     background: './src/background.js',
-    devtools: './src/devtools.js'
+    devtools: './src/devtools.js',
+    options: './src/options.js'
   },
   output: {
     path: path.resolve('dist'),
