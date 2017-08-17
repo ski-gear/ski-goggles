@@ -1,7 +1,7 @@
 {
   "name": "ski-goggles",
   "version": "1.0.0",
-  "description": "Some eye protection before ski into the world of Snowplow",
+  "description": "Some eye protection before skiing into the world of Snowplow",
   "main": "index.js",
   "author": "prem.pillai@rea-group.com",
   "license": "MIT",
@@ -11,6 +11,8 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
     "style-loader": "^0.18.2",
@@ -25,6 +27,7 @@
     "semantic-ui-react": "^0.71.4"
   },
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   }
 }
