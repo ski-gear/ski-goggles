@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-let baseConfig = {
+const Modules = {
   module: {
     loaders: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
@@ -13,11 +13,12 @@ let baseConfig = {
   }
 };
 
-const IndexHtmlPlugins = [
+const Plugins = [
   new HtmlWebpackPlugin({
     template: './src/panel.html',
     filename: 'panel.html',
-    inject: 'body'
+    inject: 'body',
+    chunks: ['panel']
   }),
   new CopyWebpackPlugin([
     { from: 'src/styles/semantic-ui.css', to: 'css/'},
@@ -31,17 +32,21 @@ const IndexHtmlPlugins = [
   })
 ];
 
-let panelConfig = {
-  ...baseConfig,
-  name: 'panel',
-  entry: './src/panel.js',
+const Config = {
+  ...Modules,
+
+  entry: {
+    panel: './src/panel.js',
+    background: './src/background.js'
+  },
   output: {
     path: path.resolve('dist'),
-    filename: 'panel_bundle.js'
+    filename: '[name].js'
   },
-  plugins: IndexHtmlPlugins
+
+  plugins: Plugins
 };
 
 module.exports = {
-  ...panelConfig
+  ...Config
 };
