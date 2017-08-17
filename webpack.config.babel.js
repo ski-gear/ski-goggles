@@ -24,6 +24,8 @@ const Plugins = [
     { from: 'src/assets/styles/semantic-ui.css', to: 'css'},
     { from: 'src/assets/fonts', to: 'css/themes/default/assets/fonts'},
     { from: 'src/assets/images', to: 'images'},
+    { from: 'src/manifest.json', to: 'manifest.json'},
+    { from: 'src/html/options.html', to: 'options.html'}
   ]),
   new HtmlWebpackIncludeAssetsPlugin({
     assets: ['css/semantic-ui.css'],

@@ -12,27 +12,13 @@ export default class Table extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      rows: [
-        {
-          title: "Awesome",
-          content: "Cool Stuff"
-        },
-        {
-          title: "Awesome Again",
-          content: "Cool Stuff"
-        }
-      ]
-    }
+    this.state = { rows: [] };
     this.appendRow = this.appendRow.bind(this);
   };
 
   render() {
     return (
       <div>
-        <Button icon onClick={ this.appendRow }>
-          <Icon name='add' />
-        </Button>
         <Accordion panels={ this.state.rows }>
         </Accordion>
       </div>
@@ -40,7 +26,11 @@ export default class Table extends React.Component {
   }
 
   appendRow(data) {
-    let row = { title: data.title, content: data.content }
+    let payload = data.detail.payload;
+    let url = payload.url;
+    let title = `${url}-${moment().unix()}`;
+    let row = { title: title, content: url }
+
     let nextState = this.state;
     nextState.rows.push(row);
 
