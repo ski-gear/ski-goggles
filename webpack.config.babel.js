@@ -28,8 +28,15 @@ const Plugins = [
   ]),
   new HtmlWebpackIncludeAssetsPlugin({
     assets: ['css/semantic-ui.css'],
-    append: false
-  })
+    append: false,
+    files: ['panel.html']
+  }),
+  new HtmlWebpackPlugin({
+    template: './src/devtools.html',
+    filename: 'devtools.html',
+    inject: 'head',
+    chunks: ['devtools']
+  }),
 ];
 
 const Config = {
@@ -37,7 +44,8 @@ const Config = {
 
   entry: {
     panel: './src/panel.js',
-    background: './src/background.js'
+    background: './src/background.js',
+    devtools: './src/devtools.js'
   },
   output: {
     path: path.resolve('dist'),
