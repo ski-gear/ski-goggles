@@ -15,16 +15,15 @@ const Modules = {
 
 const Plugins = [
   new HtmlWebpackPlugin({
-    template: './src/panel.html',
+    template: './src/html/panel.html',
     filename: 'panel.html',
     inject: 'body',
     chunks: ['panel']
   }),
   new CopyWebpackPlugin([
-    { from: 'src/styles/semantic-ui.css', to: 'css/'},
-    { from: 'src/fonts/icons.ttf', to: 'css/themes/default/assets/fonts/'},
-    { from: 'src/fonts/icons.woff', to: 'css/themes/default/assets/fonts/'},
-    { from: 'src/fonts/icons.woff2', to: 'css/themes/default/assets/fonts/'}
+    { from: 'src/assets/styles/semantic-ui.css', to: 'css'},
+    { from: 'src/assets/fonts', to: 'css/themes/default/assets/fonts'},
+    { from: 'src/assets/images', to: 'images'},
   ]),
   new HtmlWebpackIncludeAssetsPlugin({
     assets: ['css/semantic-ui.css'],
@@ -32,7 +31,7 @@ const Plugins = [
     files: ['panel.html']
   }),
   new HtmlWebpackPlugin({
-    template: './src/devtools.html',
+    template: './src/html/devtools.html',
     filename: 'devtools.html',
     inject: 'head',
     chunks: ['devtools']
