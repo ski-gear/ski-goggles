@@ -1,48 +1,50 @@
-chrome.devtools.panels.create(
-  "Ski Goggles",
-  "images/ski-googles-icon.png",
-  "index.html",
-  panelCreated
-);
-
-var panelCreated = function(panel) {
-  var queuedMessages = [];
-  var panelWindow;
-  var tabId = chrome.devtools.inspectedWindow.tabId;
-  var port = chrome.extension.connect(
+const panelCreated = (panel) => {
+  let queuedMessages = [];
+  let panelWindow;
+  let tabId = chrome.devtools.inspectedWindow.tabId;
+  const port = chrome.extension.connect(
     {
       name: "skig-" + tabId
     }
   );
 
-  port.onMessage.addListener(function(msg) {
-    alert(msg);
+  port.onMessage.addListener((msg) => {
+    let event = new CustomEvent('newData', { detail: msg });
+
     if(panelWindow) {
-      panelWindow.Skig.log(msg);
+      panelWindow.document.dispatchEvent(event);
     } else {
-      queuedMessages.push(msg);
+      queuedMessages.push(event);
     }
   });
 
   /**
    * Called when the devtools panel is first shown
    */
-  panel.onShown.addListener(function runOnce(tempWindow) {
-    panel.onShown.removeListener(runOnce); // Run once only
-    panelWindow = tempWindow;
+  let onPanelFirstShow;
+  onPanelFirstShow = (panelWindowRef) => {
+    panel.onShown.removeListener(onPanelFirstShow); // Ensure this fires only once.
 
-    // Release queued messages
-    var msg;
+    panelWindow = panelWindowRef;
+
+    let event;
     while(
-      (msg = queuedMessages.shift())
+      (event = queuedMessages.shift())
     ){
-      panelWindow.Skig.log(msg);
+      panelWindow.document.dispatchEvent(event);
     };
 
-    // Inject a reply mechanism into the Panel
-    panelWindow.Skig.sendMesasge = function(msg) {
-      port.postMessage(msg);
-    };
-  });
+    // Mutate the PanelWindow to create a way for it to talk to us
+    panelWindow.sendToDevtoolsPage = (msg) => port.postMessage(msg);
+  };
+
+  panel.onShown.addListener(onPanelFirstShow);
 };
 
+
+chrome.devtools.panels.create(
+  "Ski Goggles",
+  "images/ski-googles-icon.png",
+  "panel.html",
+  panelCreated
+);

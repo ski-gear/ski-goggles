@@ -20,7 +20,10 @@ const IndexHtmlPlugins = [
     inject: 'body'
   }),
   new CopyWebpackPlugin([
-    { from: 'src/styles/semantic-ui.css', to: 'css/'}
+    { from: 'src/styles/semantic-ui.css', to: 'css/'},
+    { from: 'src/fonts/icons.ttf', to: 'css/themes/default/assets/fonts/'},
+    { from: 'src/fonts/icons.woff', to: 'css/themes/default/assets/fonts/'},
+    { from: 'src/fonts/icons.woff2', to: 'css/themes/default/assets/fonts/'}
   ]),
   new HtmlWebpackIncludeAssetsPlugin({
     assets: ['css/semantic-ui.css'],
@@ -38,8 +41,6 @@ let panelConfig = {
   },
   plugins: IndexHtmlPlugins
 };
-
-console.log(panelConfig);
 
 module.exports = {
   ...panelConfig

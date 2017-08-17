@@ -3,6 +3,13 @@ import { Accordion, Button, Icon } from 'semantic-ui-react';
 import moment from 'moment';
 
 export default class Table extends React.Component {
+  componentDidMount(){
+    document.addEventListener('newData', (data) => {
+      console.log('new data', data);
+      this.appendRow(data);
+    });
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -32,11 +39,11 @@ export default class Table extends React.Component {
     );
   }
 
-  appendRow() {
-    let time = moment().unix();
-    let row = {title: `stuff-${time}`, content: 'Awesome'}
+  appendRow(data) {
+    let row = { title: data.title, content: data.content }
     let nextState = this.state;
     nextState.rows.push(row);
+
     this.setState(nextState);
   }
 };
