@@ -26,6 +26,10 @@ export default class Table extends React.Component {
   }
 
   appendRow(data) {
+    if(data.detail.type != "webRequest"){
+      return;
+    };
+
     let payload = data.detail.payload;
     let url = payload.url;
     let title = `${url}-${moment().unix()}`;
