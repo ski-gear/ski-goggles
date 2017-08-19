@@ -31,7 +31,7 @@ const Plugins = [
     { from: 'src/assets/styles/snow.css', to: 'css'},
     { from: 'src/assets/fonts', to: 'css/themes/default/assets/fonts'},
     { from: 'src/assets/images', to: 'images'},
-    { from: 'src/manifest.json', to: 'manifest.json'}
+    { from: 'src/chrome/manifest.json', to: 'manifest.json'}
   ]),
   new HtmlWebpackIncludeAssetsPlugin({
     assets: ['css/semantic-ui.css'],
@@ -56,12 +56,12 @@ const Config = {
 
   entry: {
     panel: './src/panel.js',
-    background: './src/background.js',
-    devtools: './src/devtools.js',
-    options: './src/options.js'
+    background: './src/chrome/background.js',
+    devtools: './src/chrome/devtools.js',
+    options: './src/chrome/options.js'
   },
   output: {
-    path: path.resolve('dist'),
+    path: path.resolve('dist/chrome'),
     filename: '[name].js'
   },
 

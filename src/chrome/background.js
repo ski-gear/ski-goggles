@@ -1,4 +1,4 @@
-import * as helpers from './background/helpers.js';
+import * as helpers from './background_helpers.js';
 import { curry } from 'ramda';
 
 let prefs = {};

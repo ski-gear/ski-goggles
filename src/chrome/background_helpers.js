@@ -22,7 +22,7 @@ const initPrefs = (chrome) => {
 const loadPrefsFromStorage = (chrome, prefs) => {
   chrome.storage.local.get("skiGoggles", prefData => {
     prefs = prefData.skiGoggles;
-    console.log('prefs:', prefData);
+    console.debug('prefs:', prefData);
   });
 };
 
