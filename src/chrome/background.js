@@ -2,7 +2,13 @@ import * as helpers from './background_helpers.js';
 import { curry } from 'ramda';
 
 let prefs = {};
+const getPrefs = () => prefs;
+
 let tabs = [];
+const getTabs = () => tabs;
+
+let masterPattern = helpers.generateMasterPattern();
+const getMasterPattern = () => masterPattern;
 
 chrome.runtime.onInstalled.addListener(
   curry(helpers.onInit)(chrome)
@@ -28,7 +34,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 });
 
 chrome.webRequest.onBeforeRequest.addListener(
-  curry(helpers.beforeRequestCallback)(tabs),
+  curry(helpers.beforeRequestCallback)(getTabs)(getMasterPattern),
   { urls: ["<all_urls>"] },
   ['requestBody']
 );

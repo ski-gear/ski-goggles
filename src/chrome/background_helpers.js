@@ -1,3 +1,6 @@
+import * as Providers from '../providers';
+import { map, join, path, values } from 'ramda';
+
 const onInit = (chrome, details) => {
   console.debug(details);
   console.debug('eventPage onInit');
@@ -34,15 +37,37 @@ const getCurrentPattern = (prefSet) => {
   return new RegExp(patterns.join("|")).source;
 };
 
-const beforeRequestCallback = (tabs, details) => {
+const beforeRequestCallback = (getTabs, getMasterPattern, details) => {
+  let tabs = getTabs();
+  let masterPattern = getMasterPattern();
+
   if (!(details.tabId in tabs)) {
     return;
   }
 
-  sendToAllDevTools(tabs, {
-    type: "webRequest",
-    payload: { url: details.url}
-  });
+  if(matchesBroadly(details.url, masterPattern)) {
+    sendToAllDevTools(tabs, {
+      type: "webRequest",
+      payload: { url: details.url}
+    });
+  }
+};
+
+// matchesBroadly :: String -> Bool
+const matchesBroadly = (url, regexPattern) => {
+  return !!(url.match(regexPattern));
+};
+
+const generateMasterPattern = () => {
+  let pattern = join(
+    '|',
+    map(
+      path(['pattern', 'source']),
+      values(Providers)
+    )
+  );
+
+  return new RegExp(pattern);
 };
 
 const getTabId = (port) => {
@@ -70,6 +95,8 @@ export {
   beforeRequestCallback,
   getTabId,
   sendToAllDevTools,
-  sendToDevToolsForTab
-
+  sendToDevToolsForTab,
+  loadPrefsFromStorage,
+  generateMasterPattern,
+  matchesBroadly
 }
