@@ -1,13 +1,17 @@
+// @flow
+
 import * as Providers from '../providers';
 import { map, join, path, values } from 'ramda';
+import type { InterceptedDataEnvelope } from '../types.js';
+import moment from 'moment';
 
-const onInit = (chrome, details) => {
+const onInit = (chrome: any, details: any) => {
   console.debug(details);
   console.debug('eventPage onInit');
   initPrefs(chrome);
 };
 
-const initPrefs = (chrome) => {
+const initPrefs = (chrome: any) => {
   const prefs = {
     test: 'value'
   };
@@ -22,14 +26,14 @@ const initPrefs = (chrome) => {
   loadPrefsFromStorage(chrome, prefs);
 };
 
-const loadPrefsFromStorage = (chrome, prefs) => {
+const loadPrefsFromStorage = (chrome: any, prefs: any) => {
   chrome.storage.local.get("skiGoggles", prefData => {
     prefs = prefData.skiGoggles;
     console.debug('prefs:', prefData);
   });
 };
 
-const getCurrentPattern = (prefSet) => {
+const getCurrentPattern = (prefSet: any) => {
   let patterns = [];
   const providerPatterns = [/sp\.eventus\-test/];
   patterns = providerPatterns;
@@ -37,7 +41,7 @@ const getCurrentPattern = (prefSet) => {
   return new RegExp(patterns.join("|")).source;
 };
 
-const beforeRequestCallback = (getTabs, getMasterPattern, details) => {
+const beforeRequestCallback = (getTabs: any, getMasterPattern: any, details: any) => {
   let tabs = getTabs();
   let masterPattern = getMasterPattern();
 
@@ -46,15 +50,24 @@ const beforeRequestCallback = (getTabs, getMasterPattern, details) => {
   }
 
   if(matchesBroadly(details.url, masterPattern)) {
-    sendToAllDevTools(tabs, {
-      type: "webRequest",
-      payload: { url: details.url}
-    });
+    let url: string = details.url;
+    let timeStamp: number = moment().unix();
+    let data = {};
+
+    let eventData: InterceptedDataEnvelope = {
+      type: 'webRequest',
+      payload: {
+        url: url,
+        timeStamp: timeStamp,
+        data: data
+      }
+    }
+
+    sendToAllDevTools(tabs, eventData);
   }
 };
 
-// matchesBroadly :: String -> Bool
-const matchesBroadly = (url, regexPattern) => {
+const matchesBroadly = (url: string, regexPattern: RegExp): bool => {
   return !!(url.match(regexPattern));
 };
 
@@ -70,11 +83,11 @@ const generateMasterPattern = () => {
   return new RegExp(pattern);
 };
 
-const getTabId = (port) => {
+const getTabId = (port: any) : string => {
   return port.name.substring(port.name.indexOf("-") + 1);
 };
 
-const sendToDevToolsForTab = (tabs, tabId, object) => {
+const sendToDevToolsForTab = (tabs: any, tabId: any , object: any) => {
   console.debug("sending ", object.type, " message to tabId: ", tabId, ": ", object);
   try {
     tabs[tabId].port.postMessage(object);
@@ -83,7 +96,7 @@ const sendToDevToolsForTab = (tabs, tabId, object) => {
   }
 };
 
-const sendToAllDevTools = (tabs, object) => {
+const sendToAllDevTools = (tabs: any, object: any) => {
   Object.keys(tabs).forEach(tabId => {
     sendToDevToolsForTab(tabs, tabId, object);
   });
