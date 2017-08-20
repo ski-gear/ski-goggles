@@ -1,6 +1,7 @@
-// TODO: Add deep flowtypes for the following data types
+// @flow
+import type { Provider } from '../types.js';
 
-const Snowplow = {
+const Snowplow: Provider = {
   canonicalName: 'Snowplow',
   logo: 'snowplow.png',
   pattern: /sp\.eventus\-test\.net/,

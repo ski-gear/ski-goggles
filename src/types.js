@@ -10,3 +10,12 @@ export type InterceptedDataEnvelope = {|
     data: InterceptedData
   }
 |};
+
+export type Provider = {|
+  canonicalName: string,
+  logo: string,
+  pattern: RegExp,
+  transformer: (InterceptedData) => InterceptedData
+|};
+
+

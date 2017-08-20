@@ -2045,6 +2045,10 @@ flow-bin@^0.53.1:
   version "0.53.1"
   resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.53.1.tgz#9b22b63a23c99763ae533ebbab07f88c88c97d84"
 
+flowtype-loader@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/flowtype-loader/-/flowtype-loader-0.2.2.tgz#21d60b817ffc6731d93080905c7d122f75894b2c"
+
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"

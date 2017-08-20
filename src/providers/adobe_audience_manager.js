@@ -1,6 +1,7 @@
-// TODO: Add deep flowtypes for the following data types
+// @flow
+import type { Provider } from '../types.js';
 
-const AdobeAudienceManager = {
+const AdobeAudienceManager: Provider = {
   canonicalName: 'AdobeAudienceManager',
   logo: 'adobe-audience-manager.png',
   pattern: /smetrics\.realestate\.com\.au/,
