@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion, Button, Icon } from 'semantic-ui-react';
-import moment from 'moment';
 import { path } from 'ramda';
+import Title from './Title.jsx';
 
 export default class Table extends React.Component {
   componentDidMount(){
@@ -20,7 +20,7 @@ export default class Table extends React.Component {
   render() {
     return (
       <div>
-        <Accordion panels={ this.state.rows }>
+        <Accordion panels={ this.state.rows } styled fluid>
         </Accordion>
       </div>
     );
@@ -33,8 +33,8 @@ export default class Table extends React.Component {
 
     let payload = data.detail.payload;
     let url = payload.url;
-    let title = `${url}-${moment().unix()}`;
-    let row = { title: title, content: url }
+    let title = <Title timeStamp={payload.timeStamp} />;
+    let row = { title: title, content: url, key: payload.timeStamp }
 
     let nextState = this.state;
     nextState.rows.push(row);

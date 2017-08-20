@@ -6,7 +6,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <Container text>
+        <Container fluid>
           <Table />
         </Container>
       </div>

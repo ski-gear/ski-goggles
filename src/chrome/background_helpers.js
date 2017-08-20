@@ -51,7 +51,7 @@ const beforeRequestCallback = (getTabs: any, getMasterPattern: any, details: any
 
   if(matchesBroadly(details.url, masterPattern)) {
     let url: string = details.url;
-    let timeStamp: number = moment().unix();
+    let timeStamp: number = moment().format('x');
     let data = {};
 
     let eventData: InterceptedDataEnvelope = {
