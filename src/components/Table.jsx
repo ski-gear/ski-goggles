@@ -1,6 +1,7 @@
 import React from 'react';
 import { Accordion, Button, Icon } from 'semantic-ui-react';
 import moment from 'moment';
+import { path } from 'ramda';
 
 export default class Table extends React.Component {
   componentDidMount(){
@@ -26,7 +27,7 @@ export default class Table extends React.Component {
   }
 
   appendRow(data) {
-    if(data.detail.type != "webRequest"){
+    if(path(['detail', 'type'], data) !== "webRequest"){
       return;
     };
 
