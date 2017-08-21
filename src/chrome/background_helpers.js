@@ -4,6 +4,7 @@ import * as Providers from '../providers';
 import { map, join, path, values } from 'ramda';
 import type { InterceptedDataEnvelope } from '../types.js';
 import moment from 'moment';
+import { parse } from '../parser.js';
 
 const onInit = (chrome: any, details: any) => {
   console.debug(details);
@@ -52,12 +53,15 @@ const beforeRequestCallback = (getTabs: any, getMasterPattern: any, details: any
   if(matchesBroadly(details.url, masterPattern)) {
     let url: string = details.url;
     let timeStamp: number = moment().format('x');
-    let data = {};
+    let data = parse(url);
 
     let eventData: InterceptedDataEnvelope = {
       type: 'webRequest',
       payload: {
         url: url,
+        providerDisplayName: 'Snowplow',
+        providerCanonicalName: 'Snowplow',
+        providerLogo: 'snowplow.png',
         timeStamp: timeStamp,
         data: data
       }
