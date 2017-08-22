@@ -1,20 +1,32 @@
+// @flow
+
 import React from 'react';
 import { Accordion, Button, Icon } from 'semantic-ui-react';
 import { path } from 'ramda';
 import Title from './Title.jsx';
 import Detail from './Detail.jsx';
+import type { InterceptedDataEnvelope } from '../types.js';
 
-export default class Table extends React.Component {
+type Props = {
+};
+
+type State = {
+  rows: Array<{title: Title, content: Detail, timeStamp: string}>
+};
+
+export default class DataRows extends React.Component<Props, State> {
   componentDidMount(){
-    document.addEventListener('newData', (data) => {
-      console.log('new data', data);
-      this.appendRow(data);
+    // $FlowFixMe
+    document.addEventListener('newData', (data: InterceptedDataEnvelope) => {
+    // $FlowFixMe
+      this.appendRow(data.detail);
     });
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = { rows: [] };
+    // $FlowFixMe
     this.appendRow = this.appendRow.bind(this);
   };
 
@@ -27,19 +39,20 @@ export default class Table extends React.Component {
     );
   }
 
-  appendRow(data) {
-    if(path(['detail', 'type'], data) !== "webRequest"){
+  appendRow(data: InterceptedDataEnvelope) {
+    if(path(['type'], data) !== "webRequest"){
       return;
     };
 
-    let payload = data.detail.payload;
-    let requestData = data.detail.payload.data;
+    let payload = data.payload;
+    let requestData = data.payload.data;
     let url = payload.url;
-    let title = <Title timeStamp={payload.timeStamp} />;
+    let title = <Title name={payload.providerDisplayName}  logo={payload.providerLogo}/>;
     let content = <Detail data={requestData} />;
     let row = { title: title, content: content, key: payload.timeStamp }
 
     let nextState = this.state;
+    // $FlowFixMe
     nextState.rows.push(row);
 
     this.setState(nextState);

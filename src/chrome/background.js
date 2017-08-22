@@ -1,4 +1,5 @@
 import * as helpers from './background_helpers.js';
+import { generateMasterPattern } from '../matcher.js';
 import { curry } from 'ramda';
 
 let prefs = {};
@@ -7,7 +8,7 @@ const getPrefs = () => prefs;
 let tabs = [];
 const getTabs = () => tabs;
 
-let masterPattern = helpers.generateMasterPattern();
+let masterPattern = generateMasterPattern();
 const getMasterPattern = () => masterPattern;
 
 chrome.runtime.onInstalled.addListener(

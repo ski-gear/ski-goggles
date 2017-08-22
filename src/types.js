@@ -1,6 +1,10 @@
 // @flow
 
-type InterceptedData = {};
+export type InterceptedDatum = {|
+  label: string,
+  value: string,
+  valueType: "string" | "json"
+|};
 
 export type InterceptedDataEnvelope = {|
   type: string,
@@ -10,7 +14,7 @@ export type InterceptedDataEnvelope = {|
     providerCanonicalName: string,
     providerLogo: string,
     providerDisplayName: string,
-    data: InterceptedData
+    data: Array<InterceptedDatum>
   }
 |};
 
@@ -19,7 +23,7 @@ export type Provider = {|
   displayName: string,
   logo: string,
   pattern: RegExp,
-  transformer: (InterceptedData) => InterceptedData
+  transformer: (Array<InterceptedDatum>) => Array<InterceptedDatum>
 |};
 
 

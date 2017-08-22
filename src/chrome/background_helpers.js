@@ -5,6 +5,7 @@ import { map, join, path, values } from 'ramda';
 import type { InterceptedDataEnvelope } from '../types.js';
 import moment from 'moment';
 import { parse } from '../parser.js';
+import { matchesBroadly, getProvider } from '../matcher.js';
 
 const onInit = (chrome: any, details: any) => {
   console.debug(details);
@@ -34,15 +35,7 @@ const loadPrefsFromStorage = (chrome: any, prefs: any) => {
   });
 };
 
-const getCurrentPattern = (prefSet: any) => {
-  let patterns = [];
-  const providerPatterns = [/sp\.eventus\-test/];
-  patterns = providerPatterns;
-
-  return new RegExp(patterns.join("|")).source;
-};
-
-const beforeRequestCallback = (getTabs: any, getMasterPattern: any, details: any) => {
+const beforeRequestCallback = (getTabs: any, getMasterPattern: any, details: any) : void => {
   let tabs = getTabs();
   let masterPattern = getMasterPattern();
 
@@ -54,37 +47,23 @@ const beforeRequestCallback = (getTabs: any, getMasterPattern: any, details: any
     let url: string = details.url;
     let timeStamp: number = moment().format('x');
     let data = parse(url);
+    let provider = getProvider(url);
 
-    let eventData: InterceptedDataEnvelope = {
-      type: 'webRequest',
-      payload: {
-        url: url,
-        providerDisplayName: 'Snowplow',
-        providerCanonicalName: 'Snowplow',
-        providerLogo: 'snowplow.png',
-        timeStamp: timeStamp,
-        data: data
+    if(provider){
+      let eventData: InterceptedDataEnvelope = {
+        type: 'webRequest',
+        payload: {
+          url: url,
+          providerDisplayName: provider.displayName,
+          providerCanonicalName: provider.canonicalName,
+          providerLogo: provider.logo,
+          timeStamp: timeStamp,
+          data: provider.transformer(data)
+        }
       }
+      sendToAllDevTools(tabs, eventData);
     }
-
-    sendToAllDevTools(tabs, eventData);
   }
-};
-
-const matchesBroadly = (url: string, regexPattern: RegExp): bool => {
-  return !!(url.match(regexPattern));
-};
-
-const generateMasterPattern = () => {
-  let pattern = join(
-    '|',
-    map(
-      path(['pattern', 'source']),
-      values(Providers)
-    )
-  );
-
-  return new RegExp(pattern);
 };
 
 const getTabId = (port: any) : string => {
@@ -108,12 +87,9 @@ const sendToAllDevTools = (tabs: any, object: any) => {
 
 export {
   onInit,
-  getCurrentPattern,
   beforeRequestCallback,
   getTabId,
   sendToAllDevTools,
   sendToDevToolsForTab,
   loadPrefsFromStorage,
-  generateMasterPattern,
-  matchesBroadly
 }

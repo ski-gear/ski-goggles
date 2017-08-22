@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './Table.jsx';
+import DataRows from './DataRows.jsx';
 import { Container } from 'semantic-ui-react';
 
 export default class App extends React.Component {
@@ -7,7 +7,7 @@ export default class App extends React.Component {
     return (
       <div>
         <Container fluid>
-          <Table />
+          <DataRows />
         </Container>
       </div>
     );

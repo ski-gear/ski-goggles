@@ -1,22 +1,39 @@
+// @flow
+
 import React from 'react';
 import { Table } from 'semantic-ui-react'
-import { toPairs } from 'ramda';
+import type { InterceptedDatum } from '../types.js';
 
-const renderRow = (row, index) => {
+type Props = {
+  data: Array<InterceptedDatum>
+};
+
+const renderRow = (row: InterceptedDatum, index: number) => {
   return {
     cells:[
-      {content: row[0] },
-      {content: row[1] }
+      {content: row.label },
+      {content: format(row.valueType, row.value) }
     ]
   }
 };
 
-export default class Detail extends React.Component {
+const format = (valueType: string, value: string): React$Element<any> => {
+  if(valueType == "json"){
+    return(
+      <div className="code">
+        <pre className="code">{value}</pre>
+      </div>
+      )
+  } else {
+    return <div>{value}</div>
+  }
+}
+
+export default class Detail extends React.Component<Props> {
   render() {
     return (
-      <Table tableData={toPairs(this.props.data)} renderBodyRow={renderRow}>
+      <Table celled tableData={this.props.data} renderBodyRow={renderRow}>
       </Table>
     );
   };
-
 };
