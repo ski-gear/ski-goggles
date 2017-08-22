@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { Table } from 'semantic-ui-react'
+import Highlight from 'react-highlight';
+
 import type { InterceptedDatum } from '../types.js';
 
 type Props = {
@@ -20,9 +22,9 @@ const renderRow = (row: InterceptedDatum, index: number) => {
 const format = (valueType: string, value: string): React$Element<any> => {
   if(valueType == "json"){
     return(
-      <div className="code">
-        <pre className="code">{value}</pre>
-      </div>
+      <Highlight className='json'>
+        {value}
+      </Highlight>
       )
   } else {
     return <div>{value}</div>

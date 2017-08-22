@@ -30,6 +30,7 @@
     "ramda": "^0.24.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-highlight": "^0.10.0",
     "semantic-ui-react": "^0.71.4",
     "url": "^0.11.0"
   },
