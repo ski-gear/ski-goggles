@@ -1,19 +1,19 @@
 // @flow
 
 import * as Providers from '../providers';
-import { map, join, path, values } from 'ramda';
+import { curry, map, join, path, values } from 'ramda';
 import type { InterceptedDataEnvelope } from '../types.js';
 import moment from 'moment';
 import { parse } from '../parser.js';
 import { matchesBroadly, getProvider } from '../matcher.js';
 
-const onInit = (chrome: any, details: any) => {
+const onInit = (chrome: any, details: any) : void => {
   console.debug(details);
   console.debug('eventPage onInit');
   initPrefs(chrome);
 };
 
-const initPrefs = (chrome: any) => {
+const initPrefs = curry((chrome: any) => {
   const prefs = {
     test: 'value'
   };
@@ -26,7 +26,7 @@ const initPrefs = (chrome: any) => {
 
   // force a (re)load of prefs, now that they may have changed
   loadPrefsFromStorage(chrome, prefs);
-};
+});
 
 const loadPrefsFromStorage = (chrome: any, prefs: any) => {
   chrome.storage.local.get("skiGoggles", prefData => {
@@ -35,7 +35,7 @@ const loadPrefsFromStorage = (chrome: any, prefs: any) => {
   });
 };
 
-const beforeRequestCallback = (getTabs: any, getMasterPattern: any, details: any) : void => {
+const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : void => {
   let tabs = getTabs();
   let masterPattern = getMasterPattern();
 
@@ -87,7 +87,7 @@ const sendToAllDevTools = (tabs: any, object: any) => {
 
 export {
   onInit,
-  beforeRequestCallback,
+  processWebRequest,
   getTabId,
   sendToAllDevTools,
   sendToDevToolsForTab,

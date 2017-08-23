@@ -25,5 +25,3 @@ export type Provider = {|
   pattern: RegExp,
   transformer: (Array<InterceptedDatum>) => Array<InterceptedDatum>
 |};
-
-

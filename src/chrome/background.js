@@ -1,3 +1,5 @@
+// @flow
+
 import * as helpers from './background_helpers.js';
 import { generateMasterPattern } from '../matcher.js';
 import { curry } from 'ramda';
@@ -5,15 +7,20 @@ import { curry } from 'ramda';
 let prefs = {};
 const getPrefs = () => prefs;
 
-let tabs = [];
+type Tab = {|
+  port: string,
+  loading: boolean
+|};
+
+let tabs: Array < Tab > = [];
 const getTabs = () => tabs;
 
 let masterPattern = generateMasterPattern();
 const getMasterPattern = () => masterPattern;
 
-chrome.runtime.onInstalled.addListener(
-  curry(helpers.onInit)(chrome)
-);
+const installCallback = helpers.onInit(chrome);
+// $FlowFixMe
+chrome.runtime.onInstalled.addListener(installCallback);
 
 chrome.runtime.onStartup.addListener(() => {
   helpers.loadPrefsFromStorage(chrome, prefs);
@@ -34,18 +41,23 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
   }
 });
 
+// $FlowFixMe
+const beforeRequestCallback = curry(helpers.processWebRequest)(getTabs)(getMasterPattern);
+
 chrome.webRequest.onBeforeRequest.addListener(
-  curry(helpers.beforeRequestCallback)(getTabs)(getMasterPattern),
-  { urls: ["<all_urls>"] },
-  ['requestBody']
+  beforeRequestCallback, {
+    urls: ["<all_urls>"]
+  }, ['requestBody']
 );
 
-chrome.extension.onConnect.addListener((port) => {
+chrome.runtime.onConnect.addListener((port) => {
   if (port.name.indexOf("skig-") !== 0) return;
   console.debug("Registered port ", port.name, "; id ", port.portId_);
 
   const tabId = helpers.getTabId(port);
-  tabs[tabId] = { port: port };
+  tabs[tabId] = {
+    port: port
+  };
 
   // respond immediately with prefs data
   helpers.sendToDevToolsForTab(tabs, tabId, {

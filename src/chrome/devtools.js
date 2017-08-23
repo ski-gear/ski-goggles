@@ -1,15 +1,15 @@
-const panelCreated = (panel) => {
-  let queuedMessages = [];
-  let panelWindow;
-  let tabId = chrome.devtools.inspectedWindow.tabId;
-  const port = chrome.extension.connect(
-    {
-      name: "skig-" + tabId
-    }
-  );
+// @flow
+import type { InterceptedDataEnvelope } from '../types.js';
+import { map, empty } from 'ramda';
 
-  port.onMessage.addListener((msg) => {
-    let event = new CustomEvent('newData', { detail: msg });
+const panelCreated = (panel: chrome$ExtensionPanel) => {
+  let queuedMessages: Array<CustomEvent> = [];
+  let panelWindow: window;
+  let tabId: number = chrome.devtools.inspectedWindow.tabId;
+  const port: chrome$Port = chrome.runtime.connect("skig-" + tabId);
+
+  port.onMessage.addListener((msg: InterceptedDataEnvelope) : void => {
+    let event: CustomEvent = new CustomEvent('newData', { detail: msg });
 
     if(panelWindow) {
       panelWindow.document.dispatchEvent(event);
@@ -21,21 +21,15 @@ const panelCreated = (panel) => {
   /**
    * Called when the devtools panel is first shown
    */
-  let onPanelFirstShow;
-  onPanelFirstShow = (panelWindowRef) => {
+  const onPanelFirstShow = (panelWindowRef: window) : void => {
     panel.onShown.removeListener(onPanelFirstShow); // Ensure this fires only once.
 
-    panelWindow = panelWindowRef;
+    map(
+      (event) => panelWindowRef.document.dispatchEvent(event),
+      queuedMessages
+    )
 
-    let event;
-    while(
-      (event = queuedMessages.shift())
-    ){
-      panelWindow.document.dispatchEvent(event);
-    };
-
-    // Mutate the PanelWindow to create a way for it to talk to us
-    panelWindow.sendToDevtoolsPage = (msg) => port.postMessage(msg);
+    queuedMessages = empty(queuedMessages);
   };
 
   panel.onShown.addListener(onPanelFirstShow);
