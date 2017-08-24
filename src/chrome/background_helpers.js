@@ -1,8 +1,7 @@
 // @flow
 
-import * as Providers from '../providers';
-import { curry, map, join, path, values } from 'ramda';
-import type { InterceptedDataEnvelope } from '../types.js';
+import { curry, map, keys } from 'ramda';
+import type { InterceptedDataEnvelope, Tabs } from '../types.js';
 import moment from 'moment';
 import { parse } from '../parser.js';
 import { matchesBroadly, getProvider } from '../matcher.js';
@@ -28,10 +27,10 @@ const initPrefs = curry((chrome: any) => {
     loadPrefsFromStorage(chrome, prefs);
 });
 
-const loadPrefsFromStorage = (chrome: any, prefs: any) => {
+const loadPrefsFromStorage = (chrome: any, _prefs: any) => {
     chrome.storage.local.get('skiGoggles', prefData => {
-        prefs = prefData.skiGoggles;
-        console.debug('prefs:', prefData);
+        let prefs = prefData.skiGoggles;
+        console.debug('prefs:', prefs);
     });
 };
 
@@ -45,6 +44,7 @@ const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : 
 
     if(matchesBroadly(details.url, masterPattern)) {
         let url: string = details.url;
+        let tabId: string = details.tabId;
         let timeStamp: number = moment().format('x');
         let data = parse(url);
         let provider = getProvider(url);
@@ -61,16 +61,16 @@ const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : 
                     data: provider.transformer(data)
                 }
             };
-            sendToAllDevTools(tabs, eventData);
+            sendToDevToolsForTab(tabs, tabId, eventData);
         }
     }
 };
 
-const getTabId = (port: any) : number => {
+const getTabId = (port: any) : string => {
     return port.name.substring(port.name.indexOf('-') + 1);
 };
 
-const sendToDevToolsForTab = (tabs: any, tabId: any , object: any) => {
+const sendToDevToolsForTab = (tabs: Tabs, tabId: string, object: any) => {
     console.debug('sending ', object.type, ' message to tabId: ', tabId, ': ', object);
     try {
         tabs[tabId].port.postMessage(object);
@@ -79,10 +79,11 @@ const sendToDevToolsForTab = (tabs: any, tabId: any , object: any) => {
     }
 };
 
-const sendToAllDevTools = (tabs: any, object: any) => {
-    Object.keys(tabs).forEach(tabId => {
-        sendToDevToolsForTab(tabs, tabId, object);
-    });
+const sendToAllDevTools = (tabs: any, object: any): void => {
+    map(
+        (tabId) => sendToDevToolsForTab(tabs, tabId, object),
+        keys(tabs)
+    );
 };
 
 export {

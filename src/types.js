@@ -25,3 +25,10 @@ export type Provider = {|
   pattern: RegExp,
   transformer: (Array<InterceptedDatum>) => Array<InterceptedDatum>
 |};
+
+export type Tab = {|
+  port: any,
+  loading: boolean
+|};
+
+export type Tabs = { [string]: Tab }

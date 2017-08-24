@@ -3,15 +3,12 @@
 import * as helpers from './background_helpers.js';
 import { generateMasterPattern } from '../matcher.js';
 import { curry } from 'ramda';
+import type { Tabs } from '../types.js';
 
 let prefs = {};
 
-type Tab = {|
-  port: string,
-  loading: boolean
-|};
+let tabs: Tabs = {};
 
-let tabs: Array<Tab> = [];
 const getTabs = () => tabs;
 
 let masterPattern = generateMasterPattern();
@@ -81,6 +78,7 @@ chrome.runtime.onConnect.addListener((port) => {
     /**
    * Monitor for page load/complete events in tabs
    */
+    // $FlowFixMe
     chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
         if (tabId in tabs) {
             if (changeInfo.status == 'loading') {
