@@ -45,7 +45,7 @@ const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : 
     if(matchesBroadly(details.url, masterPattern)) {
         let url: string = details.url;
         let tabId: string = details.tabId;
-        let timeStamp: number = moment().format('x');
+        let timeStamp: number = parseInt(moment().format('x'));
         let data = parse(url);
         let provider = getProvider(url);
 

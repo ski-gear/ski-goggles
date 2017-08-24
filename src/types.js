@@ -32,3 +32,9 @@ export type Tab = {|
 |};
 
 export type Tabs = { [string]: Tab }
+
+export type ProviderStat = {
+  logo: string,
+  canonicalName: string,
+  value: number
+};

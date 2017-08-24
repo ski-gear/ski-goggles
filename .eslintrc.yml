@@ -2,7 +2,9 @@ env:
   browser: true
   commonjs: true
   es6: true
-extends: 'eslint:recommended'
+extends:
+  - 'eslint:recommended'
+  - 'plugin:react/recommended'
 parser: 'babel-eslint'
 parserOptions:
   ecmaFeatures:
@@ -34,3 +36,4 @@ rules:
   no-unused-vars:
     - error
     - argsIgnorePattern: "^_"
+  react/prop-types: off
