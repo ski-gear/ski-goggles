@@ -5,7 +5,6 @@ import { generateMasterPattern } from '../matcher.js';
 import { curry } from 'ramda';
 
 let prefs = {};
-const getPrefs = () => prefs;
 
 type Tab = {|
   port: string,
@@ -27,7 +26,7 @@ chrome.runtime.onStartup.addListener(() => {
     console.debug('on statup');
 });
 
-chrome.storage.onChanged.addListener((changes, namespace) => {
+chrome.storage.onChanged.addListener((changes, _namespace) => {
     if ('skiGoggles' in changes) {
         const newPrefs = changes['skiGoggles'].newValue;
         console.debug('Received updated prefs', newPrefs);
@@ -82,7 +81,7 @@ chrome.runtime.onConnect.addListener((port) => {
     /**
    * Monitor for page load/complete events in tabs
    */
-    chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
         if (tabId in tabs) {
             if (changeInfo.status == 'loading') {
                 tabs[tabId].loading = true;
