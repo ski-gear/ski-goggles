@@ -33,13 +33,14 @@ const Plugins = [
     new CopyWebpackPlugin([
         { from: 'src/assets/styles/semantic-ui.css', to: 'css'},
         { from: 'src/assets/styles/snow.css', to: 'css'},
+        { from: 'src/assets/styles/panel.css', to: 'css'},
         { from: 'node_modules/highlight.js/styles/atom-one-light.css', to: 'css/highlight.css'},
         { from: 'src/assets/fonts', to: 'css/themes/default/assets/fonts'},
         { from: 'src/assets/images', to: 'images'},
         { from: 'src/chrome/manifest.json', to: 'manifest.json'}
     ]),
     new HtmlWebpackIncludeAssetsPlugin({
-        assets: ['css/highlight.css'],
+        assets: ['css/highlight.css', 'css/panel.css'],
         append: false,
         files: ['panel.html']
     }),

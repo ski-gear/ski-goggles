@@ -1,7 +1,7 @@
 import React from 'react';
 import DataRows from './DataRows.jsx';
 import MenuBar from './MenuBar.jsx';
-import { Container, Button, Rail } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 import type { ProviderStat } from '../types.js';
 
 type State = {
@@ -32,11 +32,8 @@ export default class App extends React.Component<State> {
             <div>
                 <Container fluid>
                     <MenuBar providerStats={this.state.providerStats} />
-                    <Rail attached internal position='right'>
-                        <Button color='red' content='Clear' icon='heart' />
-                    </Rail>
                 </Container>
-                <Container fluid>
+                <Container fluid className='data-rows'>
                     <DataRows />
                 </Container>
             </div>
