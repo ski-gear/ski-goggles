@@ -1,21 +1,23 @@
 // @flow
 
-export type InterceptedDatum = {|
+export type WebRequestParams = {|
   label: string,
   value: string,
   valueType: "string" | "json"
 |};
 
-export type InterceptedDataEnvelope = {|
-  type: string,
-  payload: {
+export type WebRequestPayload = {|
     url: string,
     timeStamp: number,
     providerCanonicalName: string,
     providerLogo: string,
     providerDisplayName: string,
-    data: Array<InterceptedDatum>
-  }
+    data: Array<WebRequestParams>
+|}
+
+export type WebRequestEnvelope = {|
+  type: string,
+  payload: WebRequestPayload
 |};
 
 export type Provider = {|
@@ -23,7 +25,7 @@ export type Provider = {|
   displayName: string,
   logo: string,
   pattern: RegExp,
-  transformer: (Array<InterceptedDatum>) => Array<InterceptedDatum>
+  transformer: (Array<WebRequestParams>) => Array<WebRequestParams>
 |};
 
 export type Tab = {|

@@ -5,7 +5,7 @@ import { Accordion } from 'semantic-ui-react';
 import { path } from 'ramda';
 import Title from './Title.jsx';
 import Detail from './Detail.jsx';
-import type { InterceptedDataEnvelope } from '../types.js';
+import type { WebRequestEnvelope } from '../types.js';
 import crypto from 'crypto';
 
 type Props = {
@@ -18,7 +18,7 @@ type State = {
 export default class DataRows extends React.Component<Props, State> {
     componentDidMount(){
     // $FlowFixMe
-        document.addEventListener('newData', (data: InterceptedDataEnvelope) => {
+        document.addEventListener('newData', (data: WebRequestEnvelope) => {
             // $FlowFixMe
             this.appendRow(data.detail);
         });
@@ -40,7 +40,7 @@ export default class DataRows extends React.Component<Props, State> {
         );
     }
 
-    appendRow(data: InterceptedDataEnvelope) {
+    appendRow(data: WebRequestEnvelope) {
         if(path(['type'], data) !== 'webRequest'){
             return;
         }

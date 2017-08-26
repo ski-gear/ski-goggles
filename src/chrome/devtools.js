@@ -1,6 +1,6 @@
 // @flow
 
-import type { InterceptedDataEnvelope } from '../types.js';
+import type { WebRequestEnvelope } from '../types.js';
 import { map, empty } from 'ramda';
 
 const panelCreated = (panel: chrome$ExtensionPanel) => {
@@ -10,7 +10,7 @@ const panelCreated = (panel: chrome$ExtensionPanel) => {
     // $FlowFixMe
     const port: chrome$Port = chrome.runtime.connect({name: `skig-${tabId.toString()}`});
 
-    port.onMessage.addListener((msg: InterceptedDataEnvelope) : void => {
+    port.onMessage.addListener((msg: WebRequestEnvelope) : void => {
         let event: CustomEvent = new CustomEvent('newData', { detail: msg });
 
         if(panelWindow) {

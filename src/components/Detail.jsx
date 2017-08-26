@@ -4,13 +4,13 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 import Highlight from 'react-highlight';
 
-import type { InterceptedDatum } from '../types.js';
+import type { WebRequestParams } from '../types.js';
 
 type Props = {
-  data: Array<InterceptedDatum>
+  data: Array<WebRequestParams>
 };
 
-const renderRow = (row: InterceptedDatum, _index: number) => {
+const renderRow = (row: WebRequestParams, _index: number) => {
     return {
         cells:[
             {content: row.label },

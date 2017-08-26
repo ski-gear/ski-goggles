@@ -1,5 +1,5 @@
 // @flow
-import type { Provider, InterceptedDatum } from '../types.js';
+import type { Provider, WebRequestParams } from '../types.js';
 import { map, propOr } from 'ramda';
 
 const AdobeAudienceManager: Provider = {
@@ -10,7 +10,7 @@ const AdobeAudienceManager: Provider = {
     transformer: (data) => map(transform, data)
 };
 
-const transform = (datum: InterceptedDatum): InterceptedDatum => {
+const transform = (datum: WebRequestParams): WebRequestParams => {
     let label : string = labelReplacer(datum.label);
     return { label: label, value: datum.value, valueType: 'string' };
 };
