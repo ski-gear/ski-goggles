@@ -1,6 +1,7 @@
 // @flow
 import type { Provider, WebRequestParams } from '../types.js';
-import { map, propOr } from 'ramda';
+import { map } from 'ramda';
+import { labelReplacerFromDictionary } from './helper.js'
 
 const AdobeAudienceManager: Provider = {
     canonicalName: 'AdobeAudienceManager',
@@ -24,7 +25,7 @@ const labelReplacer = (label: string): string => {
         // $FlowFixMe
         return `Prop${RegExp.$2}`;
     default:
-        return propOr(label, label, LabelDictionary);
+        return labelReplacerFromDictionary(label, LabelDictionary);
     }
 };
 
