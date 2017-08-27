@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Accordion, Icon } from 'semantic-ui-react';
+import { Accordion } from 'semantic-ui-react';
 import Title from './Title.jsx';
 import Detail from './Detail.jsx';
 import type { WebRequestPayload } from '../types.js';
@@ -19,7 +19,6 @@ const panelRows = (data: Array<WebRequestPayload>): Array<any> => {
             let content = <Detail data={requestData} />;
             let titleNode = (
                 <Accordion.Title>
-                    <Icon name='dropdown' />
                     {title}
                 </Accordion.Title>
             );
