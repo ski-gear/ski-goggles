@@ -1,7 +1,7 @@
 // @flow
 
 import { curry, map, keys } from 'ramda';
-import type { InterceptedDataEnvelope, Tabs } from '../types.js';
+import type { WebRequestEnvelope, Tabs } from '../types.js';
 import moment from 'moment';
 import { parse } from '../parser.js';
 import { matchesBroadly, getProvider } from '../matcher.js';
@@ -50,7 +50,7 @@ const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : 
         let provider = getProvider(url);
 
         if(provider){
-            let eventData: InterceptedDataEnvelope = {
+            let eventData: WebRequestEnvelope = {
                 type: 'webRequest',
                 payload: {
                     url: url,

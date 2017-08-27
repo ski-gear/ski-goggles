@@ -1,6 +1,7 @@
 // @flow
-import type { Provider, InterceptedDatum } from '../types.js';
-import { map, propOr } from 'ramda';
+import type { Provider, WebRequestParams } from '../types.js';
+import { map } from 'ramda';
+import { labelReplacerFromDictionary } from './helper.js'
 
 const AdobeAudienceManager: Provider = {
     canonicalName: 'AdobeAudienceManager',
@@ -10,7 +11,7 @@ const AdobeAudienceManager: Provider = {
     transformer: (data) => map(transform, data)
 };
 
-const transform = (datum: InterceptedDatum): InterceptedDatum => {
+const transform = (datum: WebRequestParams): WebRequestParams => {
     let label : string = labelReplacer(datum.label);
     return { label: label, value: datum.value, valueType: 'string' };
 };
@@ -24,7 +25,7 @@ const labelReplacer = (label: string): string => {
         // $FlowFixMe
         return `Prop${RegExp.$2}`;
     default:
-        return propOr(label, label, LabelDictionary);
+        return labelReplacerFromDictionary(label, LabelDictionary);
     }
 };
 
