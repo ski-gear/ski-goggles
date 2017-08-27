@@ -1,36 +1,39 @@
 // @flow
 
 import React from 'react';
-import { Accordion } from 'semantic-ui-react';
+import { Accordion, Icon } from 'semantic-ui-react';
 import Title from './Title.jsx';
 import Detail from './Detail.jsx';
 import type { WebRequestPayload } from '../types.js';
-import { map } from 'ramda';
-import crypto from 'crypto';
+import { map, flatten } from 'ramda';
 
-type PanelRowData = { title: React$Element<*>, content: React$Element<*>, key: string };
 type Props = {
     data: Array<WebRequestPayload>
 };
 
-const panelRows = (data: Array<WebRequestPayload>): Array<PanelRowData> => {
+const panelRows = (data: Array<WebRequestPayload>): Array<any> => {
     const panelRows = map(
         (payload) => {
             let requestData = payload.data;
             let title = <Title name={payload.providerDisplayName} logo={payload.providerLogo} timeStamp={payload.timeStamp} />;
             let content = <Detail data={requestData} />;
-            let key = generateRandomId();
-            return { title: title, content: content, key: key };
+            let titleNode = (
+                <Accordion.Title>
+                    <Icon name='dropdown' />
+                    {title}
+                </Accordion.Title>
+            );
+            let contentNode = (
+                <Accordion.Content>
+                    {content}
+                </Accordion.Content>
+            );
+
+            return [titleNode, contentNode];
         },
         data
     );
-
-    return panelRows;
-};
-
-const generateRandomId = (): string => {
-    const id = crypto.randomBytes(16).toString('hex');
-    return id;
+    return flatten(panelRows);
 };
 
 export default class WebRequests extends React.Component<Props> {
@@ -41,7 +44,8 @@ export default class WebRequests extends React.Component<Props> {
     render() {
         return (
             <div>
-                <Accordion panels={ panelRows(this.props.data) } styled fluid>
+                <Accordion styled fluid>
+                    {panelRows(this.props.data)}
                 </Accordion>
             </div>
         );
