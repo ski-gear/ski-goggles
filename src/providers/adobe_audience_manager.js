@@ -1,17 +1,40 @@
 // @flow
-import type { Provider, WebRequestParams } from '../types.js';
-import { map } from 'ramda';
-import { labelReplacerFromDictionary } from './helper.js'
+import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
+// $FlowFixMe
+import { find, map, assoc, prop, lensPath, set, defaultTo} from 'ramda';
+import { labelReplacerFromDictionary } from './helper.js';
 
 const AdobeAudienceManager: Provider = {
     canonicalName: 'AdobeAudienceManager',
     displayName: 'Adobe Audience Manager',
     logo: 'adobe-audience-manager.png',
     pattern: /smetrics\.realestate\.com\.au/,
-    transformer: (data) => map(transform, data)
+    transformer: (data: WebRequestData) : WebRequestData => {
+        let transformed: WebRequestData = data;
+        const params = map(transform, data.params);
+        const eventName = getEventName(params);
+
+        const lens = lensPath(['meta', 'title']);
+        if(eventName){
+            transformed = set(lens, eventName, transformed);
+        }
+        // $FlowFixMe
+        transformed = assoc('params', params, transformed);
+
+        return transformed;
+    }
 };
 
-const transform = (datum: WebRequestParams): WebRequestParams => {
+const getEventName = (params: Array<WebRequestParam>) : string | null => {
+    const row = find(
+        e => e.label == 'Events',
+        params
+    );
+    // $FlowFixMe
+    return defaultTo('Page View', prop('value', row));
+};
+
+const transform = (datum: WebRequestParam): WebRequestParam => {
     let label : string = labelReplacer(datum.label);
     return { label: label, value: datum.value, valueType: 'string' };
 };

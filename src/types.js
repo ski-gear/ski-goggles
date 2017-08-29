@@ -1,6 +1,13 @@
 // @flow
 
-export type WebRequestParams = {|
+export type WebRequestData = {|
+  meta?: {
+    title: string
+  },
+  params: Array<WebRequestParam>
+|};
+
+export type WebRequestParam = {|
   label: string,
   value: string,
   valueType: "string" | "json"
@@ -12,7 +19,7 @@ export type WebRequestPayload = {|
     providerCanonicalName: string,
     providerLogo: string,
     providerDisplayName: string,
-    data: Array<WebRequestParams>
+    data: WebRequestData
 |}
 
 export type WebRequestEnvelope = {|
@@ -25,7 +32,7 @@ export type Provider = {|
   displayName: string,
   logo: string,
   pattern: RegExp,
-  transformer: (Array<WebRequestParams>) => Array<WebRequestParams>
+  transformer: (WebRequestData) => WebRequestData
 |};
 
 export type Tab = {|

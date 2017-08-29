@@ -1,6 +1,7 @@
 // @flow
-import type { Provider, WebRequestParams } from '../types.js';
-import { map, contains } from 'ramda';
+import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
+// $FlowFixMe
+import { map, contains, pathOr, find, set, lensPath, assoc } from 'ramda';
 import { labelReplacerFromDictionary } from './helper.js';
 
 const Snowplow: Provider = {
@@ -8,11 +9,38 @@ const Snowplow: Provider = {
     displayName: 'Snowplow',
     logo: 'snowplow.png',
     pattern: /sp\.eventus-test\.net/,
-    transformer: (data) => map(transform, data)
+    transformer: (data: WebRequestData) : WebRequestData => {
+        let transformed: WebRequestData = data;
+        const params = map(transform, data.params);
+        const eventName = getEventName(params);
+
+        const lens = lensPath(['meta', 'title']);
+        if(eventName){
+            transformed = set(lens, eventName, transformed);
+        }
+        // $FlowFixMe
+        transformed = assoc('params', params, transformed);
+
+        return transformed;
+    }
 };
 
-const transform = (datum: WebRequestParams): WebRequestParams => {
-    let transformedDatum: WebRequestParams;
+const getEventName = (params: Array<WebRequestParam>) : string | null => {
+    const row = find(
+        e => e.label == 'ue_px',
+        params
+    );
+    if(row){
+        const json = JSON.parse(row.value);
+        // $FlowFixMe
+        return pathOr('Unknown Event', ['data', 'data', 'event_name'], json);
+    } else {
+        return 'Page View';
+    }
+};
+
+const transform = (datum: WebRequestParam): WebRequestParam => {
+    let transformedDatum: WebRequestParam;
 
     if (contains(datum.label, ['cx', 'ue_px'])) {
         let cleaned = datum.value.replace(/-/, '+');

@@ -6,7 +6,7 @@ import moment from 'moment';
 
 type Props = {
   logo: string,
-  name: string,
+  title: string,
   timeStamp: number
 };
 
@@ -17,10 +17,12 @@ export default class Title extends React.Component<Props> {
                 <Grid.Column floated='left' width={5}>
                     <Icon name='dropdown' />
                     <Image src={'images/providers/' + this.props.logo} avatar spaced />
-                    <span>{this.props.name}</span>
+                    <span>{this.props.title}</span>
                 </Grid.Column>
                 <Grid.Column floated='right' width={2}>
-                    <Label>{formatTime(this.props.timeStamp)}</Label>
+                    <Label>
+                        {formatTime(this.props.timeStamp)}
+                    </Label>
                 </Grid.Column>
             </Grid>
         );
@@ -28,5 +30,5 @@ export default class Title extends React.Component<Props> {
 }
 
 const formatTime = (timeStamp: number): string => {
-    return moment(timeStamp).format('hh:mm:ss.SS a');
+    return moment(timeStamp).format('HH:mm:ss.SSS');
 };

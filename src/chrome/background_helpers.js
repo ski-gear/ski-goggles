@@ -58,7 +58,7 @@ const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : 
                     providerCanonicalName: provider.canonicalName,
                     providerLogo: provider.logo,
                     timeStamp: timeStamp,
-                    data: provider.transformer(data)
+                    data: provider.transformer({params: data})
                 }
             };
             sendToDevToolsForTab(tabs, tabId, eventData);

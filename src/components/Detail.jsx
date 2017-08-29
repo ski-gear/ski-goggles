@@ -4,13 +4,13 @@ import React from 'react';
 import { Table } from 'semantic-ui-react';
 import Highlight from 'react-highlight';
 
-import type { WebRequestParams } from '../types.js';
+import type { WebRequestParam, WebRequestData } from '../types.js';
 
 type Props = {
-  data: Array<WebRequestParams>
+  data: WebRequestData
 };
 
-const renderRow = (row: WebRequestParams, _index: number) => {
+const renderRow = (row: WebRequestParam, _index: number) => {
     return {
         cells:[
             {content: row.label },
@@ -34,7 +34,7 @@ const format = (valueType: string, value: string) => {
 export default class Detail extends React.Component<Props> {
     render() {
         return (
-            <Table celled tableData={this.props.data} renderBodyRow={renderRow}>
+            <Table celled tableData={this.props.data.params} renderBodyRow={renderRow}>
             </Table>
         );
     }
