@@ -4,7 +4,7 @@ import React from 'react';
 import { Menu, Image, Icon } from 'semantic-ui-react';
 
 type Props = {
-  clearAll: any
+  clear: any
 };
 
 export default class MenuBar extends React.Component<Props> {
@@ -16,7 +16,7 @@ export default class MenuBar extends React.Component<Props> {
                 </Menu.Item>
                 <Menu.Menu position='right'>
                     <Menu.Item name='clear'>
-                        <Icon color='red' name='trash' size='big' onClick={this.props.clearAll}/>
+                        <Icon color='red' name='trash' size='big' onClick={this.props.clear}/>
                     </Menu.Item>
                 </Menu.Menu>
             </Menu>

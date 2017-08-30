@@ -10,6 +10,8 @@ type State = Array<WebRequestPayload>;
 
 const webRequests = (state : State = [] , action: Action ): State => {
     switch (action.type) {
+    case CLEAR_ALL_WEB_REQUESTS:
+        return [];
     case ADD_WEB_REQUEST_ROW:
         return [
             ...state,
@@ -20,19 +22,8 @@ const webRequests = (state : State = [] , action: Action ): State => {
     }
 };
 
-const clearAll = (state : State = [] , action: Action): State => {
-    switch (action.type) {
-    case CLEAR_ALL_WEB_REQUESTS:
-        console.log('clearing stating now..')
-        return [];
-    default:
-        return state;
-    }
-};
-
 const skiGoggles = combineReducers({
-    webRequests,
-    clearAll
+    webRequests
 });
 
 export default skiGoggles;
