@@ -19,7 +19,7 @@ export default class Title extends React.Component<Props> {
                     <Image src={'images/providers/' + this.props.logo} avatar spaced />
                     <span>{this.props.title}</span>
                 </Grid.Column>
-                <Grid.Column floated='right' width={2}>
+                <Grid.Column floated='right' width={2} className='large screen only'>
                     <Label>
                         {formatTime(this.props.timeStamp)}
                     </Label>
