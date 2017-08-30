@@ -1,6 +1,5 @@
 import React from 'react';
-import WebRequests from './WebRequests.jsx';
-import MenuBar from './MenuBar.jsx';
+import MenuContainer from './containers/MenuContainer.jsx';
 import { Container } from 'semantic-ui-react';
 import type { ProviderStat } from '../types.js';
 
@@ -35,7 +34,7 @@ export default class App extends React.Component<State> {
             <div>
                 <AddWebRequest />
                 <Container fluid>
-                    <MenuBar providerStats={this.state.providerStats} />
+                    <MenuContainer />
                 </Container>
                 <Container fluid className='data-rows'>
                     <VisibleWebRequests />

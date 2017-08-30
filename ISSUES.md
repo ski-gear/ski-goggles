@@ -8,7 +8,7 @@
 ### Features
 
 - [x] Add a timestamp for requests
-- [x] Add a clear button
+- [ ] Add a clear button
 - [ ] ~Add an icon to differentiate between clicks and loads~ (Too hacky)
 - [ ] Show Library version
 - [ ] Add a diff tool for requests between tabs

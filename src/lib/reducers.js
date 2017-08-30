@@ -23,6 +23,7 @@ const webRequests = (state : State = [] , action: Action ): State => {
 const clearAll = (state : State = [] , action: Action): State => {
     switch (action.type) {
     case CLEAR_ALL_WEB_REQUESTS:
+        console.log('clearing stating now..')
         return [];
     default:
         return state;
@@ -30,8 +31,8 @@ const clearAll = (state : State = [] , action: Action): State => {
 };
 
 const skiGoggles = combineReducers({
-    clearAll,
-    webRequests
+    webRequests,
+    clearAll
 });
 
 export default skiGoggles;
