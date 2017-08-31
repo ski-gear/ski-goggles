@@ -10,7 +10,8 @@ export type WebRequestData = {|
 export type WebRequestParam = {|
   label: string,
   value: string,
-  valueType: "string" | "json"
+  valueType: "string" | "json",
+  category?: string | null;
 |};
 
 export type WebRequestPayload = {|

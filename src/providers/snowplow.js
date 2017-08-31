@@ -63,6 +63,8 @@ const labelReplacer = (label: string): string => {
 };
 
 const LabelDictionary : {[string]: string} = {
+    'ue_px': 'Event Payload',
+    'cx': 'Context Payload'
 };
 
 export { Snowplow };

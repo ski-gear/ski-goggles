@@ -35,8 +35,23 @@ const getEventName = (params: Array<WebRequestParam>) : string | null => {
 };
 
 const transform = (datum: WebRequestParam): WebRequestParam => {
+    console.log('stuff');
+    let category = categorize(datum.label);
     let label : string = labelReplacer(datum.label);
-    return { label: label, value: datum.value, valueType: 'string' };
+    return { label: label, value: datum.value, valueType: 'string', category };
+};
+
+const DATA = 'Data';
+
+const categorize = (label: string): string | null => {
+    switch (label) {
+    case (label.match(/^(v|evar)(\d+)$/i) || {}).input:
+        return DATA;
+    case (label.match(/^(c|prop)(\d+)$/i) || {}).input:
+        return DATA;
+    default:
+        return null;
+    }
 };
 
 const labelReplacer = (label: string): string => {
