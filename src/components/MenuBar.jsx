@@ -2,11 +2,9 @@
 
 import React from 'react';
 import { Menu, Image, Icon } from 'semantic-ui-react';
-// import { map } from 'ramda';
-import type { ProviderStat } from '../types.js';
 
 type Props = {
-  providerStats: Array<ProviderStat>
+  clear: any
 };
 
 export default class MenuBar extends React.Component<Props> {
@@ -18,7 +16,7 @@ export default class MenuBar extends React.Component<Props> {
                 </Menu.Item>
                 <Menu.Menu position='right'>
                     <Menu.Item name='clear'>
-                        <Icon color='red' name='trash' size='big'/>
+                        <Icon color='red' name='trash' size='big' onClick={this.props.clear}/>
                     </Menu.Item>
                 </Menu.Menu>
             </Menu>
