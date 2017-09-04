@@ -3,7 +3,8 @@
 import React from 'react';
 import { Table, Header } from 'semantic-ui-react';
 import Highlight from 'react-highlight';
-import { groupBy, defaultTo, map, keys, prop } from 'ramda';
+// $FlowFixMe
+import { groupBy, defaultTo, map, keys, prop, sortBy, identity } from 'ramda';
 
 import type { WebRequestParam } from '../types.js';
 
@@ -35,13 +36,13 @@ const format = (valueType: string, value: string) => {
 const groupedCategories = (rows: Array<WebRequestParam>) => {
     return groupBy(
         // $FlowFixMe
-        (row) => defaultTo('Data', row.category),
+        (row) => defaultTo('General Data', row.category),
         rows
     );
 };
 
 const wrappedTable = (data: {[string]: Array<WebRequestParam>}) => {
-    const categories = keys(data);
+    const categories = sortBy(identity, keys(data));
 
     return map(
         (category) => {
@@ -50,6 +51,7 @@ const wrappedTable = (data: {[string]: Array<WebRequestParam>}) => {
                     <Header as='h4'>{category}</Header>
                     <Table celled tableData={prop(category, data)} renderBodyRow={renderRow}>
                     </Table>
+                    <br/>
                 </div>
             );
         },

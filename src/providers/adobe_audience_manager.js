@@ -1,7 +1,7 @@
 // @flow
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
-import { find, map, assoc, prop, lensPath, set, defaultTo} from 'ramda';
+import { find, map, assoc, prop, lensPath, set, defaultTo, sortBy } from 'ramda';
 import { labelReplacerFromDictionary } from './helper.js';
 
 const AdobeAudienceManager: Provider = {
@@ -11,7 +11,7 @@ const AdobeAudienceManager: Provider = {
     pattern: /smetrics\.realestate\.com\.au/,
     transformer: (data: WebRequestData) : WebRequestData => {
         let transformed: WebRequestData = data;
-        const params = map(transform, data.params);
+        const params = sortBy(prop('label'), map(transform, data.params));
         const eventName = getEventName(params);
 
         const lens = lensPath(['meta', 'title']);
@@ -35,20 +35,19 @@ const getEventName = (params: Array<WebRequestParam>) : string | null => {
 };
 
 const transform = (datum: WebRequestParam): WebRequestParam => {
-    console.log('stuff');
     let category = categorize(datum.label);
     let label : string = labelReplacer(datum.label);
     return { label: label, value: datum.value, valueType: 'string', category };
 };
 
-const DATA = 'Data';
+const DATA_LABEL = 'Evars & Props';
 
 const categorize = (label: string): string | null => {
     switch (label) {
     case (label.match(/^(v|evar)(\d+)$/i) || {}).input:
-        return DATA;
+        return DATA_LABEL;
     case (label.match(/^(c|prop)(\d+)$/i) || {}).input:
-        return DATA;
+        return DATA_LABEL;
     default:
         return null;
     }
