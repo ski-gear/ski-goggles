@@ -1,7 +1,7 @@
 // @flow
 
 import * as Providers from './providers';
-import { map, join, path, values, toPairs, find, isNil } from 'ramda';
+import { map, join, path, values, find, isNil } from 'ramda';
 import type { Provider } from './types.js';
 
 const matchesBroadly = (url: string, regexPattern: RegExp): bool => {
@@ -22,11 +22,11 @@ const generateMasterPattern = () : RegExp => {
 
 const getProvider = (url: string) : (Provider | null) => {
     let provider = find(
-        (p) => !!(url.match(path(['pattern'], p[1]))),
-        toPairs(Providers)
+        (p) => !!(url.match(path(['pattern'], p))),
+        values(Providers)
     );
 
-    return isNil(provider) ? null : provider[1];
+    return isNil(provider) ? null : provider;
 };
 
 export {

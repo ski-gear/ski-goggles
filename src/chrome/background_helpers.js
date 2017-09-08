@@ -41,7 +41,6 @@ const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : 
     if (!(details.tabId in tabs)) {
         return;
     }
-
     if(matchesBroadly(details.url, masterPattern)) {
         let url: string = details.url;
         let tabId: string = details.tabId;
