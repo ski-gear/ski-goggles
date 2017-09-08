@@ -18,7 +18,7 @@ const panelRows = (data: Array<WebRequestPayload>): Array<any> => {
             // $FlowFixMe
             let title: string = defaultTo(payload.providerDisplayName, path(['data', 'meta', 'title'], payload));
             let titleElem = <Title title={title} logo={payload.providerLogo} timeStamp={payload.timeStamp} />;
-            let contentElem = <Detail data={requestData} />;
+            let contentElem = <Detail data={requestData.params} />;
             let titleNode = (
                 <Accordion.Title>
                     {titleElem}
