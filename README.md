@@ -18,7 +18,11 @@
 
 ### Packaging the Extension
 
-0. (Packaging only works on MacOs)
+-2. (Packaging only works on MacOs)
+
+-1. Install Shush (https://github.com/realestate-com-au/shush)
+
+0. Authenticate into `Eventus-Prod` AWS account.
 
 1. Package and note the location of the extension file `chrome.crx`.
 
