@@ -2,7 +2,7 @@
 
 ### Installation
 
-1. Use the `release` tab above to find the desired version and download it.
+1. Use the `releases` [tab](https://git.realestate.com.au/rta/ski-goggles/releases) above to find the desired version of `chrome.crx` and download it.
 
 2. Go to `chrome://extensions` on Chrome.
 
@@ -12,7 +12,7 @@
 
 1. Open Devtools in the Chrome tab you want to inspect
 
-2. Open the Ski Goggle panel within Devtools
+2. Open the `Ski Goggles` panel within Devtools
 
 3. Have fun inspecting the analytics calls.
 
