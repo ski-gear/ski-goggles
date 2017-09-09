@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import MenuBar from '../MenuBar.jsx';
-import { clearAll } from '../../lib/actions.js';
+import { clearAll } from '../../actions.js';
 
 const mapDispatchToProps = dispatch => {
     return {

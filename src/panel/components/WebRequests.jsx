@@ -4,7 +4,7 @@ import React from 'react';
 import { Accordion } from 'semantic-ui-react';
 import Title from './Title.jsx';
 import Detail from './Detail.jsx';
-import type { WebRequestPayload } from '../types.js';
+import type { WebRequestPayload } from '../../types.js';
 import { map, flatten, defaultTo, path } from 'ramda';
 
 type Props = {
