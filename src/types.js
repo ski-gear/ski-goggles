@@ -28,6 +28,8 @@ export type WebRequestEnvelope = {|
   payload: WebRequestPayload
 |};
 
+export type ProviderCanonicalName = 'Snowplow' | 'AdobeAudienceManager' | 'Nielsen' | 'Krux' | 'Rubicon';
+
 export type Provider = {|
   canonicalName: ProviderCanonicalName,
   displayName: string,
