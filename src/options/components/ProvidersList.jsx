@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Checkbox, Table, Image, Segment, Grid, Header, Icon } from 'semantic-ui-react';
+import { Checkbox, Table, Image, Segment, Grid, Header, Icon, Message } from 'semantic-ui-react';
 import type { Provider } from '../../types.js';
 
 type Props = {
@@ -29,10 +29,6 @@ const cell = (provider: Provider) => {
 };
 
 export default class ProviderList extends React.Component<Props> {
-    constructor(props: any){
-        super(props);
-    }
-
     render() {
         return (
             <Grid centered columns={2}>
@@ -45,8 +41,14 @@ export default class ProviderList extends React.Component<Props> {
                             </Header.Content>
                         </Header>
                         <Table size='large' columns='2' color='blue' renderBodyRow={renderRow} tableData={this.props.data} />
+                        <Message warning>
+                            <Icon name='trademark' />
+                            <Icon name='copyright' />
+                            All product names, logos, and brands are property of their respective owners.
+                            All company, product, and service names used in this browser extension are for identification purposes only.
+                            Use of these names, logos, and brands does not imply endorsement.
+                        </Message>
                     </Segment>
-                    <Image src='/assets/images/wireframe/image.png' />
                 </Grid.Column>
             </Grid>
         );
