@@ -29,7 +29,7 @@ export type WebRequestEnvelope = {|
 |};
 
 export type Provider = {|
-  canonicalName: string,
+  canonicalName: ProviderCanonicalName,
   displayName: string,
   logo: string,
   pattern: RegExp,

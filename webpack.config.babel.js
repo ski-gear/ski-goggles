@@ -1,5 +1,4 @@
 import path from 'path';
-import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -69,7 +68,7 @@ const Config = {
         panel: './src/panel.js',
         background: './src/chrome/background.js',
         devtools: './src/chrome/devtools.js',
-        options: './src/chrome/options.js'
+        options: './src/options.js'
     },
     output: {
         path: path.resolve('dist/chrome'),

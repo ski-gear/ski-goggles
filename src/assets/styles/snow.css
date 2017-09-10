@@ -1,3 +1,7 @@
+.options-body{
+  background: #d8f0f3;
+}
+
 .snow-bg, .snow {
   z-index: 100;
   pointer-events: none;
@@ -10,7 +14,6 @@
   height: 100%;
   width: 100%;
   max-width: 100%;
-  background: #f2e7e7;
 }
 
 .snow {
