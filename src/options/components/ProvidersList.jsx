@@ -2,29 +2,42 @@
 
 import React from 'react';
 import { Checkbox, Table, Image, Segment, Grid, Header, Icon, Message } from 'semantic-ui-react';
-import type { Provider } from '../../types.js';
+import type { UserProviderSetting } from '../../types.js';
+import { map, curry } from 'ramda';
+
+import { lookup } from '../../provider_lookup';
 
 type Props = {
-    data: Array<Provider>
+  data: Array<UserProviderSetting>,
+  onEnableProvider: any,
+  onDisableProvider: any
 };
 
-const renderRow = (provider: Provider, _index: number) => {
-    return {
-        cells: [
-            { content:  <Checkbox toggle />, textAlign: 'right', width: 1 },
-            { content:  cell(provider), width: 10 }
-        ]
-    };
-};
+const onToggle = curry((props: Props, _event: any, data: any): void => {
+    data.checked ? props.onEnableProvider(data.value) : props.onDisableProvider(data.value);
+});
 
-const cell = (provider: Provider) => {
-    const name = provider.displayName;
-    const logo = provider.logo;
-    return (
-        <span className='ui align centered'>
-            <Image src={'images/providers/' + logo} avatar spaced />
-            <span>{name}</span>
-        </span>
+const renderRows = (props: Props) => {
+    return map(
+        (providerSetting) => {
+            const provider = lookup(providerSetting.providerCanonicalName);
+            if(provider){
+                return (
+                    <Table.Row key={providerSetting.providerCanonicalName}>
+                        <Table.Cell textAlign='right' width='4'>
+                            <Checkbox toggle onChange={onToggle(props)} value={providerSetting.providerCanonicalName} checked={providerSetting.enabled}/>
+                        </Table.Cell>
+                        <Table.Cell width='6'>
+                            <span className='ui align centered'>
+                                <Image src={'images/providers/' + provider.logo} avatar spaced />
+                                <span>{provider.displayName}</span>
+                            </span>
+                        </Table.Cell>
+                    </Table.Row>
+                );
+            }
+        },
+        props.data
     );
 };
 
@@ -40,7 +53,11 @@ export default class ProviderList extends React.Component<Props> {
                               Toggle Analytics Providers
                             </Header.Content>
                         </Header>
-                        <Table size='large' columns='2' color='blue' renderBodyRow={renderRow} tableData={this.props.data} />
+                        <Table size='large' columns='2' color='blue'>
+                            <Table.Body>
+                                { renderRows(this.props) }
+                            </Table.Body>
+                        </Table>
                         <Message warning>
                             <Icon name='trademark' />
                             <Icon name='copyright' />

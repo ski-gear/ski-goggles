@@ -1,15 +1,15 @@
 // @ flow
 
-import { Provider } from '../types.js';
+import { ProviderCanonicalName } from '../types.js';
 
 type EnableProvider = {
     type: string,
-    provider: Provider
+    provider: ProviderCanonicalName
 };
 
 type DisableProvider = {
     type: string,
-    provider: Provider
+    provider: ProviderCanonicalName
 };
 
 type ResetAllProviderOptions = {
@@ -22,11 +22,11 @@ export const ENABLE_PROVIDER = 'ENABLE_PROVIDER';
 export const DISABLE_PROVIDER = 'DISABLE_PROVIDER';
 export const RESET_ALL_PROVIDER_OPTIONS = 'RESET_ALL_PROVIDER_OPTIONS';
 
-export const enableProviderAction = (provider: Provider): EnableProvider => {
+export const enableProviderAction = (provider: ProviderCanonicalName): EnableProvider => {
     return { type: ENABLE_PROVIDER, provider };
 };
 
-export const disableProviderAction = (provider: Provider): DisableProvider => {
+export const disableProviderAction = (provider: ProviderCanonicalName): DisableProvider => {
     return { type: DISABLE_PROVIDER, provider };
 };
 

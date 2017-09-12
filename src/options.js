@@ -1,26 +1,29 @@
+// @flow
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { defaultTo, values, isEmpty } from 'ramda';
+import { Provider as ReduxProvider } from 'react-redux';
+import { defaultTo } from 'ramda';
 
-import options from './options/reducers';
+import { options } from './options/reducers';
 import App from './options/components/App.jsx';
-import { getOptions } from './chrome/local_storage';
-import * as Providers from './providers';
+import { getOptions, setOptions } from './chrome/local_storage';
 
-const AllProviders = () : Array<Provider> => values(Providers);
+const key = 'skiGoggleOptions';
 
-getOptions(chrome, 'skiGoggles.enabledProviders').then((optionsFromLocal) => {
-    let localOptions = defaultTo(optionsFromLocal, []);
-    localOptions = isEmpty(localOptions) ? AllProviders() : localOptions;
+getOptions(chrome, key).then((optionsFromLocal) => {
+    const localOptions = defaultTo(optionsFromLocal, undefined);
+    const store = createStore(options, localOptions);
 
-    let store = createStore(options, {enabledProviders: localOptions});
+    store.subscribe(() => {
+        setOptions(chrome, key, store.getState()).then((_e) => {});
+    });
 
     ReactDOM.render(
-        <Provider store={store}>
+        <ReduxProvider store={store}>
             <App />
-        </Provider>,
+        </ReduxProvider>,
         document.getElementById('root')
     );
 });

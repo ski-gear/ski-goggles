@@ -1,36 +1,50 @@
 // @flow
 
 import type { Action } from './actions';
-import type { Provider } from '../types.js';
+import type { UserProviderSetting, ProviderCanonicalName } from './../types';
 
 import * as Providers from '../providers';
 import { combineReducers } from 'redux';
-import { values, append, reject, equals, uniq } from 'ramda';
+import { values, map, assoc } from 'ramda';
 import { RESET_ALL_PROVIDERS, ENABLE_PROVIDER, DISABLE_PROVIDER } from './actions';
 
-type State = Array<Provider>;
+type UserProviderSettings = Array<UserProviderSetting>;
 
-const AllProviders = () : Array<Provider> => values(Providers);
+export const DefaultUserProviderSettings = () : UserProviderSettings => {
+    return map(
+        // $FlowFixMe
+        (p) => ({ providerCanonicalName: p.canonicalName, enabled: true }),
+        values(Providers)
+    );
+};
 
-const enabledProviders = (state : State = AllProviders() , action: Action ): State => {
+const toggleProvider = (ups: UserProviderSettings, provider: ProviderCanonicalName, state: boolean) : UserProviderSettings => {
+    return map(
+        (up) => {
+            if (up.providerCanonicalName === provider) {
+                // $FlowFixMe
+                return assoc('enabled', state, up);
+            } else {
+                return up;
+            }
+        },
+        ups
+    );
+};
+
+const providers = (state : UserProviderSettings = DefaultUserProviderSettings() , action: Action ): UserProviderSettings => {
     switch (action.type) {
     case RESET_ALL_PROVIDERS:
-        return AllProviders();
+        return DefaultUserProviderSettings();
     case ENABLE_PROVIDER:
-        return uniq(append(action.provider, state));
+        return toggleProvider(state, action.provider, true);
     case DISABLE_PROVIDER:
-        return reject(
-            // $FlowFixMe
-            p => equals(p, action.provider),
-            state
-        );
+        return toggleProvider(state, action.provider, false);
     default:
         return state;
     }
 };
 
-const options = combineReducers({
-    enabledProviders
+export const options = combineReducers({
+    providers
 });
-
-export default options;
