@@ -1,7 +1,7 @@
 // @flow
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
-import { find, map, assoc, prop, lensPath, set, defaultTo, sortBy } from 'ramda';
+import { find, map, assoc, prop, lensPath, set, defaultTo, sortBy, has } from 'ramda';
 import { labelReplacerFromDictionary } from './helper.js';
 
 const AdobeAudienceManager: Provider = {
@@ -26,12 +26,20 @@ const AdobeAudienceManager: Provider = {
 };
 
 const getEventName = (params: Array<WebRequestParam>) : string | null => {
+    // $FlowFixMe
+    const isCustomEvent = has('Link type', params);
     const row = find(
         e => e.label == 'Events',
         params
     );
-    // $FlowFixMe
-    return defaultTo('Page View', prop('value', row));
+
+    if(isCustomEvent){
+        // $FlowFixMe
+        return defaultTo('Unknown Event', prop('value', row));
+    } else {
+        // $FlowFixMe
+        return `Page Load (${prop('value', row)})`;
+    }
 };
 
 const transform = (datum: WebRequestParam): WebRequestParam => {
