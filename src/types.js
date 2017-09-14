@@ -36,6 +36,19 @@ export type Provider = {|
   transformer: (WebRequestData) => WebRequestData
 |};
 
+export type ProviderCanonicalName = 'Snowplow' | 'AdobeAudienceManager' | 'Nielsen' | 'Krux' | 'Rubicon';
+
+export type UserProviderSetting = {|
+    enabled: Boolean,
+    providerCanonicalName: ProviderCanonicalName,
+    providerPattern?: RegExp
+|};
+
+export type UserOptions = {|
+    version: number,
+    providers: Array<UserProviderSetting>
+|};
+
 export type Tab = {|
   port: any,
   loading: boolean
@@ -43,8 +56,4 @@ export type Tab = {|
 
 export type Tabs = { [string]: Tab }
 
-export type ProviderStat = {
-  logo: string,
-  canonicalName: string,
-  value: number
-};
+export type Version = number;
