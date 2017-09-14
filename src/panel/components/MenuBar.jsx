@@ -8,8 +8,31 @@ type Props = {
   clear: any
 };
 
-export default class MenuBar extends React.Component<Props> {
-    render(){
+type State = {
+  chromeId: string
+};
+
+export default class MenuBar extends React.Component<Props,State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            chromeId: ''
+        };
+    }
+
+    openOptions(){
+        const chromeId = this.state.chromeId;
+        chrome.runtime.sendMessage(chromeId, 'open-options-tab');
+        console.log('sending message to open options');
+    }
+
+    componentDidMount() {
+        document.addEventListener('chromeId', (data: any) => {
+            this.setState({chromeId: data.detail.chromeId});
+        });
+    }
+
+    render() {
         return(
             <Menu fixed='top' size='mini'>
                 <Menu.Item name='home'>
@@ -20,6 +43,9 @@ export default class MenuBar extends React.Component<Props> {
                     </Label>
                 </Menu.Item>
                 <Menu.Menu position='right'>
+                    <Menu.Item name='options'>
+                        <Icon color='green' name='options' size='big' onClick={this.openOptions.bind(this)} />
+                    </Menu.Item>
                     <Menu.Item name='clear'>
                         <Button circular size='small' color='red' icon='trash' onClick={this.props.clear} />
                     </Menu.Item>
