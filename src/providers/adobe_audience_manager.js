@@ -2,7 +2,7 @@
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
 import { find, map, assoc, prop, lensPath, set, defaultTo, sortBy, has } from 'ramda';
-import { labelReplacerFromDictionary } from './helper.js';
+import { labelReplacerFromDictionary } from './helpers.js';
 
 const AdobeAudienceManager: Provider = {
     canonicalName: 'AdobeAudienceManager',

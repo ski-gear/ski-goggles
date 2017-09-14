@@ -2,7 +2,7 @@
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
 import { map, contains, pathOr, find, set, lensPath, assoc, sortBy, prop } from 'ramda';
-import { labelReplacerFromDictionary } from './helper.js';
+import { labelReplacerFromDictionary } from './helpers.js';
 
 const EVENT_PAYLOAD = 'Event Payload';
 

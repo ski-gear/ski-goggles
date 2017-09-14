@@ -2,7 +2,7 @@
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
 import { map, assoc, prop, lensPath, set, sortBy } from 'ramda';
-import { labelReplacerFromDictionary } from './helper.js';
+import { labelReplacerFromDictionary } from './helpers.js';
 
 const Rubicon: Provider = {
     canonicalName: 'Rubicon',
