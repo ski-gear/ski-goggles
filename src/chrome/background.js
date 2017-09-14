@@ -37,6 +37,12 @@ chrome.storage.onChanged.addListener((changes, _namespace) => {
     }
 });
 
+chrome.runtime.onMessage.addListener((msg) => {
+    if(msg == 'open-options-tab'){
+        chrome.runtime.openOptionsPage(console.log);
+    }
+});
+
 // $FlowFixMe
 const beforeRequestCallback = curry(helpers.processWebRequest)(getTabs)(getMasterPattern);
 
