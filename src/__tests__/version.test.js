@@ -13,4 +13,13 @@ describe('App Version', () => {
             expect(chromeManifest['version']).to.eq(AppVersion.toString());
         });
     });
+
+    describe('Package.json', () => {
+        let packageFile = join(__dirname, '..', '..', 'package.json');
+        let pkg = JSON.parse(readFileSync(packageFile, 'utf8'));
+
+        it('has the correct version', () => {
+            expect(pkg['version']).to.eq(AppVersion.toString());
+        });
+    });
 });

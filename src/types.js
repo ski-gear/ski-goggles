@@ -36,6 +36,8 @@ export type Provider = {|
   transformer: (WebRequestData) => WebRequestData
 |};
 
+export type ProviderCanonicalName = 'Snowplow' | 'AdobeAudienceManager' | 'Nielsen' | 'Krux' | 'Rubicon';
+
 export type UserProviderSetting = {|
     enabled: Boolean,
     providerCanonicalName: ProviderCanonicalName,
