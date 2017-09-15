@@ -12,13 +12,22 @@ type Props = {
   data: Array<WebRequestParam>
 };
 
-const renderRow = (row: WebRequestParam, _index: number) => {
-    return {
-        cells:[
-            {content: row.label },
-            {content: format(row.valueType, row.value) }
-        ]
-    };
+const renderRows = (rows: Array<WebRequestParam>) => {
+    return map(
+        (row) => {
+            return (
+                <Table.Row key={row.label}>
+                    <Table.Cell>
+                        { row.label }
+                    </Table.Cell>
+                    <Table.Cell>
+                        { format(row.valueType, row.value) }
+                    </Table.Cell>
+                </Table.Row>
+            );
+        },
+        rows
+    );
 };
 
 const format = (valueType: string, value: string) => {
@@ -47,9 +56,12 @@ const wrappedTable = (data: {[string]: Array<WebRequestParam>}) => {
     return map(
         (category) => {
             return (
-                <div>
+                <div key={category}>
                     <Header as='h4'>{category}</Header>
-                    <Table celled tableData={prop(category, data)} renderBodyRow={renderRow}>
+                    <Table celled>
+                        <Table.Body>
+                            { renderRows(prop(category, data)) }
+                        </Table.Body>
                     </Table>
                     <br/>
                 </div>
