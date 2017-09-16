@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Menu, Image, Icon } from 'semantic-ui-react';
+import { Menu, Image, Button } from 'semantic-ui-react';
 
 type Props = {
   clear: any
@@ -16,7 +16,7 @@ export default class MenuBar extends React.Component<Props> {
                 </Menu.Item>
                 <Menu.Menu position='right'>
                     <Menu.Item name='clear'>
-                        <Icon color='red' name='trash' size='big' onClick={this.props.clear}/>
+                        <Button circular size='small' color='red' icon='trash' onClick={this.props.clear} />
                     </Menu.Item>
                 </Menu.Menu>
             </Menu>
