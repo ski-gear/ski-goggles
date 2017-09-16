@@ -1,19 +1,24 @@
 // @flow
 
 import * as Providers from './providers';
-import { map, join, path, values, find, isNil } from 'ramda';
-import type { Provider } from './types.js';
+import { map, join, path, values, find, isNil, filter, contains } from 'ramda';
+import type { Provider, ProviderCanonicalName } from './types.js';
 
 const matchesBroadly = (url: string, regexPattern: RegExp): bool => {
     return !!(url.match(regexPattern));
 };
 
-const generateMasterPattern = () : RegExp => {
+const generateMasterPattern = (selectedProviders: Array<ProviderCanonicalName>) : RegExp => {
+    const filtered = filter(
+        (p: Provider) => contains(p.canonicalName, selectedProviders),
+        values(Providers)
+    );
+
     let pattern = join(
         '|',
         map(
             path(['pattern', 'source']),
-            values(Providers)
+            filtered
         )
     );
 

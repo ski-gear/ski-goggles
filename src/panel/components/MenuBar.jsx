@@ -23,7 +23,6 @@ export default class MenuBar extends React.Component<Props,State> {
     openOptions(){
         const chromeId = this.state.chromeId;
         chrome.runtime.sendMessage(chromeId, 'open-options-tab');
-        console.log('sending message to open options');
     }
 
     componentDidMount() {
@@ -44,7 +43,7 @@ export default class MenuBar extends React.Component<Props,State> {
                 </Menu.Item>
                 <Menu.Menu position='right'>
                     <Menu.Item name='options'>
-                        <Icon color='green' name='options' size='big' onClick={this.openOptions.bind(this)} />
+                        <Button circular size='small' color='green' icon='options' onClick={this.openOptions.bind(this)} />
                     </Menu.Item>
                     <Menu.Item name='clear'>
                         <Button circular size='small' color='red' icon='trash' onClick={this.props.clear} />

@@ -6,11 +6,12 @@ import { createStore } from 'redux';
 import { Provider as ReduxProvider } from 'react-redux';
 import { defaultTo } from 'ramda';
 
+import type { UserOptionsKey } from './types';
 import { options } from './options/reducers';
 import App from './options/components/App.jsx';
 import { getOptions, setOptions } from './chrome/local_storage';
 
-const key = 'skiGoggleOptions';
+const key: UserOptionsKey = 'skiGogglesOptions';
 
 getOptions(chrome, key).then((optionsFromLocal) => {
     const localOptions = defaultTo(optionsFromLocal, undefined);

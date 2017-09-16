@@ -5,34 +5,16 @@ import type { WebRequestEnvelope, Tabs } from '../types.js';
 import moment from 'moment';
 import { parse } from '../parser.js';
 import { matchesBroadly, getProvider } from '../matcher.js';
+import { defaultOptions } from '../options/helpers';
+import { setOptions } from './local_storage';
 
-const onInit = curry((chrome: any, details: any) : void => {
+const onInstall = curry((chrome: any, optionsKey: string, details: any) : void => {
     console.debug(details);
-    console.debug('eventPage onInit');
-    initPrefs(chrome);
-});
-
-const initPrefs = curry((chrome: any) => {
-    const prefs = {
-        test: 'value'
-    };
-
-    chrome.storage.local.set({'skiGoggles': prefs}, () => {
-        if (chrome.runtime.lastError) {
-            console.error('Error setting prefs: ', chrome.runtime.lastError);
-        }
+    const defaults = defaultOptions();
+    setOptions(chrome, optionsKey, defaults).then((_data) => {
+        console.log('Initial Defaults set');
     });
-
-    // force a (re)load of prefs, now that they may have changed
-    loadPrefsFromStorage(chrome, prefs);
 });
-
-const loadPrefsFromStorage = (chrome: any, _prefs: any) => {
-    chrome.storage.local.get('skiGoggles', prefData => {
-        let prefs = prefData.skiGoggles;
-        console.debug('prefs:', prefs);
-    });
-};
 
 const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : void => {
     let tabs = getTabs();
@@ -86,10 +68,9 @@ const sendToAllDevTools = (tabs: any, object: any): void => {
 };
 
 export {
-    onInit,
+    onInstall,
     processWebRequest,
     getTabId,
     sendToAllDevTools,
-    sendToDevToolsForTab,
-    loadPrefsFromStorage,
+    sendToDevToolsForTab
 };

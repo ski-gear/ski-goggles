@@ -1,39 +1,59 @@
 // @flow
 
-import * as helpers from './background_helpers.js';
-import { generateMasterPattern } from '../matcher.js';
-import { curry } from 'ramda';
-import type { Tabs } from '../types.js';
+import { curry, pluck, prop, filter } from 'ramda';
 
+import type { Tabs, UserOptionsKey } from '../types.js';
+
+import { generateMasterPattern } from '../matcher.js';
+import * as helpers from './background_helpers.js';
+import { getOptions } from './local_storage';
+
+const chromeOptionsKey: UserOptionsKey = 'skiGogglesOptions';
 let prefs = {};
 
 let tabs: Tabs = {};
 
 const getTabs = () => tabs;
 
-let masterPattern = generateMasterPattern();
-const getMasterPattern = () => masterPattern;
+let masterPattern: RegExp = /(?:)/;
+const recreateMasterPattern = () => {
+    console.debug('Recreating masterpattern');
+    getOptions(chrome, chromeOptionsKey).then(
+        (opts) => {
+            masterPattern = generateMasterPattern(
+                enabledProvidersFromOptions(opts)
+            );
+        }
+    );
+};
 
-const installCallback = helpers.onInit(chrome);
+const enabledProvidersFromOptions = (opts: any): Array<any> => {
+    // $FlowFixMe
+    return pluck(
+        'providerCanonicalName',
+        filter(
+            (p) => p.enabled == true,
+            prop('providers', opts))
+    );
+};
+
+const getMasterPattern = () => {
+    return masterPattern;
+};
+
+const installCallback = helpers.onInstall(chrome, chromeOptionsKey);
 // $FlowFixMe
 chrome.runtime.onInstalled.addListener(installCallback);
 
 chrome.runtime.onStartup.addListener(() => {
-    helpers.loadPrefsFromStorage(chrome, prefs);
-    console.debug('on statup');
+    console.debug('starting up..');
+    recreateMasterPattern();
 });
 
+
 chrome.storage.onChanged.addListener((changes, _namespace) => {
-    if ('skiGoggles' in changes) {
-        const newPrefs = changes['skiGoggles'].newValue;
-        console.debug('Received updated prefs', newPrefs);
-
-        prefs = newPrefs;
-
-        helpers.sendToAllDevTools(tabs, {
-            'type': 'prefs',
-            'payload': prefs
-        });
+    if (chromeOptionsKey in changes) {
+        recreateMasterPattern();
     }
 });
 
@@ -60,8 +80,7 @@ chrome.runtime.onConnect.addListener((port) => {
 
     const tabId = helpers.getTabId(port);
     tabs[tabId] = {
-        port: port,
-        loading: true
+        port: port
     };
 
     // respond immediately with prefs data
@@ -79,22 +98,5 @@ chrome.runtime.onConnect.addListener((port) => {
     // logs messages from the port (in the background page's console!)
     port.onMessage.addListener(msg => {
         console.debug(`Message from port[${tabId}]: `, msg);
-    });
-
-    /**
-   * Monitor for page load/complete events in tabs
-   */
-    // $FlowFixMe
-    chrome.tabs.onUpdated.addListener((tabId, changeInfo, _tab) => {
-        if (tabId in tabs) {
-            if (changeInfo.status == 'loading') {
-                tabs[tabId].loading = true;
-            } else {
-                // give a little breathing room before marking the load as complete
-                window.setTimeout(() => {
-                    tabs[tabId].loading = false;
-                }, 500);
-            }
-        }
     });
 });

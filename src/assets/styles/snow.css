@@ -1,5 +1,5 @@
 .options-body{
-  background: #d8f0f3;
+  /* background: #d8f0f3; */
 }
 
 .snow-bg, .snow {
@@ -8,6 +8,7 @@
 }
 
 .snow-bg {
+  display: none;
   overflow: hidden;
   position: absolute;
   top: 0;

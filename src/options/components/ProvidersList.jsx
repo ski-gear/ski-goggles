@@ -1,11 +1,11 @@
 // @flow
 
 import React from 'react';
-import { Checkbox, Table, Image, Segment, Grid, Header, Icon, Message } from 'semantic-ui-react';
+import { Checkbox, Table, Image, Segment, Grid, Header, Icon, Message, Button } from 'semantic-ui-react';
 import type { UserProviderSetting } from '../../types.js';
 import { map, curry } from 'ramda';
 
-import { lookup } from '../../provider_lookup';
+import { lookup } from '../../providers/helpers';
 
 type Props = {
   data: Array<UserProviderSetting>,
@@ -24,14 +24,19 @@ const renderRows = (props: Props) => {
             if(provider){
                 return (
                     <Table.Row key={providerSetting.providerCanonicalName}>
-                        <Table.Cell textAlign='right' width='4'>
-                            <Checkbox toggle onChange={onToggle(props)} value={providerSetting.providerCanonicalName} checked={providerSetting.enabled}/>
-                        </Table.Cell>
-                        <Table.Cell width='6'>
-                            <span className='ui align centered'>
+                        <Table.Cell width='5' textAlign='right'>
+                            <span>
                                 <Image src={'images/providers/' + provider.logo} avatar spaced />
                                 <span>{provider.displayName}</span>
                             </span>
+                        </Table.Cell>
+                        <Table.Cell textAlign='left' width='1'>
+                            <Checkbox toggle onChange={onToggle(props)} value={providerSetting.providerCanonicalName} checked={providerSetting.enabled}/>
+                        </Table.Cell>
+                        <Table.Cell textAlign='left' width='1'>
+                            <Button circular icon='setting' size='tiny' />
+                        </Table.Cell>
+                        <Table.Cell width='3'>
                         </Table.Cell>
                     </Table.Row>
                 );
@@ -46,7 +51,7 @@ export default class ProviderList extends React.Component<Props> {
         return (
             <Grid centered columns={2}>
                 <Grid.Column>
-                    <Segment piled padded='very'>
+                    <Segment padded='very'>
                         <Header as='h3' textAlign='center'>
                             <Icon name='pie chart' />
                             <Header.Content>

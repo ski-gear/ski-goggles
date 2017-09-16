@@ -38,6 +38,8 @@ export type Provider = {|
 
 export type ProviderCanonicalName = 'Snowplow' | 'AdobeAnalyticsAppMeasurement' | 'Nielsen' | 'Krux' | 'Rubicon';
 
+export type UserOptionsKey = 'skiGogglesOptions';
+
 export type UserProviderSetting = {|
     enabled: Boolean,
     providerCanonicalName: ProviderCanonicalName,
@@ -51,8 +53,7 @@ export type UserOptions = {|
 
 
 export type Tab = {|
-  port: any,
-  loading: boolean
+  port: any
 |};
 
 export type Tabs = { [string]: Tab }
