@@ -59,3 +59,10 @@ export type Tab = {|
 export type Tabs = { [string]: Tab }
 
 export type Version = number;
+
+export type GlobalState = {|
+    chrome: any,
+    chromeOptionsKey: UserOptionsKey,
+    tabs: Tabs,
+    masterPattern: RegExp
+|};
