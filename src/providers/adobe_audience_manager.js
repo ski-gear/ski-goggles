@@ -1,44 +1,43 @@
 // @flow
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
-import { find, map, assoc, prop, lensPath, set, defaultTo, sortBy, has } from 'ramda';
-import { labelReplacerFromDictionary } from './helpers.js';
+import { find, map, assoc, prop, propOr, sortBy, contains, pluck, defaultTo, isEmpty } from 'ramda';
+import { labelReplacerFromDictionary, setTitle } from './helpers.js';
+
+const LINK_TYPE = 'Link type';
+const EVENTS = 'Events';
+
+const transformer = (data: WebRequestData): WebRequestData => {
+    const params = sortBy(prop('label'), map(transform, data.params));
+    const dataWithTitle = setTitle(getEventName(params), data);
+    // $FlowFixMe
+    return assoc('params', params, dataWithTitle);
+};
 
 const AdobeAudienceManager: Provider = {
     canonicalName: 'AdobeAudienceManager',
     displayName: 'Adobe Audience Manager',
     logo: 'adobe-audience-manager.png',
     pattern: /smetrics\.realestate\.com\.au/,
-    transformer: (data: WebRequestData) : WebRequestData => {
-        let transformed: WebRequestData = data;
-        const params = sortBy(prop('label'), map(transform, data.params));
-        const eventName = getEventName(params);
-
-        const lens = lensPath(['meta', 'title']);
-        if(eventName){
-            transformed = set(lens, eventName, transformed);
-        }
-        // $FlowFixMe
-        transformed = assoc('params', params, transformed);
-
-        return transformed;
-    }
+    transformer: transformer
 };
 
 const getEventName = (params: Array<WebRequestParam>) : string | null => {
     // $FlowFixMe
-    const isCustomEvent = has('Link type', params);
-    const row = find(
-        e => e.label == 'Events',
-        params
+    const isCustomEvent = contains(LINK_TYPE, pluck('label', params));
+    const eventRow = defaultTo(
+        {}, find(
+            e => e.label == EVENTS,
+            params
+        )
     );
 
+    // $FlowFixMe
+    const eventName = propOr('Unknown Event', 'value', eventRow);
     if(isCustomEvent){
-        // $FlowFixMe
-        return defaultTo('Unknown Event', prop('value', row));
+        return eventName;
     } else {
-        // $FlowFixMe
-        return `Page Load (${prop('value', row)})`;
+        return isEmpty(eventRow) ? 'Page Load' : `Page Load (${eventName})`;
     }
 };
 
@@ -97,7 +96,7 @@ const LabelDictionary : {[string]: string} = {
     , oid: 'Object ID'
     , oidt: 'Object ID type'
     , ot: 'Object tag name'
-    , pe: 'Link type'
+    , pe: LINK_TYPE
     , pev1: 'Link URL'
     , pev2: 'Link name'
     , pev3: 'Video milestone'
@@ -119,7 +118,7 @@ const LabelDictionary : {[string]: string} = {
     , pageName: 'Page name'
     , pageType: 'Page type'
     , server: 'Server'
-    , events: 'Events'
+    , events: EVENTS
     , products: 'Products'
     , purchaseID: 'Purchase ID'
     , state: 'Visitor state'
