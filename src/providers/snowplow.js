@@ -10,7 +10,7 @@ const Snowplow: Provider = {
     canonicalName: 'Snowplow',
     displayName: 'Snowplow',
     logo: 'snowplow.png',
-    pattern: /sp\.eventus-test\.net/,
+    pattern: /sp\.eventus-test\.net|analytics\.realestate\.com\.au/,
     transformer: (data: WebRequestData) : WebRequestData => {
         let transformed: WebRequestData = data;
         const params = sortBy(prop('label'), map(transform, data.params));
