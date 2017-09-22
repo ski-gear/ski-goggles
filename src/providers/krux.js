@@ -23,7 +23,7 @@ const getEventName = (params: Array<WebRequestParam>) : string | null => {
         params
     );
     // $FlowFixMe
-    return defaultTo('Page View', prop('value', row));
+    return defaultTo('Page View', prop('value', defaultTo({}, row)));
 };
 
 const transform = (datum: WebRequestParam): WebRequestParam => {

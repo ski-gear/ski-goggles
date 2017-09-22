@@ -57,7 +57,7 @@ const getTitleFromUePx = (params: Array<WebRequestParam>) : string => {
         // $FlowFixMe
         return pathOr('Unknown Event', ['data', 'data', 'event_name'], json);
     } catch (e) {
-        console.log('Unpareable ue_px row from: ',  params);
+        console.debug('Unpareable ue_px row from: ',  params);
         return 'Unparseable Event';
     }
 };
