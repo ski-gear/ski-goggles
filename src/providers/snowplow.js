@@ -1,10 +1,11 @@
 // @flow
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
-import { map, contains, pathOr, find, assoc, sortBy, prop } from 'ramda';
+import { map, contains, pathOr, find, assoc, sortBy, prop, propOr } from 'ramda';
 import { labelReplacerFromDictionary, setTitle } from './helpers.js';
 
 const EVENT_PAYLOAD = 'Event Payload';
+const EVENT = 'Event';
 
 const transformer = (data: WebRequestData): WebRequestData => {
     const params = sortBy(prop('label'), map(transform, data.params));
@@ -21,17 +22,43 @@ const Snowplow: Provider = {
     transformer: transformer
 };
 
-const getEventName = (params: Array<WebRequestParam>) : string | null => {
-    const row = find(
-        e => e.label == EVENT_PAYLOAD,
+const getEventName = (params: Array<WebRequestParam>) : string => {
+    const row = getEventRow(params) || {};
+    // $FlowFixMe
+    const eventType = prop('value', row);
+    switch (eventType) {
+    case 'pv':
+        return 'Page View';
+    case 'ue':
+        return getTitleFromUePx(params);
+    default:
+        return 'Unknown Event';
+    }
+};
+
+const getEventRow = (params: Array<WebRequestParam>) : ?WebRequestParam => {
+    return find(
+        // $FlowFixMe
+        e => prop('label', e) == EVENT,
         params
     );
-    if(row){
-        const json = JSON.parse(row.value);
+};
+
+const getTitleFromUePx = (params: Array<WebRequestParam>) : string => {
+    // Could go wrong in multiple ways
+    try {
+        const ue_px_row = find(
+        // $FlowFixMe
+            e => prop('label', e) == EVENT_PAYLOAD,
+            params
+        );
+        // $FlowFixMe
+        const json = JSON.parse(prop('value', ue_px_row));
         // $FlowFixMe
         return pathOr('Unknown Event', ['data', 'data', 'event_name'], json);
-    } else {
-        return 'Page View';
+    } catch (e) {
+        console.log('Unpareable ue_px row from: ',  params);
+        return 'Unparseable Event';
     }
 };
 
@@ -49,11 +76,20 @@ const transform = (datum: WebRequestParam): WebRequestParam => {
 };
 
 const formattedJSON = (data: string): string => {
-    let cleaned = data.replace(/-/, '+');
-    let payload = atob(cleaned);
-    let parsed = JSON.parse(payload);
-    let json = JSON.stringify(parsed, null, 4);
+    const payload = BinarytoAscii(data);
+    let parsed;
+    try {
+        parsed = JSON.parse(payload);
+    }
+    catch (e) {
+        parsed = { bad: 'data'};
+    }
+    const json = JSON.stringify(parsed, null, 4);
     return json;
+};
+
+const BinarytoAscii = (data: string): string => {
+    return Buffer.from(data, 'base64').toString('ascii');
 };
 
 const DATA_LABEL = 'Data';
@@ -72,7 +108,8 @@ const labelReplacer = (label: string): string => {
 
 const LabelDictionary : {[string]: string} = {
     'ue_px': EVENT_PAYLOAD,
-    'cx': 'Context Payload'
+    'cx': 'Context Payload',
+    'e': EVENT
 };
 
 export { Snowplow };

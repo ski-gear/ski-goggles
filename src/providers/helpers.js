@@ -2,6 +2,7 @@
 
 import type { ProviderCanonicalName, Provider, WebRequestData } from './../types';
 import * as Providers from './../providers';
+// $FlowFixMe
 import { values, find, propOr, lensPath, set } from 'ramda';
 
 export const lookup = (name: ProviderCanonicalName): ?Provider => {
