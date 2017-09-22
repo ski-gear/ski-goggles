@@ -1,8 +1,8 @@
 // @flow
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
-import { map, assoc, prop, lensPath, set, sortBy } from 'ramda';
-import { labelReplacerFromDictionary } from './helpers.js';
+import { map, assoc, prop, sortBy } from 'ramda';
+import { labelReplacerFromDictionary, setTitle } from './helpers.js';
 
 const Nielsen: Provider = {
     canonicalName: 'Nielsen',
@@ -10,18 +10,10 @@ const Nielsen: Provider = {
     logo: 'nielsen.png',
     pattern: /secure-au\.imrworldwide\.com\/cgi-bin\/m\?/,
     transformer: (data: WebRequestData) : WebRequestData => {
-        let transformed: WebRequestData = data;
         const params = sortBy(prop('label'), map(transform, data.params));
-        const eventName = 'Page Load';
-
-        const lens = lensPath(['meta', 'title']);
-        if(eventName){
-            transformed = set(lens, eventName, transformed);
-        }
+        const dataWithTitle = setTitle('Page View', data);
         // $FlowFixMe
-        transformed = assoc('params', params, transformed);
-
-        return transformed;
+        return assoc('params', params, dataWithTitle);
     }
 };
 
