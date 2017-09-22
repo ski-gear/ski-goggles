@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { lookup, labelReplacerFromDictionary } from '../helpers';
+import { lookup, labelReplacerFromDictionary, setTitle } from '../helpers';
+import { path } from 'ramda';
 import { Snowplow } from '../';
 
 describe('Providers', () => {
@@ -38,6 +39,20 @@ describe('Providers', () => {
                     const returned = labelReplacerFromDictionary('what?', dictionary);
                     expect(returned).to.eq('what?');
                 });
+            });
+        });
+
+        describe('setTitle', () => {
+            const webRequestData = {
+                meta: {},
+                params: [
+                    { label: 'test', value: 'awesome', valueType: 'string' }
+                ]
+            };
+
+            it('Sets the title', () => {
+                const transformed = setTitle('Awesome Title', webRequestData);
+                expect(path(['meta', 'title'], transformed)).to.eq('Awesome Title');
             });
         });
     });

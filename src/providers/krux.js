@@ -1,8 +1,8 @@
 // @flow
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
-import { find, map, assoc, prop, lensPath, set, defaultTo, sortBy } from 'ramda';
-import { labelReplacerFromDictionary } from './helpers.js';
+import { find, map, assoc, prop, defaultTo, sortBy } from 'ramda';
+import { labelReplacerFromDictionary, setTitle } from './helpers.js';
 
 const Krux: Provider = {
     canonicalName: 'Krux',
@@ -10,18 +10,10 @@ const Krux: Provider = {
     logo: 'krux.png',
     pattern: /beacon\.krxd\.net\/pixel\.gif/,
     transformer: (data: WebRequestData) : WebRequestData => {
-        let transformed: WebRequestData = data;
         const params = sortBy(prop('label'), map(transform, data.params));
-        const eventName = getEventName(params);
-
-        const lens = lensPath(['meta', 'title']);
-        if(eventName){
-            transformed = set(lens, eventName, transformed);
-        }
+        const dataWithTitle = setTitle(getEventName(params), data);
         // $FlowFixMe
-        transformed = assoc('params', params, transformed);
-
-        return transformed;
+        return assoc('params', params, dataWithTitle);
     }
 };
 
@@ -31,7 +23,7 @@ const getEventName = (params: Array<WebRequestParam>) : string | null => {
         params
     );
     // $FlowFixMe
-    return defaultTo('Page View', prop('value', row));
+    return defaultTo('Page View', prop('value', defaultTo({}, row)));
 };
 
 const transform = (datum: WebRequestParam): WebRequestParam => {
