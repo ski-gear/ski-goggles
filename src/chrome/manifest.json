@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "minimum_chrome_version": "10.0",
   "name": "Ski Goggles",
-  "version": "0.74",
+  "version": "0.75",
   "description": "Inspect Web Analytic requests including Snowplow, Adobe Analytics and more",
   "icons": {
     "16": "images/ski-goggles-16.png",
