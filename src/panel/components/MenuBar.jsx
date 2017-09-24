@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Menu, Image, Button, Label, Icon } from 'semantic-ui-react';
-import{ AppVersion } from '../versions';
+import{ AppVersion } from '../../versions';
 
 type Props = {
   clear: any
