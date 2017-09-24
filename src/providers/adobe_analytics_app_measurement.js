@@ -14,10 +14,10 @@ const transformer = (data: WebRequestData): WebRequestData => {
     return assoc('params', params, dataWithTitle);
 };
 
-const AdobeAudienceManager: Provider = {
-    canonicalName: 'AdobeAudienceManager',
-    displayName: 'Adobe Audience Manager',
-    logo: 'adobe-audience-manager.png',
+const AdobeAnalyticsAppMeasurement: Provider = {
+    canonicalName: 'AdobeAnalyticsAppMeasurement',
+    displayName: 'Adobe Analytics AppMeasurement',
+    logo: 'adobe-analytics-app-measurement.png',
     pattern: /smetrics\.realestate\.com\.au/,
     transformer: transformer
 };
@@ -129,4 +129,4 @@ const LabelDictionary : {[string]: string} = {
     , rsid: 'Report Suites'
 };
 
-export { AdobeAudienceManager };
+export { AdobeAnalyticsAppMeasurement };

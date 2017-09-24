@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { AdobeAudienceManager } from '../adobe_audience_manager';
+import { AdobeAnalyticsAppMeasurement } from '../adobe_analytics_app_measurement';
 import { path } from 'ramda';
 
 describe('Adobe Analytics Manager', () => {
@@ -14,7 +14,7 @@ describe('Adobe Analytics Manager', () => {
                             { label: 'pe', value: 'link_o', valueType: 'string' }
                         ]
                     };
-                    const transformed = AdobeAudienceManager.transformer(webRequestData);
+                    const transformed = AdobeAnalyticsAppMeasurement.transformer(webRequestData);
                     it('returns the label Unknown Event', () => {
                         expect(path(['meta', 'title'], transformed)).to.eql('Unknown Event');
                     });
@@ -28,7 +28,7 @@ describe('Adobe Analytics Manager', () => {
                             { label: 'events', value: 'event1', valueType: 'string' }
                         ]
                     };
-                    const transformed = AdobeAudienceManager.transformer(webRequestData);
+                    const transformed = AdobeAnalyticsAppMeasurement.transformer(webRequestData);
                     it('returns the correct event', () => {
                         expect(path(['meta', 'title'], transformed)).to.eql('event1');
                     });
@@ -41,7 +41,7 @@ describe('Adobe Analytics Manager', () => {
                         { label: 'pet', value: 'link_o', valueType: 'string' }
                     ]
                 };
-                const transformed = AdobeAudienceManager.transformer(webRequestData);
+                const transformed = AdobeAnalyticsAppMeasurement.transformer(webRequestData);
                 it('returns the Page Load label', () => {
                     expect(path(['meta', 'title'], transformed)).to.eql('Page Load');
                 });
@@ -54,7 +54,7 @@ describe('Adobe Analytics Manager', () => {
                             { label: 'events', value: 'event1', valueType: 'string' }
                         ]
                     };
-                    const transformed = AdobeAudienceManager.transformer(webRequestData);
+                    const transformed = AdobeAnalyticsAppMeasurement.transformer(webRequestData);
                     it('returns Page Load label with events', () => {
                         expect(path(['meta', 'title'], transformed)).to.eql('Page Load (event1)');
                     });
@@ -71,7 +71,7 @@ describe('Adobe Analytics Manager', () => {
                         { label: 'evar2', value: 'test2', valueType: 'string' }
                     ]
                 };
-                const transformed = AdobeAudienceManager.transformer(webRequestData);
+                const transformed = AdobeAnalyticsAppMeasurement.transformer(webRequestData);
                 it('sets the label with a readble prefix - eVar', () => {
                     expect(path(['params', 0, 'label'], transformed)).to.eql('eVar1');
                     expect(path(['params', 0, 'category'], transformed)).to.eql('Evars & Props');
@@ -87,7 +87,7 @@ describe('Adobe Analytics Manager', () => {
                         { label: 'prop2', value: 'test2', valueType: 'string' }
                     ]
                 };
-                const transformed = AdobeAudienceManager.transformer(webRequestData);
+                const transformed = AdobeAnalyticsAppMeasurement.transformer(webRequestData);
                 it('sets the label with a readble prefix - eVar', () => {
                     expect(path(['params', 0, 'label'], transformed)).to.eql('Prop1');
                     expect(path(['params', 0, 'category'], transformed)).to.eql('Evars & Props');
@@ -102,7 +102,7 @@ describe('Adobe Analytics Manager', () => {
                         { label: 'ns', value: 'test', valueType: 'string' },
                     ]
                 };
-                const transformed = AdobeAudienceManager.transformer(webRequestData);
+                const transformed = AdobeAnalyticsAppMeasurement.transformer(webRequestData);
                 it('sets the correct label', () => {
                     expect(path(['params', 0, 'label'], transformed)).to.eql('Visitor namespace');
                 });
