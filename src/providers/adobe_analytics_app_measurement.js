@@ -18,7 +18,7 @@ const AdobeAnalyticsAppMeasurement: Provider = {
     canonicalName: 'AdobeAnalyticsAppMeasurement',
     displayName: 'Adobe Analytics AppMeasurement',
     logo: 'adobe-analytics-app-measurement.png',
-    pattern: /smetrics\.realestate\.com\.au/,
+    pattern: /\/b\/ss\/|2o7/,
     transformer: transformer
 };
 

@@ -18,7 +18,7 @@ const Snowplow: Provider = {
     canonicalName: 'Snowplow',
     displayName: 'Snowplow',
     logo: 'snowplow.png',
-    pattern: /(sp\.eventus-test\.net|analytics\.realestate\.com\.au)(\/i\?)/,
+    pattern: /(\/i\?.*tv=js-\d)/,
     transformer: transformer
 };
 

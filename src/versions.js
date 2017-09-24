@@ -2,4 +2,4 @@
 
 import type { Version } from './types';
 
-export const AppVersion: Version = 0.75;
+export const AppVersion: Version = 0.76;

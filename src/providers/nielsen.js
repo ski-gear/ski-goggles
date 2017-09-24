@@ -8,7 +8,7 @@ const Nielsen: Provider = {
     canonicalName: 'Nielsen',
     displayName: 'Nielsen',
     logo: 'nielsen.png',
-    pattern: /secure-au\.imrworldwide\.com\/cgi-bin\/m\?/,
+    pattern: /\.imrworldwide.com\/cgi-bin\/m\?/,
     transformer: (data: WebRequestData) : WebRequestData => {
         const params = sortBy(prop('label'), map(transform, data.params));
         const dataWithTitle = setTitle('Page View', data);
