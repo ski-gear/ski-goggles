@@ -24,19 +24,14 @@ const renderRows = (props: Props) => {
             if(provider){
                 return (
                     <Table.Row key={providerSetting.providerCanonicalName}>
-                        <Table.Cell width='5' textAlign='right'>
+                        <Table.Cell width='8' textAlign='right'>
                             <span>
                                 <Image src={'images/providers/' + provider.logo} avatar spaced />
                                 <span>{provider.displayName}</span>
                             </span>
                         </Table.Cell>
-                        <Table.Cell textAlign='left' width='1'>
+                        <Table.Cell textAlign='left' width='8'>
                             <Checkbox toggle onChange={onToggle(props)} value={providerSetting.providerCanonicalName} checked={providerSetting.enabled}/>
-                        </Table.Cell>
-                        <Table.Cell textAlign='left' width='1'>
-                            <Button circular icon='setting' size='tiny' />
-                        </Table.Cell>
-                        <Table.Cell width='3'>
                         </Table.Cell>
                     </Table.Row>
                 );
@@ -51,9 +46,9 @@ export default class ProviderList extends React.Component<Props> {
         return (
             <Grid centered columns={2}>
                 <Grid.Column>
-                    <Segment padded='very'>
+                    <Segment padded='very' stacked>
                         <Header as='h3' textAlign='center'>
-                            <Icon name='pie chart' />
+                            <Icon name='toggle on' />
                             <Header.Content>
                               Toggle Analytics Providers
                             </Header.Content>
