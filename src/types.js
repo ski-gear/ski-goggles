@@ -58,7 +58,7 @@ export type Tab = {|
 
 export type Tabs = { [string]: Tab }
 
-export type Version = number;
+export type Version = string;
 
 export type GlobalState = {|
     chrome: any,
