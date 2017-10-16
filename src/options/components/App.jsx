@@ -15,7 +15,7 @@ export default class App extends React.Component<Props, State> {
                 <VisibleProviders />
                 <Divider />
                 <Container textAlign='center'>
-                    <Label color='blue' tag>Ski Goggles - Version: {AppVersion.toFixed(2)}</Label>
+                    <Label color='blue' tag>Ski Goggles - Version: {AppVersion}</Label>
                 </Container>
             </Container>
         );
