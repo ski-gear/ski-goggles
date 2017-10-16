@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Menu, Image, Button, Label, Icon } from 'semantic-ui-react';
-import{ AppVersion } from '../../versions';
+import { Menu, Image, Button } from 'semantic-ui-react';
 
 type Props = {
   clear: any
@@ -36,10 +35,6 @@ export default class MenuBar extends React.Component<Props,State> {
             <Menu fixed='top' size='mini'>
                 <Menu.Item name='home'>
                     <Image src='images/ski-goggles-48.png' size='mini' shape='circular' bordered />
-                    <Label pointing='left'>
-                        <Icon name='tag' />
-                        {AppVersion}
-                    </Label>
                 </Menu.Item>
                 <Menu.Menu position='right'>
                     <Menu.Item name='options'>

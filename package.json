@@ -1,6 +1,6 @@
 {
   "name": "ski-goggles",
-  "version": "1.0",
+  "version": "1.01",
   "description": "Some eye protection before skiing into the world of Snowplow",
   "main": "index.js",
   "author": "prem.pillai@rea-group.com",

@@ -10,7 +10,7 @@ describe('App Version', () => {
         let chromeManifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
 
         it('has the correct version', () => {
-            expect(chromeManifest['version'].toString()).to.eq(AppVersion.toFixed(1).toString());
+            expect(chromeManifest['version'].toString()).to.eq(AppVersion.toFixed(2).toString());
         });
     });
 
@@ -19,7 +19,7 @@ describe('App Version', () => {
         let pkg = JSON.parse(readFileSync(packageFile, 'utf8'));
 
         it('has the correct version', () => {
-            expect(pkg['version'].toString()).to.eq(AppVersion.toFixed(1).toString());
+            expect(pkg['version'].toString()).to.eq(AppVersion.toFixed(2).toString());
         });
     });
 });
