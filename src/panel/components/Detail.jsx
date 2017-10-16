@@ -6,7 +6,7 @@ import Highlight from 'react-highlight';
 // $FlowFixMe
 import { groupBy, defaultTo, map, keys, prop, sortBy, identity } from 'ramda';
 
-import type { WebRequestParam } from '../types.js';
+import type { WebRequestParam } from '../../types.js';
 
 type Props = {
   data: Array<WebRequestParam>

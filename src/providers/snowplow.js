@@ -1,7 +1,7 @@
 // @flow
 import type { Provider, WebRequestParam, WebRequestData } from '../types.js';
 // $FlowFixMe
-import { map, contains, pathOr, find, assoc, sortBy, prop, propOr } from 'ramda';
+import { map, contains, pathOr, find, assoc, sortBy, prop } from 'ramda';
 import { labelReplacerFromDictionary, setTitle } from './helpers.js';
 
 const EVENT_PAYLOAD = 'Event Payload';

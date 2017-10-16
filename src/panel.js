@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import skiGoggles from './lib/reducers';
-import App from './components/App.jsx';
+import skiGoggles from './panel/reducers';
+import App from './panel/components/App.jsx';
 
 let store = createStore(skiGoggles);
 

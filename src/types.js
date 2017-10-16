@@ -29,7 +29,7 @@ export type WebRequestEnvelope = {|
 |};
 
 export type Provider = {|
-  canonicalName: string,
+  canonicalName: ProviderCanonicalName,
   displayName: string,
   logo: string,
   pattern: RegExp,
@@ -37,6 +37,8 @@ export type Provider = {|
 |};
 
 export type ProviderCanonicalName = 'Snowplow' | 'AdobeAnalyticsAppMeasurement' | 'Nielsen' | 'Krux' | 'Rubicon';
+
+export type UserOptionsKey = 'skiGogglesOptions';
 
 export type UserProviderSetting = {|
     enabled: Boolean,
@@ -49,11 +51,18 @@ export type UserOptions = {|
     providers: Array<UserProviderSetting>
 |};
 
+
 export type Tab = {|
-  port: any,
-  loading: boolean
+  port: any
 |};
 
 export type Tabs = { [string]: Tab }
 
 export type Version = number;
+
+export type GlobalState = {|
+    chrome: any,
+    chromeOptionsKey: UserOptionsKey,
+    tabs: Tabs,
+    masterPattern: RegExp
+|};

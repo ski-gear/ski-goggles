@@ -1,47 +1,26 @@
 // @flow
 
-import { curry, map, keys } from 'ramda';
-import type { WebRequestEnvelope, Tabs } from '../types.js';
+import { curry, pluck, prop, filter } from 'ramda';
+import type { WebRequestEnvelope, GlobalState } from '../types.js';
 import moment from 'moment';
 import { parse } from '../parser.js';
-import { matchesBroadly, getProvider } from '../matcher.js';
+import { matchesBroadly, getProvider, generateMasterPattern } from '../matcher.js';
+import { defaultOptions } from '../options/helpers';
+import { setOptions, getOptions } from './local_storage';
 
-const onInit = curry((chrome: any, details: any) : void => {
-    console.debug(details);
-    console.debug('eventPage onInit');
-    initPrefs(chrome);
+export const onInstall = curry((state: GlobalState, _details: any) : void => {
+    const defaults = defaultOptions();
+    setOptions(state.chrome, state.chromeOptionsKey, defaults).then((_data) => {
+        console.log('Initial Defaults set');
+        refreshMasterPattern(state);
+    });
 });
 
-const initPrefs = curry((chrome: any) => {
-    const prefs = {
-        test: 'value'
-    };
-
-    chrome.storage.local.set({'skiGoggles': prefs}, () => {
-        if (chrome.runtime.lastError) {
-            console.error('Error setting prefs: ', chrome.runtime.lastError);
-        }
-    });
-
-    // force a (re)load of prefs, now that they may have changed
-    loadPrefsFromStorage(chrome, prefs);
-});
-
-const loadPrefsFromStorage = (chrome: any, _prefs: any) => {
-    chrome.storage.local.get('skiGoggles', prefData => {
-        let prefs = prefData.skiGoggles;
-        console.debug('prefs:', prefs);
-    });
-};
-
-const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : void => {
-    let tabs = getTabs();
-    let masterPattern = getMasterPattern();
-
-    if (!(details.tabId in tabs)) {
+export const processWebRequest = curry((state: GlobalState, details: any) : void => {
+    if (!(details.tabId in state.tabs)) {
         return;
     }
-    if(matchesBroadly(details.url, masterPattern)) {
+    if(matchesBroadly(details.url, state.masterPattern)) {
         let url: string = details.url;
         let tabId: string = details.tabId;
         let timeStamp: number = parseInt(moment().format('x'));
@@ -60,36 +39,62 @@ const processWebRequest = (getTabs: any, getMasterPattern: any, details: any) : 
                     data: provider.transformer({params: data})
                 }
             };
-            sendToDevToolsForTab(tabs, tabId, eventData);
+            sendToSkiGoggles(state, tabId, eventData);
         }
     }
+});
+
+export const refreshMasterPattern = (state: GlobalState) => {
+    console.debug('Recreating masterpattern');
+    getOptions(state.chrome, state.chromeOptionsKey).then(
+        (opts) => {
+            state.masterPattern = generateMasterPattern(
+                enabledProvidersFromOptions(opts)
+            );
+        }
+    );
 };
+
+export const onConnectCallBack = curry((state: GlobalState, port: any): void => {
+    if (port.name.indexOf('skig-') !== 0) return;
+    console.debug(`Registered port: ${port.name}`);
+
+    const tabId = getTabId(port);
+    state.tabs[tabId] = {
+        port: port
+    };
+
+    // Remove port when destroyed (e.g. when devtools instance is closed)
+    port.onDisconnect.addListener(port => {
+        console.debug(`Disconnecting port ${port.name}`);
+        delete state.tabs[getTabId(port)];
+    });
+
+    // logs messages from the port (in the background page's console!)
+    port.onMessage.addListener(msg => {
+        console.debug(`Message from port[${tabId}]: `, msg);
+    });
+});
 
 const getTabId = (port: any) : string => {
     return port.name.substring(port.name.indexOf('-') + 1);
 };
 
-const sendToDevToolsForTab = (tabs: Tabs, tabId: string, object: any) => {
+const sendToSkiGoggles = (state: GlobalState, tabId: string, object: any) => {
     console.debug('sending ', object.type, ' message to tabId: ', tabId, ': ', object);
     try {
-        tabs[tabId].port.postMessage(object);
+        state.tabs[tabId].port.postMessage(object);
     } catch (ex) {
         console.error('error calling postMessage: ', ex.message);
     }
 };
 
-const sendToAllDevTools = (tabs: any, object: any): void => {
-    map(
-        (tabId) => sendToDevToolsForTab(tabs, tabId, object),
-        keys(tabs)
+const enabledProvidersFromOptions = (opts: any): Array<any> => {
+    // $FlowFixMe
+    return pluck(
+        'providerCanonicalName',
+        filter(
+            (p) => p.enabled == true,
+            prop('providers', opts))
     );
-};
-
-export {
-    onInit,
-    processWebRequest,
-    getTabId,
-    sendToAllDevTools,
-    sendToDevToolsForTab,
-    loadPrefsFromStorage,
 };

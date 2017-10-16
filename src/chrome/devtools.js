@@ -32,6 +32,13 @@ const panelCreated = (panel: chrome$ExtensionPanel) => {
         );
 
         queuedMessages = empty(queuedMessages);
+
+        // Set the Chrome extension ID for future communications.
+        const chromeIdPayload = {
+            chromeId: chrome.runtime.id
+        };
+        const chromeIdEvent: CustomEvent = new CustomEvent('chromeId', { detail: chromeIdPayload });
+        panelWindowRef.document.dispatchEvent(chromeIdEvent);
         // set the global reference
         panelWindow = panelWindowRef;
     };
