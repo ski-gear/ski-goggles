@@ -2239,10 +2239,6 @@ flow-interfaces-chrome@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/flow-interfaces-chrome/-/flow-interfaces-chrome-0.3.2.tgz#1c5301dd0b0f4c1c391c944c1e27304e8d8ca1c5"
 
-flowtype-loader@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/flowtype-loader/-/flowtype-loader-0.2.2.tgz#21d60b817ffc6731d93080905c7d122f75894b2c"
-
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -4670,9 +4666,9 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-ski-providers@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-0.2.1.tgz#dab20636e9aaa90dae389b4b44df2e435c916c28"
+ski-providers@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-0.2.2.tgz#2dcf5d2f96fda4a93ec47a0dbce6540a0d257331"
   dependencies:
     moment "^2.18.1"
     querystring "^0.2.0"

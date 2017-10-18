@@ -2,13 +2,10 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackIncludeAssetsPlugin from 'html-webpack-include-assets-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-// import FlowtypePlugin from 'flowtype-loader/plugin';
 
 const Modules = {
     module: {
         loaders: [
-            // { test: /\.js$/, loader: 'flowtype-loader', enforce: 'pre', exclude: /node_modules/ },
-            // { test: /\.jsx$/, loader: 'flowtype-loader', enforce: 'pre', exclude: /node_modules/ },
             { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
             { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
         ]
@@ -16,7 +13,6 @@ const Modules = {
 };
 
 const Plugins = [
-    // new FlowtypePlugin({failOnError: false}),
     new HtmlWebpackPlugin({
         template: './src/html/panel.html',
         filename: 'panel.html',
@@ -36,6 +32,7 @@ const Plugins = [
         { from: 'node_modules/highlight.js/styles/atom-one-light.css', to: 'css/highlight.css'},
         { from: 'src/assets/fonts', to: 'css/themes/default/assets/fonts'},
         { from: 'src/assets/images', to: 'images'},
+        { from: 'node_modules/ski-providers/assets/images/providers', to: 'images/providers'},
         { from: 'src/chrome/manifest.json', to: 'manifest.json'}
     ]),
     new HtmlWebpackIncludeAssetsPlugin({
