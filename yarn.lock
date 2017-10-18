@@ -1762,8 +1762,8 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
 electron-to-chromium@^1.2.7:
-  version "1.3.26"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.26.tgz#996427294861a74d9c7c82b9260ea301e8c02d66"
+  version "1.3.27"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.27.tgz#78ecb8a399066187bb374eede35d9c70565a803d"
 
 elliptic@^6.0.0:
   version "6.4.0"
@@ -4666,9 +4666,9 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-ski-providers@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-0.2.2.tgz#2dcf5d2f96fda4a93ec47a0dbce6540a0d257331"
+ski-providers@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-0.2.5.tgz#59867e57c33ca2d6815f78eee31bc6df6385b6e5"
   dependencies:
     moment "^2.18.1"
     querystring "^0.2.0"

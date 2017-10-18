@@ -22,7 +22,6 @@ const toggleProvider = (ups: UserProviderSettings, provider: ProviderCanonicalNa
     return map(
         (up) => {
             if (up.providerCanonicalName === provider) {
-                // $FlowFixMe
                 return assoc('enabled', state, up);
             } else {
                 return up;

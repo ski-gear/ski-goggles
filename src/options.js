@@ -25,7 +25,6 @@ getOptions(chrome, key).then((optionsFromLocal) => {
         <ReduxProvider store={store}>
             <App />
         </ReduxProvider>,
-        // $FlowFixMe
         document.getElementById('root')
     );
 });

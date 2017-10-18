@@ -3,7 +3,6 @@
 import React from 'react';
 import { Table, Header } from 'semantic-ui-react';
 import Highlight from 'react-highlight';
-// $FlowFixMe
 import { groupBy, defaultTo, map, keys, prop, sortBy, identity } from 'ramda';
 
 import type { WebRequestParam } from '../../types.js';
@@ -60,7 +59,10 @@ const wrappedTable = (data: {[string]: Array<WebRequestParam>}) => {
                     <Header as='h4'>{category}</Header>
                     <Table celled>
                         <Table.Body>
-                            { renderRows(prop(category, data)) }
+                            { 
+                                // $FlowFixMe
+                                renderRows(prop(category, data)) 
+                            }
                         </Table.Body>
                     </Table>
                     <br/>
