@@ -1,6 +1,6 @@
 // @flow
 
-import * as Providers from './providers';
+import { SkiProviders as Providers } from 'ski-providers';
 import { map, join, path, values, find, isNil, filter, contains } from 'ramda';
 import type { Provider, ProviderCanonicalName } from './types.js';
 

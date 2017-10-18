@@ -5,7 +5,8 @@ import { Checkbox, Table, Image, Segment, Grid, Header, Icon, Message } from 'se
 import type { UserProviderSetting } from '../../types.js';
 import { map, curry } from 'ramda';
 
-import { lookup } from '../../providers/helpers';
+import { SkiProviderHelpers as ProviderHelpers } from 'ski-providers';
+console.log(ProviderHelpers);
 
 type Props = {
   data: Array<UserProviderSetting>,
@@ -20,7 +21,7 @@ const onToggle = curry((props: Props, _event: any, data: any): void => {
 const renderRows = (props: Props) => {
     return map(
         (providerSetting) => {
-            const provider = lookup(providerSetting.providerCanonicalName);
+            const provider = ProviderHelpers.lookup(providerSetting.providerCanonicalName);
             if(provider){
                 return (
                     <Table.Row key={providerSetting.providerCanonicalName}>

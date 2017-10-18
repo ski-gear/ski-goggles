@@ -1,7 +1,7 @@
 // @flow
 
 import type { Provider } from '../types';
-import * as Providers from '../providers';
+import { SkiProviders as Providers } from 'ski-providers';
 import { values, map } from 'ramda';
 import { UserOptionsVersion } from '../versions';
 

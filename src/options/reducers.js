@@ -3,7 +3,7 @@
 import type { Action } from './actions';
 import type { UserProviderSetting, ProviderCanonicalName } from './../types';
 
-import * as Providers from '../providers';
+import { SkiProviders as Providers } from 'ski-providers';
 import { combineReducers } from 'redux';
 import { values, map, assoc } from 'ramda';
 import { RESET_ALL_PROVIDERS, ENABLE_PROVIDER, DISABLE_PROVIDER } from './actions';
