@@ -45,7 +45,7 @@
     "redux": "^3.7.2",
     "semantic-ui-react": "^0.71.4",
     "url": "^0.11.0",
-    "ski-providers": "^0.3.1"
+    "ski-providers": "^0.4.0"
   },
   "scripts": {
     "start": "webpack-dev-server",

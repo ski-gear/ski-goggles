@@ -4,7 +4,7 @@ import { curry, pluck, prop, filter } from 'ramda';
 import type { WebRequestEnvelope, GlobalState } from '../types.js';
 import moment from 'moment';
 import { parse } from '../parser.js';
-import { matchesBroadly, getProvider, generateMasterPattern } from '../matcher.js';
+import { SkiProviderHelpers as ProviderHelpers } from 'ski-providers';
 import { defaultOptions } from '../options/helpers';
 import { setOptions, getOptions } from './local_storage';
 
@@ -20,12 +20,14 @@ export const processWebRequest = curry((state: GlobalState, details: any) : void
     if (!(details.tabId in state.tabs)) {
         return;
     }
-    if(matchesBroadly(details.url, state.masterPattern)) {
+    console.log(details.url, state.masterPattern);
+    if(ProviderHelpers.matchesBroadly(details.url, state.masterPattern)) {
+        console.log('yes');
         let url: string = details.url;
         let tabId: string = details.tabId;
         let timeStamp: number = parseInt(moment().format('x'));
         let data = parse(url);
-        let provider = getProvider(url);
+        let provider = ProviderHelpers.lookupByUrl(url);
 
         if(provider){
             let eventData: WebRequestEnvelope = {
@@ -48,7 +50,7 @@ export const refreshMasterPattern = (state: GlobalState) => {
     console.debug('Recreating masterpattern');
     getOptions(state.chrome, state.chromeOptionsKey).then(
         (opts) => {
-            state.masterPattern = generateMasterPattern(
+            state.masterPattern = ProviderHelpers.generateMasterPattern(
                 enabledProvidersFromOptions(opts)
             );
         }
