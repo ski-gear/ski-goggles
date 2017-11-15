@@ -2,11 +2,7 @@
 
 ### Installation
 
-1. Use the `releases` [tab](https://git.realestate.com.au/rta/ski-goggles/releases) above to find the desired version of `chrome.crx` and download it.
-
-2. Go to `chrome://extensions` on Chrome.
-
-3. Drag the `chrome.crx` file into the UI.
+1. Install it from [here](https://chrome.google.com/webstore/detail/ski-goggles/epjlgeofddfejkenffcddgcdnjkcanle)
 
 ### Usage
 
@@ -15,20 +11,6 @@
 2. Open the `Ski Goggles` panel within Devtools
 
 3. Have fun inspecting the analytics calls.
-
-### Packaging the Extension
-
--2. (Packaging only works on MacOs)
-
--1. Install Shush (https://github.com/realestate-com-au/shush)
-
-0. Authenticate into `Eventus-Prod` AWS account.
-
-1. Package and note the location of the extension file `chrome.crx`.
-
-  ```
-    ./auto/package.sh
-  ```
 
 ### Dev Workflow
 
