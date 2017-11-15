@@ -4667,8 +4667,8 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
 ski-providers@^0.5.5:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-0.5.4.tgz#f06749cb854505dd0e3f51ff40fe7662e555c812"
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-0.5.6.tgz#92f51cbca06a32ba54b8ff5e3542b3783c949ae6"
   dependencies:
     moment "^2.18.1"
     querystring "^0.2.0"
