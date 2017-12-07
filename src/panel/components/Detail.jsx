@@ -32,7 +32,7 @@ const renderRows = (rows: Array<WebRequestParam>) => {
 const renderMenuBar = (value: string) => {
     return (
         <Menu compact icon size='mini'>
-            <Menu.Item name='copy' data-clipboard-text={value} className='clipBoard'>
+            <Menu.Item name='copy' data-clipboard-text={value} className='clipBoard' as='a'>
                 <Icon name='copy' />
             </Menu.Item>
         </Menu>
