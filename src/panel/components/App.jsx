@@ -1,11 +1,16 @@
 import React from 'react';
 import MenuContainer from './containers/MenuContainer.jsx';
 import { Container } from 'semantic-ui-react';
+import Clipboard from 'clipboard';
 
 import AddWebRequest from './containers/AddWebRequest.jsx';
 import VisibleWebRequests from './containers/VisibleWebRequests.jsx';
 
 export default class App extends React.Component {
+    componentDidMount() {
+        new Clipboard('.clipBoard');
+    }
+
     render() {
         return (
             <div>

@@ -34,6 +34,7 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "clipboard": "^1.7.1",
     "html-webpack-plugin": "^2.30.1",
     "moment": "^2.18.1",
     "querystring": "^0.2.0",

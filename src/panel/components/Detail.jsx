@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Table, Header, Container, Button, Icon, Menu } from 'semantic-ui-react';
+import { Table, Header, Container, Icon, Menu } from 'semantic-ui-react';
 import Highlight from 'react-highlight';
 import { groupBy, defaultTo, map, keys, prop, sortBy, identity } from 'ramda';
 
@@ -29,10 +29,10 @@ const renderRows = (rows: Array<WebRequestParam>) => {
     );
 };
 
-const renderMenuBar = () => {
+const renderMenuBar = (value: string) => {
     return (
         <Menu compact icon size='mini'>
-            <Menu.Item name='copy'>
+            <Menu.Item name='copy' data-clipboard-text={value} className='clipBoard'>
                 <Icon name='copy' />
             </Menu.Item>
         </Menu>
@@ -43,7 +43,7 @@ const format = (valueType: string, value: string) => {
     if(valueType == 'json'){
         return(
             <Container fluid>
-						    { renderMenuBar() }
+						    { renderMenuBar(value) }
                 <Highlight className='json'>
                     {value}
                 </Highlight>
