@@ -1,5 +1,7 @@
 ## Ski Goggles
 
+A browser (Chrome for now) that helps inspect web analytics requests for Snowplow, Adobe Analytics, and more.
+
 ### Installation
 
 1. Install it from [here](https://chrome.google.com/webstore/detail/ski-goggles/epjlgeofddfejkenffcddgcdnjkcanle)
