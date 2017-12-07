@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Table, Header } from 'semantic-ui-react';
+import { Table, Header, Container, Button, Icon, Menu } from 'semantic-ui-react';
 import Highlight from 'react-highlight';
 import { groupBy, defaultTo, map, keys, prop, sortBy, identity } from 'ramda';
 
@@ -29,12 +29,25 @@ const renderRows = (rows: Array<WebRequestParam>) => {
     );
 };
 
+const renderMenuBar = () => {
+    return (
+        <Menu compact icon size='mini'>
+            <Menu.Item name='copy'>
+                <Icon name='copy' />
+            </Menu.Item>
+        </Menu>
+    );
+};
+
 const format = (valueType: string, value: string) => {
     if(valueType == 'json'){
         return(
-            <Highlight className='json'>
-                {value}
-            </Highlight>
+            <Container fluid>
+						    { renderMenuBar() }
+                <Highlight className='json'>
+                    {value}
+                </Highlight>
+            </Container>
         );
     } else {
         return <div>{value}</div>;
