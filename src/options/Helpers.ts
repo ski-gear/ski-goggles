@@ -1,9 +1,9 @@
-import { Provider } from "../types/Types";
-import { SkiProviders as Providers } from "ski-providers";
+import { SkiProviders, Provider } from "ski-providers";
 import { values, map } from "ramda";
 import { UserOptionsVersion } from "../versions";
+import { UserOptions } from "src/types/Types";
 
-export const defaultOptions = (): any => {
+export const defaultOptions = (): UserOptions => {
   return {
     version: UserOptionsVersion,
     providers: map((p: Provider) => {
@@ -12,6 +12,6 @@ export const defaultOptions = (): any => {
         providerCanonicalName: p.canonicalName,
         providerPattern: p.pattern,
       };
-    }, values(Providers)),
+    }, values(SkiProviders)),
   };
 };

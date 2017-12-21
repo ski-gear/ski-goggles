@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Table, Header, Container, Icon, Menu } from "semantic-ui-react";
-import Highlight from "react-highlight";
+import * as Highlight from "react-highlight";
 import { groupBy, defaultTo, map, keys, prop, sortBy } from "ramda";
-
-import { WebRequestParam } from "../../types/Types";
+import { WebRequestParam } from "ski-providers";
 
 type Props = {
   data: WebRequestParam[];
@@ -30,7 +29,7 @@ const renderMenuBar = (value: string) => {
   );
 };
 
-const format = (valueType: string, value: string) => {
+const format = (valueType: string, value: string): JSX.Element => {
   if (valueType == "json") {
     return (
       <Container fluid>
@@ -43,14 +42,14 @@ const format = (valueType: string, value: string) => {
   }
 };
 
-const groupedCategories = (rows: WebRequestParam[]) => {
+const groupedCategories = (rows: WebRequestParam[]): { [key: string]: WebRequestParam[] } => {
   return groupBy(
     row => defaultTo("General Data", row.category) as string,
     rows,
   );
 };
 
-const wrappedTable = (data: { [category: string]: WebRequestParam[] }) => {
+const wrappedTable = (data: { [category: string]: WebRequestParam[] }): JSX.Element[] => {
   const categories = sortBy(_ => _, keys(data));
 
   return map(category => {

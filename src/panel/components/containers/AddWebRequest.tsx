@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { addWebRequestRowAction } from "../../actions.js";
+import { addWebRequestRowAction } from "../../Actions";
 
 type Props = {
   dispatch: any;

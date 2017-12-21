@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Accordion } from "semantic-ui-react";
-import Title from "./Title.jsx";
-import Detail from "./Detail.jsx";
+import Title from "./Title";
+import Detail from "./Detail";
 import { WebRequestPayload } from "../../types/Types";
 import { map, flatten, defaultTo, path } from "ramda";
 

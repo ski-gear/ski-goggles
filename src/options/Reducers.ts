@@ -1,15 +1,16 @@
 import { Action, EnableProvider, DisableProvider } from "./Actions";
-import { UserProviderSetting, ProviderCanonicalName } from "./../types/Types";
+import { UserProviderSetting } from "./../types/Types";
 
-import { SkiProviders as Providers } from "ski-providers";
+import { SkiProviders } from "ski-providers";
 import { combineReducers } from "redux";
 import { values, map, assoc } from "ramda";
 import { RESET_ALL_PROVIDER_OPTIONS, ENABLE_PROVIDER, DISABLE_PROVIDER } from "./Actions";
+import { ProviderCanonicalName } from "ski-providers";
 
 type UserProviderSettings = UserProviderSetting[];
 
 export const DefaultUserProviderSettings = (): UserProviderSettings => {
-  return map(p => ({ providerCanonicalName: p.canonicalName, enabled: true }), values(Providers));
+  return map(p => ({ providerCanonicalName: p.canonicalName, enabled: true }), values(SkiProviders));
 };
 
 const toggleProvider = (

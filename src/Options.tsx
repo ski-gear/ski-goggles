@@ -7,16 +7,19 @@ import { defaultTo } from 'ramda';
 import { UserOptionsKey } from './types/Types';
 import { options } from './options/reducers';
 import App from './options/components/App';
-import { getOptions, setOptions } from './chrome/local_storage';
+import { getOptions, setOptions } from './chrome/LocalStorage';
 
 const key: UserOptionsKey = 'skiGogglesOptions';
 
-getOptions(chrome, key).then((optionsFromLocal) => {
+getOptions(key).then((optionsFromLocal) => {
     const localOptions = defaultTo(optionsFromLocal, undefined);
     const store = createStore(options, localOptions);
 
     store.subscribe(() => {
-        setOptions(chrome, key, store.getState()).then((_e) => {});
+        const state = store.getState();
+        if(state){
+          setOptions(key, state).then(e => {});
+        }
     });
 
     ReactDOM.render(

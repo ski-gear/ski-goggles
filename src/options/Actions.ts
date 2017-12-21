@@ -1,4 +1,4 @@
-import { ProviderCanonicalName } from "../types/Types";
+import { ProviderCanonicalName } from "ski-providers";
 
 export type EnableProvider = {
   type: string;
