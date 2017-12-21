@@ -12,6 +12,10 @@
   dependencies:
     "@types/filesystem" "*"
 
+"@types/clipboard@^1.5.35":
+  version "1.5.35"
+  resolved "https://registry.yarnpkg.com/@types/clipboard/-/clipboard-1.5.35.tgz#bceb67a7e0aad3070468929b95a2d626405db464"
+
 "@types/filesystem@*":
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@types/filesystem/-/filesystem-0.0.28.tgz#3fd7735830f2c7413cb5ac45780bc45904697b0e"

@@ -8,15 +8,15 @@
   "license": "MIT",
   "main": "index.js",
   "devDependencies": {
+    "@types/chai": "^4.0.10",
     "@types/chrome": "^0.0.56",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.5.1",
+    "@types/ramda": "^0.25.8",
     "@types/react": "^16.0.31",
     "@types/react-dom": "^16.0.3",
     "@types/react-redux": "^5.0.14",
     "@types/redux": "^3.6.0",
-    "@types/chai": "^4.0.10",
-    "@types/mocha": "^2.2.44",
-    "@types/node": "^8.5.1",
-    "@types/ramda": "^0.25.8",
     "chai": "^4.1.2",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
@@ -35,6 +35,7 @@
     "yarn": "^1.2.1"
   },
   "dependencies": {
+    "@types/clipboard": "^1.5.35",
     "clipboard": "^1.7.1",
     "moment": "^2.18.1",
     "querystring": "^0.2.0",
