@@ -9,14 +9,19 @@
     "module": "commonjs",
     "target": "es5",
     "allowJs": true,
-    "lib": [ "es2015", "dom" ],
-    "baseUrl" : "./",
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "baseUrl": "./",
     "types": [
-      "node"
+      "node",
+      "chrome"
     ],
     "typeRoots": [
       "./node_modules/@types"
-  ]
+    ],
+    "jsx": "react"
   },
   "include": [
     "./src/",

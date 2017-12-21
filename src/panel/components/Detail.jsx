@@ -8,10 +8,10 @@ import { groupBy, defaultTo, map, keys, prop, sortBy, identity } from 'ramda';
 import type { WebRequestParam } from '../../types.js';
 
 type Props = {
-  data: Array<WebRequestParam>
+  data: WebRequestParam[]
 };
 
-const renderRows = (rows: Array<WebRequestParam>) => {
+const renderRows = (rows: WebRequestParam[]) => {
     return map(
         (row) => {
             return (
@@ -54,7 +54,7 @@ const format = (valueType: string, value: string) => {
     }
 };
 
-const groupedCategories = (rows: Array<WebRequestParam>) => {
+const groupedCategories = (rows: WebRequestParam[]) => {
     return groupBy(
         // $FlowFixMe
         (row) => defaultTo('General Data', row.category),
@@ -62,7 +62,7 @@ const groupedCategories = (rows: Array<WebRequestParam>) => {
     );
 };
 
-const wrappedTable = (data: {[string]: Array<WebRequestParam>}) => {
+const wrappedTable = (data: {[key: string]: WebRequestParam[]}) => {
     const categories = sortBy(identity, keys(data));
 
     return map(

@@ -91,8 +91,7 @@ const sendToSkiGoggles = (state: GlobalState, tabId: string, object: any) => {
     }
 };
 
-const enabledProvidersFromOptions = (opts: any): Array<any> => {
-    // $FlowFixMe
+const enabledProvidersFromOptions = (opts: any): any[] => {
     return pluck(
         'providerCanonicalName',
         filter(

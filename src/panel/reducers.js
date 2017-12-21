@@ -6,7 +6,7 @@ import { combineReducers } from 'redux';
 import { ADD_WEB_REQUEST_ROW, CLEAR_ALL_WEB_REQUESTS } from './actions';
 import type { Action } from './actions';
 
-type State = Array<WebRequestPayload>;
+type State = WebRequestPayload[];
 
 const webRequests = (state : State = [] , action: Action ): State => {
     switch (action.type) {

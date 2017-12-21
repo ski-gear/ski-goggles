@@ -8,10 +8,10 @@ import type { WebRequestPayload } from '../../types.js';
 import { map, flatten, defaultTo, path } from 'ramda';
 
 type Props = {
-    data: Array<WebRequestPayload>
+    data: WebRequestPayload[]
 };
 
-const panelRows = (data: Array<WebRequestPayload>): Array<any> => {
+const panelRows = (data: WebRequestPayload[]): any[] => {
     const panelRows = map(
         (payload) => {
             let requestData = payload.data;

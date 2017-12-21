@@ -4,7 +4,7 @@ import type { WebRequestEnvelope } from '../types.js';
 import { map, empty } from 'ramda';
 
 const panelCreated = (panel: chrome$ExtensionPanel) => {
-    let queuedMessages: Array<CustomEvent> = [];
+    let queuedMessages: CustomEvent[] = [];
     let panelWindow: window;
     let tabId: number = chrome.devtools.inspectedWindow.tabId;
     // $FlowFixMe

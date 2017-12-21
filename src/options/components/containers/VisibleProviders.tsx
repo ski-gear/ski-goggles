@@ -1,8 +1,6 @@
-// @flow
+import { ProviderCanonicalName, UserOptions } from '../../../types/Types';
 
-import type { ProviderCanonicalName, UserOptions } from '../../../types.js';
-
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import ProvidersList from '../ProvidersList.jsx';
 import { disableProviderAction, enableProviderAction } from '../../actions.js';
 
@@ -11,7 +9,7 @@ const mapStateToProps = (state: UserOptions) => {
         data: state.providers
     };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
     return {
         onDisableProvider: (provider: ProviderCanonicalName) => dispatch(disableProviderAction(provider)),
         onEnableProvider: (provider: ProviderCanonicalName) => dispatch(enableProviderAction(provider))

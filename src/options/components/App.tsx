@@ -1,6 +1,4 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import { Label, Container, Divider } from 'semantic-ui-react';
 import VisibleProviders from './containers/VisibleProviders.jsx';
 import { AppVersion } from '../../versions';
@@ -21,4 +19,3 @@ export default class App extends React.Component<Props, State> {
         );
     }
 }
-

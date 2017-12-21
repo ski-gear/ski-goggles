@@ -1,68 +1,66 @@
-// @flow
-
-export type WebRequestData = {|
+export type WebRequestData = {
   meta?: {
     title: string
   },
-  params: Array<WebRequestParam>
-|};
+  params: WebRequestParam[]
+};
 
-export type WebRequestParam = {|
+export type WebRequestParam = {
   label: string,
   value: string,
   valueType: "string" | "json",
   category?: string | null;
-|};
+};
 
-export type WebRequestPayload = {|
+export type WebRequestPayload = {
     url: string,
     timeStamp: number,
     providerCanonicalName: string,
     providerLogo: string,
     providerDisplayName: string,
     data: WebRequestData
-|}
+}
 
-export type WebRequestEnvelope = {|
+export type WebRequestEnvelope = {
   type: string,
   payload: WebRequestPayload
-|};
+};
 
-export type Provider = {|
+export type Provider = {
   canonicalName: ProviderCanonicalName,
   displayName: string,
   logo: string,
   pattern: RegExp,
-  transformer: (WebRequestData) => WebRequestData
-|};
+  transformer: (wrd: WebRequestData) => WebRequestData
+};
 
-export type ProviderCanonicalName = 'Snowplow' | 'AdobeAnalyticsAppMeasurement' | 'Nielsen' | 'Krux' | 'Rubicon';
+export type ProviderCanonicalName = 'Snowplow' | 'AdobeAnalyticsAppMeasurement' | 'Nielsen' | 'Krux' | 'Rubicon' | 'GoogleAnalytics';
 
 export type UserOptionsKey = 'skiGogglesOptions';
 
-export type UserProviderSetting = {|
-    enabled: Boolean,
+export type UserProviderSetting = {
+    enabled: boolean,
     providerCanonicalName: ProviderCanonicalName,
     providerPattern?: RegExp
-|};
+};
 
-export type UserOptions = {|
+export type UserOptions = {
     version: number,
-    providers: Array<UserProviderSetting>
-|};
+    providers: UserProviderSetting[]
+};
 
 
-export type Tab = {|
+export type Tab = {
   port: any
-|};
+};
 
-export type Tabs = { [string]: Tab }
+export type Tabs = { [key: string]: Tab }
 
 export type Version = string;
 
-export type GlobalState = {|
+export type GlobalState = {
     chrome: any,
     chromeOptionsKey: UserOptionsKey,
     tabs: Tabs,
     masterPattern: RegExp
-|};
+};

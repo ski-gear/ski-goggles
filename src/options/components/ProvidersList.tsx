@@ -1,15 +1,12 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import { Checkbox, Table, Image, Segment, Grid, Header, Icon, Message } from 'semantic-ui-react';
-import type { UserProviderSetting } from '../../types.js';
+import { UserProviderSetting } from '../../types/Types';
 import { map, curry } from 'ramda';
 
 import { SkiProviderHelpers as ProviderHelpers } from 'ski-providers';
-console.log(ProviderHelpers);
 
 type Props = {
-  data: Array<UserProviderSetting>,
+  data: UserProviderSetting[],
   onEnableProvider: any,
   onDisableProvider: any
 };

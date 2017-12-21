@@ -1,14 +1,12 @@
-// @flow
-
 import type { WebRequestParam } from './types.js';
 import { toPairs, map } from 'ramda';
 
 const URL = require('url');
 import querystring from 'querystring';
 
-const parse = (url: string) : Array<WebRequestParam> => {
+const parse = (url: string) : WebRequestParam => {
     const parsed = new URL.parse(url);
-    const data: Array<WebRequestParam> = map(
+    const data: WebRequestParam = map(
         createWebRequestParam,
         toPairs(
             // $FlowFixMe
