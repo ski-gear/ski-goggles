@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Table, Header, Container, Icon, Menu } from "semantic-ui-react";
+import { Table, Header, Container, Icon, Menu, Transition } from "semantic-ui-react";
 import * as Highlight from "react-highlight";
 import { groupBy, defaultTo, map, keys, prop, sortBy } from "ramda";
 import { WebRequestParam } from "ski-providers";
+import DetailMenu from './DetailMenu';
 
 type Props = {
   data: WebRequestParam[];
@@ -19,21 +20,11 @@ const renderRows = (rows: WebRequestParam[]) => {
   }, rows);
 };
 
-const renderMenuBar = (value: string) => {
-  return (
-    <Menu compact icon size="mini">
-      <Menu.Item name="copy" data-clipboard-text={value} className="clipBoard" as="a">
-        <Icon name="copy" />
-      </Menu.Item>
-    </Menu>
-  );
-};
-
 const format = (valueType: string, value: string): JSX.Element => {
   if (valueType == "json") {
     return (
       <Container fluid>
-        {renderMenuBar(value)}
+        <DetailMenu value={value} />
         <Highlight className="json">{value}</Highlight>
       </Container>
     );
@@ -68,6 +59,10 @@ const wrappedTable = (data: { [category: string]: WebRequestParam[] }): JSX.Elem
 };
 
 export default class Detail extends React.Component<Props> {
+  constructor(props: Props){
+    super(props)
+  }
+
   render() {
     const grouped = groupedCategories(this.props.data);
     return <div>{wrappedTable(grouped)}</div>;
