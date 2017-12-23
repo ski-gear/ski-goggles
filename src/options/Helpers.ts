@@ -1,17 +1,22 @@
-import { SkiProviders, Provider } from "ski-providers";
-import { values, map } from "ramda";
-import { UserOptionsVersion } from "../versions";
-import { UserOptions } from "src/types/Types";
+import { SkiProviders, Provider, SkiProviderHelpers, ProviderCanonicalName } from "ski-providers";
+import { values, map, contains } from "ramda";
+import { UserOptionsVersion } from "../Versions";
+import { UserOptions, UserProviderSetting } from "../types/Types";
+import { PreferredProviders } from "../Constants";
 
 export const defaultOptions = (): UserOptions => {
   return {
     version: UserOptionsVersion,
-    providers: map((p: Provider) => {
-      return {
-        enabled: true,
-        providerCanonicalName: p.canonicalName,
-        providerPattern: p.pattern,
-      };
-    }, values(SkiProviders)),
+    providers: preferredProviders(),
   };
+};
+
+const preferredProviders = (): UserProviderSetting[] => {
+  return map((p: Provider) => {
+    return {
+      enabled: contains(p.canonicalName, PreferredProviders),
+      providerCanonicalName: p.canonicalName,
+      providerPattern: p.pattern,
+    };
+  }, values(SkiProviders));
 };

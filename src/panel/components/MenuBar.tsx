@@ -1,5 +1,8 @@
 import * as React from "react";
-import { Menu, Image, Button } from "semantic-ui-react";
+import { Menu, Image, Icon, Popup } from "semantic-ui-react";
+import { RunTimeMessage } from "../../types/Types";
+import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE } from "../../Constants";
+import { AppVersion } from "../../Versions";
 
 type Props = {
   clear: any;
@@ -17,10 +20,14 @@ export default class MenuBar extends React.Component<Props, State> {
     };
   }
 
-  openOptions() {
+  sendRuntimeMessage(msg: RunTimeMessage) {
     const chromeId = this.state.chromeId;
-    chrome.runtime.sendMessage(chromeId, "open-options-tab");
+    chrome.runtime.sendMessage(chromeId, msg);
   }
+
+  openOptions() { this.sendRuntimeMessage(OPEN_OPTIONS_TAB); }
+
+  openIssues() { this.sendRuntimeMessage(OPEN_ISSUES_PAGE); }
 
   componentDidMount() {
     document.addEventListener("chromeId", (data: any) => {
@@ -28,21 +35,42 @@ export default class MenuBar extends React.Component<Props, State> {
     });
   }
 
+  versionInfo(): string {
+    return `Version: ${AppVersion}`;
+  }
+
   render() {
-    return (
-      <Menu fixed="top" size="mini">
+    return <Menu fixed="top" size="mini">
         <Menu.Item name="home">
-          <Image src="images/ski-goggles-48.png" size="mini" shape="circular" bordered />
+            <Popup 
+              trigger={<Image src="images/ski-goggles-48.png" size="mini" />}
+              content={this.versionInfo()}
+              size='tiny'
+            />
         </Menu.Item>
         <Menu.Menu position="right">
+          <Menu.Item name="bug">
+            <Popup
+              trigger={<Icon link size="large" color="green" name="bug" onClick={this.openIssues.bind(this)} />}
+              content="Report Bug/Feature Request"
+              size='tiny'
+            />
+          </Menu.Item>
           <Menu.Item name="options">
-            <Button circular size="small" color="green" icon="options" onClick={this.openOptions.bind(this)} />
+            <Popup
+              trigger={<Icon link size="large" color="green" name="options" onClick={this.openOptions.bind(this)} />}
+              content="Open Options Page"
+              size='tiny'
+            />
           </Menu.Item>
           <Menu.Item name="clear">
-            <Button circular size="small" color="red" icon="trash" onClick={this.props.clear} />
+            <Popup
+              trigger={<Icon link size="large" color="red" name="trash" onClick={this.props.clear} />}
+              content="Clear All Events"
+              size='tiny'
+            />
           </Menu.Item>
         </Menu.Menu>
-      </Menu>
-    );
+      </Menu>;
   }
 }

@@ -1,6 +1,7 @@
 import { WebRequestData, WebRequestParam, Provider, ProviderCanonicalName } from 'ski-providers'
 
 export type WebRequestPayload = {
+    browserRequestId: string,
     url: string,
     timeStamp: number,
     providerCanonicalName: string,
@@ -42,3 +43,5 @@ export type GlobalState = {
     tabs: Tabs,
     masterPattern: RegExp
 };
+
+export type RunTimeMessage = "open-options-tab" | "open-issues-page"
