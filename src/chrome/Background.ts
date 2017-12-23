@@ -1,5 +1,7 @@
-import { GlobalState } from "../types/Types";
+import { GlobalState, RunTimeMessage } from "../types/Types";
 import { onInstall, refreshMasterPattern, processWebRequest, onConnectCallBack } from "./BackgroundHelpers";
+import when from "when-switch";
+import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE, GIT_ISSUES_URL } from "../Constants";
 
 let state: GlobalState = {
   masterPattern: /(?:)/,
@@ -30,8 +32,12 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 chrome.runtime.onConnect.addListener(onConnectCallBack(state));
 
-chrome.runtime.onMessage.addListener((msg: string) => {
-  if (msg == "open-options-tab") {
-    chrome.runtime.openOptionsPage(console.log);
-  }
+chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
+  when(msg)
+    .is(OPEN_OPTIONS_TAB, () => {
+      chrome.runtime.openOptionsPage(console.log);
+    })
+    .is(OPEN_ISSUES_PAGE, () => {
+      chrome.tabs.create({ url: GIT_ISSUES_URL });
+    });
 });

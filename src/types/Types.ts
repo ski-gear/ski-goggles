@@ -42,3 +42,5 @@ export type GlobalState = {
     tabs: Tabs,
     masterPattern: RegExp
 };
+
+export type RunTimeMessage = "open-options-tab" | "open-issues-page"
