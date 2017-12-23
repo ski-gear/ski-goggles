@@ -49,24 +49,24 @@ export default class MenuBar extends React.Component<Props, State> {
             />
         </Menu.Item>
         <Menu.Menu position="right">
+          <Menu.Item name="bug">
+            <Popup
+              trigger={<Icon link size="large" color="green" name="bug" onClick={this.openIssues.bind(this)} />}
+              content="Report Bug/Feature Request"
+              size='tiny'
+            />
+          </Menu.Item>
           <Menu.Item name="options">
-            <Popup 
+            <Popup
               trigger={<Icon link size="large" color="green" name="options" onClick={this.openOptions.bind(this)} />}
               content="Open Options Page"
               size='tiny'
             />
           </Menu.Item>
           <Menu.Item name="clear">
-            <Popup 
+            <Popup
               trigger={<Icon link size="large" color="red" name="trash" onClick={this.props.clear} />}
               content="Clear All Events"
-              size='tiny'
-            />
-          </Menu.Item>
-          <Menu.Item name="bug">
-            <Popup 
-              trigger={<Icon link size="large" color="green" name="bug" onClick={this.openIssues.bind(this)} />}
-              content="Report Bug/Feature Request"
               size='tiny'
             />
           </Menu.Item>
