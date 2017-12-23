@@ -57,6 +57,7 @@
     "watch": "webpack --watch",
     "test": "yarn lint && echo 'implement specs please'",
     "lint": "tslint -p . --fix",
-    "release": "yarn test && yarn build && yarn version && yarn publish"
+    "release": "yarn test && yarn build && yarn version && yarn publish",
+    "package": "zip ./dist/chrome.zip -r ./dist/chrome/"
   }
 }
