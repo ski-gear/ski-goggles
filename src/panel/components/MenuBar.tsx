@@ -2,6 +2,7 @@ import * as React from "react";
 import { Menu, Image, Icon, Popup } from "semantic-ui-react";
 import { RunTimeMessage } from "../../types/Types";
 import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE } from "../../Constants";
+import { AppVersion } from "../../Versions";
 
 type Props = {
   clear: any;
@@ -34,10 +35,18 @@ export default class MenuBar extends React.Component<Props, State> {
     });
   }
 
+  versionInfo(): string {
+    return `Version: ${AppVersion}`;
+  }
+
   render() {
     return <Menu fixed="top" size="mini">
         <Menu.Item name="home">
-          <Image src="images/ski-goggles-48.png" size="mini" />
+            <Popup 
+              trigger={<Image src="images/ski-goggles-48.png" size="mini" />}
+              content={this.versionInfo()}
+              size='tiny'
+            />
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item name="options">

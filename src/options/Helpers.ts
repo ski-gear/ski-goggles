@@ -1,6 +1,6 @@
 import { SkiProviders, Provider } from "ski-providers";
 import { values, map } from "ramda";
-import { UserOptionsVersion } from "../versions";
+import { UserOptionsVersion } from "../Versions";
 import { UserOptions } from "src/types/Types";
 
 export const defaultOptions = (): UserOptions => {

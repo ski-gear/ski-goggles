@@ -23,8 +23,10 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
   console.log(details.url, state.masterPattern);
   if (ProviderHelpers.matchesBroadly(details.url, state.masterPattern)) {
     console.log("yes");
+    console.log(details);
     let url: string = details.url;
     let tabId: string = details.tabId;
+    let browserRequestId: string = details.requestId;
     let timeStamp: number = parseInt(moment().format("x"));
     let data = parse(url);
     let provider = ProviderHelpers.lookupByUrl(url);
@@ -33,11 +35,12 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
       let eventData: WebRequestEnvelope = {
         type: "webRequest",
         payload: {
-          url: url,
+          browserRequestId, 
+          url,
+          timeStamp,
           providerDisplayName: provider.displayName,
           providerCanonicalName: provider.canonicalName,
           providerLogo: provider.logo,
-          timeStamp: timeStamp,
           data: provider.transformer({ params: data }),
         },
       };

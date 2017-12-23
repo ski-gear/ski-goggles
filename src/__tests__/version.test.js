@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { AppVersion } from '../versions';
+import { AppVersion } from '../Versions';
 
 describe('App Version', () => {
     describe('Chrome Manifest', () => {
