@@ -37,9 +37,7 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
           browserRequestId, 
           url,
           timeStamp,
-          providerDisplayName: provider.displayName,
-          providerCanonicalName: provider.canonicalName,
-          providerLogo: provider.logo,
+          provider: provider,
           data: provider.transformer({ params: data }),
         },
       };

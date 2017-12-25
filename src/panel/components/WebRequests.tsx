@@ -12,9 +12,10 @@ type Props = {
 const panelRows = (data: WebRequestPayload[]): any[] => {
   const panelRows = map(payload => {
     let requestData = payload.data;
-    let title = defaultTo(payload.providerDisplayName, path(["data", "meta", "title"], payload)) as string;
-    let titleElem = <Title title={title} logo={payload.providerLogo} timeStamp={payload.timeStamp} />;
-    let contentElem = <Detail data={requestData.params} />;
+    let provider = payload.provider;
+    let title = defaultTo(provider.displayName, path(["meta", "title"], payload.data)) as string;
+    let titleElem = <Title title={title} logo={provider.logo} timeStamp={payload.timeStamp} />;
+    let contentElem = <Detail data={requestData.params} provider={provider}/>;
     let titleNode = <Accordion.Title>{titleElem}</Accordion.Title>;
     let contentNode = <Accordion.Content>{contentElem}</Accordion.Content>;
 

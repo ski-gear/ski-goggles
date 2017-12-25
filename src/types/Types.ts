@@ -4,9 +4,7 @@ export type WebRequestPayload = {
     browserRequestId: string,
     url: string,
     timeStamp: number,
-    providerCanonicalName: string,
-    providerLogo: string,
-    providerDisplayName: string,
+    provider: Provider,
     data: WebRequestData
 }
 

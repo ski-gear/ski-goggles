@@ -2,11 +2,12 @@ import * as React from "react";
 import { Table, Header, Container, Icon, Menu, Transition } from "semantic-ui-react";
 import * as Highlight from "react-highlight";
 import { groupBy, defaultTo, map, keys, prop, sortBy } from "ramda";
-import { WebRequestParam } from "ski-providers";
-import DetailMenu from './DetailMenu';
+import { WebRequestParam, Provider } from "ski-providers";
+import JsonMenu from './JsonMenu';
 
 type Props = {
   data: WebRequestParam[];
+  provider: Provider;
 };
 
 const renderRows = (rows: WebRequestParam[]) => {
@@ -24,7 +25,7 @@ const format = (valueType: string, value: string): JSX.Element => {
   if (valueType == "json") {
     return (
       <Container fluid>
-        <DetailMenu value={value} />
+        <JsonMenu value={value} />
         <Highlight className="json">{value}</Highlight>
       </Container>
     );
@@ -39,6 +40,7 @@ const groupedCategories = (rows: WebRequestParam[]): { [key: string]: WebRequest
     rows,
   );
 };
+
 
 const wrappedTable = (data: { [category: string]: WebRequestParam[] }): JSX.Element[] => {
   const categories = sortBy(_ => _, keys(data));
