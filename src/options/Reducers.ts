@@ -6,12 +6,11 @@ import { combineReducers } from "redux";
 import { values, map, assoc } from "ramda";
 import { RESET_ALL_PROVIDER_OPTIONS, ENABLE_PROVIDER, DISABLE_PROVIDER } from "./Actions";
 import { ProviderCanonicalName } from "ski-providers";
+import { DefaultOptions } from "../helpers/Options";
 
 type UserProviderSettings = UserProviderSetting[];
 
-export const DefaultUserProviderSettings = (): UserProviderSettings => {
-  return map(p => ({ providerCanonicalName: p.canonicalName, enabled: true }), values(SkiProviders));
-};
+const DefaultUserProviderSettings = (): UserProviderSettings => DefaultOptions().providers;
 
 const toggleProvider = (
   ups: UserProviderSettings,

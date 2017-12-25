@@ -3,13 +3,12 @@ import { WebRequestEnvelope, GlobalState, UserProviderSetting, UserOptions, Port
 import * as moment from "moment";
 import { parse } from "../Parser";
 import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
-import { defaultOptions } from "../options/Helpers";
+import { DefaultOptions } from "../helpers/Options";
 import { setOptions, getOptions } from "./LocalStorage";
 import { ProviderCanonicalName } from "ski-providers/dist/types/Types";
-import { DefaultUserProviderSettings } from "./../options/Reducers";
 
 export const onInstall = curry((state: GlobalState, _details: any): void => {
-  const defaults = defaultOptions();
+  const defaults = DefaultOptions();
   setOptions(state.chromeOptionsKey, defaults).then(_data => {
     console.log("Initial Defaults set");
     refreshMasterPattern(state);
