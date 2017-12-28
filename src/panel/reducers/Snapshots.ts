@@ -8,9 +8,7 @@ import {
   AddSnapshotRowAction,
   RemoveSnapshotRowAction,
   SnapshotAction,
-  addSnapshotRowAction,
-  removeSnapshotRowAction,
-} from "../actions/";
+} from "../actions/Snapshots"
 
 const SnapshotsToKeep = 10;
 
@@ -20,21 +18,21 @@ export const snapshots = (state: WebRequestPayload[] = [], action: SnapshotActio
       return [];
     case ADD_SNAPSHOT_ROW:
       const addAction = action as AddSnapshotRowAction;
-      return addSnapshotRow(state, addAction.row);
+      return add(state, addAction.row);
     case REMOVE_SNAPSHOT_ROW:
       const removeAction = action as RemoveSnapshotRowAction;
-      return removeSnapshotRow(state, removeAction.row);
+      return remove(state, removeAction.row);
     default:
       return state;
   }
 };
 
-const addSnapshotRow = (state: WebRequestPayload[], row: WebRequestPayload): WebRequestPayload[] => {
+const add = (state: WebRequestPayload[], row: WebRequestPayload): WebRequestPayload[] => {
   const added = [...state, row];
   const uniq = uniqBy(prop("browserRequestId"), added) as WebRequestPayload[];
   return takeLast(SnapshotsToKeep, uniq);
 };
 
-const removeSnapshotRow = (state: WebRequestPayload[], row: WebRequestPayload): WebRequestPayload[] => {
+const remove = (state: WebRequestPayload[], row: WebRequestPayload): WebRequestPayload[] => {
   return filter((wrp: WebRequestPayload) => wrp.browserRequestId != row.browserRequestId, state);
 };

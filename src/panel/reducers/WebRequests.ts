@@ -7,7 +7,8 @@ import {
   AddWebRequestRowAction,
   ADD_WEB_REQUEST_ROW,
   CLEAR_ALL_WEB_REQUESTS,
-} from "../actions/";
+} from "../actions/WebRequests";
+
 import { MaxRequestsDisplayed } from "../../Constants";
 
 export const webRequests = (state: WebRequestPayload[] = [], action: WebRequestAction): WebRequestPayload[] => {

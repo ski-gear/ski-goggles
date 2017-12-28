@@ -3,14 +3,14 @@ import { Menu, Image, Icon, Popup } from "semantic-ui-react";
 import { RunTimeMessage, RunTimeMessageSubject } from "../../types/Types";
 import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE } from "../../Constants";
 import { AppVersion } from "../../Versions";
+import { SendRuntimeMessage } from "../Helpers";
 
 type Props = {
   clear: () => void;
-};
-
-type State = {
   chromeId: string;
 };
+
+type State = {};
 
 export default class MenuBar extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -20,21 +20,9 @@ export default class MenuBar extends React.Component<Props, State> {
     };
   }
 
-  sendRuntimeMessage(subject: RunTimeMessageSubject) {
-    const chromeId = this.state.chromeId;
-    const msg: RunTimeMessage = { subject, payload: {} }
-    chrome.runtime.sendMessage(chromeId, msg);
-  }
+  openOptions() { SendRuntimeMessage(this.props.chromeId, OPEN_OPTIONS_TAB, {}); }
 
-  openOptions() { this.sendRuntimeMessage(OPEN_OPTIONS_TAB); }
-
-  openIssues() { this.sendRuntimeMessage(OPEN_ISSUES_PAGE); }
-
-  componentDidMount() {
-    document.addEventListener("chromeId", (data: any) => {
-      this.setState({ chromeId: data.detail.chromeId });
-    });
-  }
+  openIssues() { SendRuntimeMessage(this.props.chromeId, OPEN_ISSUES_PAGE, {}); }
 
   versionInfo(): string {
     return `Version: ${AppVersion}`;

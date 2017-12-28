@@ -17,6 +17,7 @@
     "@types/react-dom": "^16.0.3",
     "@types/react-redux": "^5.0.14",
     "@types/redux": "^3.6.0",
+    "@types/clipboard": "^1.5.35",
     "chai": "^4.1.2",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
@@ -36,7 +37,6 @@
     "yarn": "^1.2.1"
   },
   "dependencies": {
-    "@types/clipboard": "^1.5.35",
     "clipboard": "^1.7.1",
     "moment": "^2.18.1",
     "querystring": "^0.2.0",
@@ -46,6 +46,7 @@
     "react-highlight": "^0.10.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.71.4",
     "ski-providers": "^1.0.5",
     "url": "^0.11.0",

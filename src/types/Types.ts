@@ -66,7 +66,12 @@ export type SnapshotRunTimeMessage = RunTimeMessage & {
   payload: WebRequestPayload
 };
 
+export type PanelMetaData = {
+  chromeId: string
+};
+
 export type PanelState = {
+  metaData: PanelMetaData;
   webRequests: WebRequestPayload[];
   snapshots: WebRequestPayload[];
 }

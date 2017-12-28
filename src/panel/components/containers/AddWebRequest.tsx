@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
-import { addWebRequestRowAction, AddWebRequestRowAction } from "../../actions/index";
+import { addWebRequestRowAction, AddWebRequestRowAction } from "../../actions/WebRequests";
 import { WebRequestMessageEnvelope } from "../../../types/Types";
 import { NewWebRequestPostMessage } from "../../../Constants";
 
