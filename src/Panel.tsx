@@ -1,16 +1,16 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { createStore } from "redux";
-import { Provider } from "react-redux";
+import { Provider as ReduxProvider } from "react-redux";
 
-import skiGoggles from "./panel/Reducers";
+import skiGoggles from "./panel/reducers/";
 import App from "./panel/components/App";
 
 let store = createStore(skiGoggles);
 
 ReactDOM.render(
-  <Provider store={store}>
+  <ReduxProvider store={store}>
     <App />
-  </Provider>,
+  </ReduxProvider>,
   document.getElementById("root"),
 );

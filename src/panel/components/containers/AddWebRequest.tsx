@@ -1,14 +1,15 @@
 import * as React from "react";
-import { connect } from "react-redux";
-import { addWebRequestRowAction } from "../../Actions";
-import { WebRequestEnvelope } from "../../../types/Types";
+import { connect, Dispatch } from "react-redux";
+import { addWebRequestRowAction, AddWebRequestRowAction } from "../../actions/index";
+import { WebRequestMessageEnvelope } from "../../../types/Types";
+import { NewWebRequestPostMessage } from "../../../Constants";
 
 type PostedData = {
-  detail: WebRequestEnvelope
+  detail: WebRequestMessageEnvelope
 };
 
 type Props = {
-  dispatch: any;
+  dispatch: Dispatch<any>;
 };
 
 type State = {};
@@ -21,7 +22,7 @@ class AddWebRequest extends React.Component<Props, State> {
   componentDidMount() {
     let dispatch = this.props.dispatch;
 
-    document.addEventListener("newData", (data: any) => {
+    document.addEventListener(NewWebRequestPostMessage, (data: any) => {
       const postedData = data as PostedData
       if (postedData.detail.type == "webRequest") {
         dispatch(addWebRequestRowAction(postedData.detail.payload));

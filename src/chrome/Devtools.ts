@@ -1,5 +1,6 @@
-import { WebRequestEnvelope, Port } from "../types/Types";
+import { WebRequestMessageEnvelope, Port } from "../types/Types";
 import { map, empty } from "ramda";
+import { NewWebRequestPostMessage, ChromeIdPostMessage } from "../Constants";
 
 type ExtensionPanel = chrome.devtools.panels.ExtensionPanel;
 type ChromeWindow = chrome.windows.Window & Window;
@@ -10,8 +11,8 @@ const panelCreated = (panel: ExtensionPanel) => {
   let tabId: number = chrome.devtools.inspectedWindow.tabId;
   const port: Port = chrome.runtime.connect({ name: `skig-${tabId.toString()}` });
 
-  port.onMessage.addListener((msg: WebRequestEnvelope): void => {
-    let event: CustomEvent = new CustomEvent("newData", { detail: msg });
+  port.onMessage.addListener((msg: WebRequestMessageEnvelope): void => {
+    let event: CustomEvent = new CustomEvent(NewWebRequestPostMessage, { detail: msg });
 
     if (panelWindow) {
       panelWindow.document.dispatchEvent(event);
@@ -34,7 +35,7 @@ const panelCreated = (panel: ExtensionPanel) => {
     const chromeIdPayload = {
       chromeId: chrome.runtime.id,
     };
-    const chromeIdEvent: CustomEvent = new CustomEvent("chromeId", { detail: chromeIdPayload });
+    const chromeIdEvent: CustomEvent = new CustomEvent(ChromeIdPostMessage, { detail: chromeIdPayload });
     panelWindowRef.document.dispatchEvent(chromeIdEvent);
     // set the global reference
     panelWindow = panelWindowRef;

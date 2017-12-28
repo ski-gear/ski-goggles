@@ -1,11 +1,11 @@
 import { connect, Dispatch } from "react-redux";
 import MenuBar from "../MenuBar";
-import { clearAll } from "../../Actions";
+import { clearAllWebRequests } from "../../actions/index";
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     clear: () => {
-      dispatch(clearAll());
+      dispatch(clearAllWebRequests());
     },
   };
 };

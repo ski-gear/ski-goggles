@@ -1,5 +1,5 @@
 import { curry, map, prop, filter } from "ramda";
-import { WebRequestEnvelope, GlobalState, UserProviderSetting, UserOptions, Port } from "../types/Types";
+import { WebRequestMessageEnvelope, GlobalState, UserProviderSetting, UserOptions, Port } from "../types/Types";
 import * as moment from "moment";
 import { parse } from "../Parser";
 import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
@@ -9,7 +9,7 @@ import { ProviderCanonicalName } from "ski-providers/dist/types/Types";
 
 export const onInstall = curry((state: GlobalState, _details: any): void => {
   const defaults = DefaultOptions();
-  setOptions(state.chromeOptionsKey, defaults).then(_data => {
+  setOptions(state.userOptionsKey, defaults).then(_data => {
     console.log("Initial Defaults set");
     refreshMasterPattern(state);
   });
@@ -31,7 +31,7 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
     let provider = ProviderHelpers.lookupByUrl(url);
 
     if (provider) {
-      let eventData: WebRequestEnvelope = {
+      let eventData: WebRequestMessageEnvelope = {
         type: "webRequest",
         payload: {
           browserRequestId, 
@@ -48,7 +48,7 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
 
 export const refreshMasterPattern = (state: GlobalState) => {
   console.debug("Recreating masterpattern");
-  getOptions(state.chromeOptionsKey).then((opts: UserOptions) => {
+  getOptions(state.userOptionsKey).then((opts: UserOptions) => {
     const upss = opts.providers;
     state.masterPattern = ProviderHelpers.generateMasterPattern(enabledProvidersFromOptions(upss));
   });

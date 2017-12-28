@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Menu, Image, Icon, Popup } from "semantic-ui-react";
-import { RunTimeMessage } from "../../types/Types";
+import { RunTimeMessage, RunTimeMessageSubject } from "../../types/Types";
 import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE } from "../../Constants";
 import { AppVersion } from "../../Versions";
 
 type Props = {
-  clear: any;
+  clear: () => void;
 };
 
 type State = {
@@ -20,8 +20,9 @@ export default class MenuBar extends React.Component<Props, State> {
     };
   }
 
-  sendRuntimeMessage(msg: RunTimeMessage) {
+  sendRuntimeMessage(subject: RunTimeMessageSubject) {
     const chromeId = this.state.chromeId;
+    const msg: RunTimeMessage = { subject, payload: {} }
     chrome.runtime.sendMessage(chromeId, msg);
   }
 

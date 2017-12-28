@@ -1,5 +1,7 @@
 import { WebRequestData, WebRequestParam, Provider, ProviderCanonicalName } from 'ski-providers'
 
+export type PostMessageType = "newWebRequest" | "newSnapshot" | "chromeId";
+
 export type WebRequestPayload = {
     browserRequestId: string,
     url: string,
@@ -8,12 +10,20 @@ export type WebRequestPayload = {
     data: WebRequestData
 }
 
-export type WebRequestEnvelope = {
+interface PostMessageEnvelope {
   type: string,
-  payload: WebRequestPayload
+  payload: {}
 };
 
-export type UserOptionsKey = 'skiGogglesOptions';
+export type WebRequestMessageEnvelope = PostMessageEnvelope & {
+  type: "webRequest";
+  payload: WebRequestPayload;
+};
+
+export type SnapshotMessageEnvelope = PostMessageEnvelope & {
+  type: "snapshots";
+  payload: WebRequestPayload[];
+};
 
 export type UserProviderSetting = {
     enabled: boolean,
@@ -36,10 +46,27 @@ export type Tabs = { [key: string]: Tab }
 
 export type Version = string;
 
+export type UserOptionsKey = 'skiGogglesOptions';
+export type SnapShotKey = 'skiGogglesSnapshots';
+
 export type GlobalState = {
-    chromeOptionsKey: UserOptionsKey,
+    userOptionsKey: UserOptionsKey,
+    snapShotKey: SnapShotKey,
     tabs: Tabs,
     masterPattern: RegExp
 };
 
-export type RunTimeMessage = "open-options-tab" | "open-issues-page"
+export type RunTimeMessageSubject = "open-options-tab" | "open-issues-page" | "save-snapshot";
+export interface RunTimeMessage {
+  subject: RunTimeMessageSubject
+  payload: any
+}
+
+export type SnapshotRunTimeMessage = RunTimeMessage & {
+  payload: WebRequestPayload
+};
+
+export type PanelState = {
+  webRequests: WebRequestPayload[];
+  snapshots: WebRequestPayload[];
+}
