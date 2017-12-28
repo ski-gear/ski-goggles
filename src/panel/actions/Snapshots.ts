@@ -1,4 +1,4 @@
-import { WebRequestPayload } from "../../types/Types";
+import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../types/Types";
 import { Dispatch } from "react-redux";
 import { setOptions } from '../../chrome/LocalStorage';
 import { SendRuntimeMessage } from "../Helpers";
@@ -32,9 +32,9 @@ export type  SyncSnapShotsAction = {
 
 type Action = (dispatch: Dispatch<any>) => void;
 
-export const addSnapshotAction = (chromeId: string, wrp: WebRequestPayload): Action => {
+export const addSnapshotAction = (chromeId: string, wrps: WebRequestPayloadSnapshot): Action => {
   return (dispatch: Dispatch<any>): void => {
-    SendRuntimeMessage(chromeId, "save-snapshot", wrp);
+    SendRuntimeMessage(chromeId, "save-snapshot", wrps);
   }
 };
 

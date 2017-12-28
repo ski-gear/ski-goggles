@@ -5,12 +5,12 @@ import { groupBy, defaultTo, map, keys, prop, sortBy } from "ramda";
 import { WebRequestParam, Provider } from "ski-providers";
 import JsonMenu from '../JsonMenu';
 import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
-import { WebRequestPayload } from "../../../types/Types";
+import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
 import DetailMenu from "./Menu";
 
 type Props = {
   payload: WebRequestPayload;
-  addSnapshot: (wrp: WebRequestPayload) => void;
+  addSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
 };
 
 const renderRows = (rows: WebRequestParam[]) => {

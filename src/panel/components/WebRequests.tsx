@@ -2,13 +2,13 @@ import * as React from "react";
 import { Accordion } from "semantic-ui-react";
 import Title from "./Title";
 import { Detail } from "./detail/Detail";
-import { WebRequestPayload } from "../../types/Types";
-import { map, flatten, defaultTo, path, curry } from "ramda";
+import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../types/Types";
+import { map, flatten, defaultTo, path } from "ramda";
 
 type Props = {
   data: WebRequestPayload[],
   chromeId: string,
-  addSnapshot: (chromeId: string, wrd: WebRequestPayload) => void
+  addSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot) => void
 };
 
 const panelRows = (data: WebRequestPayload[], addSnapshot: any): any[] => {
@@ -31,15 +31,15 @@ export default class WebRequests extends React.Component<Props> {
     super(props);
   }
 
-  curriedAddSnapShot() {
-    return curry(this.props.addSnapshot)(this.props.chromeId);
+  addSnapshot(wrps: WebRequestPayloadSnapshot) {
+    return this.props.addSnapshot(this.props.chromeId, wrps);
   }
 
   render() {
     return (
       <div>
         <Accordion styled fluid>
-          {panelRows(this.props.data, this.curriedAddSnapShot)}
+          {panelRows(this.props.data, this.addSnapshot.bind(this))}
         </Accordion>
       </div>
     );

@@ -1,6 +1,6 @@
 import { connect, Dispatch } from "react-redux";
 import WebRequests from "../WebRequests";
-import { PanelState, WebRequestPayload } from "src/types/Types";
+import { PanelState, WebRequestPayload, WebRequestPayloadSnapshot } from "src/types/Types";
 import { addSnapshotAction } from "../../actions/Snapshots";
 
 const getVisibleWebRequests = (webRequests: any) => {
@@ -17,8 +17,8 @@ const mapStateToProps = (state: PanelState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
-    addSnapshot: (chromeId: string, wrp: WebRequestPayload): void => {
-      dispatch(addSnapshotAction(chromeId, wrp));
+    addSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot): void => {
+      dispatch(addSnapshotAction(chromeId, wrps));
     },
   };
 };

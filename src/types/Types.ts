@@ -10,6 +10,10 @@ export type WebRequestPayload = {
     data: WebRequestData
 }
 
+export type WebRequestPayloadSnapshot = WebRequestPayload & {
+  title: string
+}
+
 interface PostMessageEnvelope {
   type: string,
   payload: {}
