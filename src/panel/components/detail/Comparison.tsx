@@ -1,45 +1,101 @@
 import * as React from "react";
-import { Button, Icon, Menu, Modal, Header, Form, Dropdown } from "semantic-ui-react";
-import { map, reverse, filter } from "ramda";
-import { WebRequestPayloadSnapshot } from "src/types/Types";
-import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
+import { Button, Icon, Menu, Modal, Header, Form, Dropdown, Divider } from "semantic-ui-react";
+import { map, reverse, filter, find, defaultTo, props, reduce, assoc } from "ramda";
+import { WebRequestPayloadSnapshot, WebRequestPayload } from "./../../../types/Types";
 import { ProviderCanonicalName } from "ski-providers";
+import { WebRequestParam } from "ski-providers";
+import { generateDiff } from "./../../Helpers";
 
 interface Props {
   snapshots: WebRequestPayloadSnapshot[];
-  currentProviderName: ProviderCanonicalName;
+  currentPayload: WebRequestPayload;
 }
 
-interface State {}
+interface State {
+  diffModalShown: boolean;
+  diffData: string
+}
 
-const renderItems = (snapshots: WebRequestPayloadSnapshot[], currentProviderName: ProviderCanonicalName): JSX.Element[] => {
+const options = (snapshots: WebRequestPayloadSnapshot[], currentProviderName: ProviderCanonicalName): any => {
   const filtered = filter(
     (s: WebRequestPayloadSnapshot) => s.provider.canonicalName === currentProviderName,
-    snapshots
+    snapshots,
   );
 
-  return map(
-    (s: WebRequestPayloadSnapshot) => {
-      const image = "images/providers/" + s.provider.logo;
-      return <Dropdown.Item key={s.browserRequestId} value={s.browserRequestId} text={s.title} image={image} />
+  const values = map((s: WebRequestPayloadSnapshot) => {
+    const image = "images/providers/" + s.provider.logo;
+    return {
+      value: s.browserRequestId,
+      text: s.title,
+      image: image,
+    };
+  }, filtered);
+
+  return reverse(values);
+};
+
+const getBasicData = (wrps: WebRequestParam[]): {} => {
+  return reduce(
+    (acc: any, wrp: WebRequestParam) => {
+      return assoc(wrp.label, wrp.value, acc)
     },
-    filtered
-  )
+    {},
+    wrps,
+  );
 };
 
 export default class Comparison extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    this.state = { diffModalShown: false, diffData: '' };
   }
+
+  handleShow = () => this.setState({ diffModalShown: true });
+  handleClose = () => this.setState({ diffModalShown: false });
+
+  handleComparison = (e: React.SyntheticEvent<any>, { value }: any) => {
+    const selectedSnapshot = find(
+      (s: WebRequestPayloadSnapshot) => s.browserRequestId === value,
+      this.props.snapshots,
+    ) as WebRequestPayloadSnapshot;
+    const selected = getBasicData(selectedSnapshot.data.params);
+
+    const current = getBasicData(this.props.currentPayload.data.params);
+
+    const diffData = defaultTo('No Data', generateDiff(current, selected)) as string;
+
+    this.setState({ diffModalShown: true, diffData });
+  };
 
   render() {
     return (
-      <Dropdown text="Compare" icon="exchange" labeled button className="icon">
-        <Dropdown.Menu>
-          <Dropdown.Header content="Compare it with one of the following Snapshots" />
-          {renderItems(reverse(this.props.snapshots), this.props.currentProviderName)}
-        </Dropdown.Menu>
-      </Dropdown>
+      <div>
+        <Button.Group color="green" basic size="mini">
+          <Dropdown
+            options={options(this.props.snapshots, this.props.currentPayload.provider.canonicalName)}
+            text="Compare with ..."
+            icon="exchange"
+            labeled
+            button
+            className="icon"
+            onChange={this.handleComparison.bind(this)}
+            value="unknown"
+          />
+        </Button.Group>
+        <Modal open={this.state.diffModalShown} onClose={this.handleClose.bind(this)}>
+          <Modal.Header>Comparison Data</Modal.Header>
+          <Modal.Content image>
+            <Modal.Description>
+              <div dangerouslySetInnerHTML={{__html: this.state.diffData}}></div>
+            </Modal.Description>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color="black" onClick={this.handleClose.bind(this)}>
+              Done
+            </Button>
+          </Modal.Actions>
+        </Modal>
+      </div>
     );
   }
 }

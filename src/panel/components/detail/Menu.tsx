@@ -23,7 +23,7 @@ export default class DetailMenu extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { snapShotMenuText: this.DEFAULT_LABEL, modalOpen: false, snapShotName: 'Awesome Event' };
+    this.state = { snapShotMenuText: this.DEFAULT_LABEL, modalOpen: false, snapShotName: "Awesome Event" };
   }
 
   changeToSavedLabel() {
@@ -39,13 +39,13 @@ export default class DetailMenu extends React.Component<Props, State> {
     this.setState({ snapShotMenuText: this.DEFAULT_LABEL });
   }
 
-  handleInputChange(e: React.SyntheticEvent<any>, { value }: any){
-    this.setState({ snapShotName: value })
-  } 
+  handleInputChange(e: React.SyntheticEvent<any>, { value }: any) {
+    this.setState({ snapShotName: value });
+  }
 
   onSnapshot() {
     const name = this.state.snapShotName;
-    const title = isNil(name) ? 'My Awesome Event' : name;
+    const title = isNil(name) ? "My Awesome Event" : name;
     const wrps: WebRequestPayloadSnapshot = assoc("title", title, this.props.payload);
     this.props.addSnapshot(wrps);
     this.changeToSavedLabel();
@@ -62,10 +62,15 @@ export default class DetailMenu extends React.Component<Props, State> {
           </Button>
           <Modal open={this.state.modalOpen} onClose={this.handleClose} basic size="small">
             <Modal.Content>
-              <Header icon="save" content="Save Snapshot" inverted/>
+              <Header icon="save" content="Save Snapshot" inverted />
               <Divider />
               <Form inverted>
-                <Form.Input placeholder="Give it a name" name='snapshotName' value={this.state.snapShotName} onChange={this.handleInputChange.bind(this)}/>
+                <Form.Input
+                  placeholder="Give it a name"
+                  name="snapshotName"
+                  value={this.state.snapShotName}
+                  onChange={this.handleInputChange.bind(this)}
+                />
                 <Button color="green" onClick={this.onSnapshot.bind(this)} inverted floated="left">
                   <Icon name="checkmark" /> Save
                 </Button>
@@ -77,7 +82,10 @@ export default class DetailMenu extends React.Component<Props, State> {
           </Modal>
         </Menu.Item>
         <Menu.Item>
-          <Comparison snapshots={this.props.snapshots} currentProviderName={this.props.payload.provider.canonicalName}/>
+          <Comparison
+            snapshots={this.props.snapshots}
+            currentPayload={this.props.payload}
+          />
         </Menu.Item>
       </Menu>
     );
