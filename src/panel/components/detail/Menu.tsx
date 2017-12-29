@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Button, Icon, Menu, Modal, Header } from "semantic-ui-react";
-import { groupBy, defaultTo, map, keys, prop, sortBy, assoc } from "ramda";
+import { Button, Icon, Menu, Modal, Header, Form, Message } from "semantic-ui-react";
+import { groupBy, defaultTo, map, keys, prop, sortBy, assoc, isNil } from "ramda";
 import { WebRequestParam } from "ski-providers";
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "src/types/Types";
+import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
 
 interface Props {
   payload: WebRequestPayload;
@@ -12,15 +13,16 @@ interface Props {
 interface State {
   snapShotMenuText: string;
   modalOpen: boolean;
+  snapShotName: string;
 }
 
 export default class DetailMenu extends React.Component<Props, State> {
-  DEFAULT_LABEL = "Save Snapshot!";
+  DEFAULT_LABEL = "Snapshot";
   SAVED_LABEL = "Snapshot Saved!";
 
   constructor(props: Props) {
     super(props);
-    this.state = { snapShotMenuText: this.DEFAULT_LABEL, modalOpen: false };
+    this.state = { snapShotMenuText: this.DEFAULT_LABEL, modalOpen: false, snapShotName: 'Awesome Event' };
   }
 
   changeToSavedLabel() {
@@ -36,42 +38,45 @@ export default class DetailMenu extends React.Component<Props, State> {
     this.setState({ snapShotMenuText: this.DEFAULT_LABEL });
   }
 
+  handleInputChange(e: React.SyntheticEvent<any>, { value }: any){
+    this.setState({ snapShotName: value })
+  } 
+
   onSnapshot() {
-    const wrps: WebRequestPayloadSnapshot = assoc("title", "stuff", this.props.payload);
-    this.handleOpen();
+    const name = this.state.snapShotName;
+    const title = isNil(name) ? 'My Awesome Event' : name;
+    const wrps: WebRequestPayloadSnapshot = assoc("title", title, this.props.payload);
     this.props.addSnapshot(wrps);
     this.changeToSavedLabel();
+    this.handleClose();
   }
 
   render() {
     return (
       <Menu compact size="mini" secondary>
         <Menu.Item>
-          <Modal
-            trigger={
-              <Button basic onClick={this.onSnapshot.bind(this)}>
-                <Icon name="photo" />
-                {this.state.snapShotMenuText}
-              </Button>
-            }
-            open={this.state.modalOpen}
-            onClose={this.handleClose}
-            basic
-            size="small"
-          >
-            <Header icon="browser" content="Cookies policy" />
+          <Button color="green" basic onClick={this.handleOpen.bind(this)}>
+            <Icon name="photo" />
+            {this.state.snapShotMenuText}
+          </Button>
+          <Modal open={this.state.modalOpen} onClose={this.handleClose} basic size="small">
             <Modal.Content>
-              <h3>This website uses cookies to ensure the best user experience.</h3>
+              <Header icon="save" content="Save Snapshot" inverted/>
+              <Divider />
+              <Form inverted>
+                <Form.Input placeholder="Give it a name" name='snapshotName' value={this.state.snapShotName} onChange={this.handleInputChange.bind(this)}/>
+                <Button color="green" onClick={this.onSnapshot.bind(this)} inverted floated="left">
+                  <Icon name="checkmark" /> Save
+                </Button>
+                <Button color="red" onClick={this.handleClose.bind(this)} inverted basic floated="right" size="mini">
+                  <Icon name="cancel" /> Cancel
+                </Button>
+              </Form>
             </Modal.Content>
-            <Modal.Actions>
-              <Button color="green" onClick={this.handleClose} inverted>
-                <Icon name="checkmark" /> Got it
-              </Button>
-            </Modal.Actions>
           </Modal>
         </Menu.Item>
         <Menu.Item>
-          <Button basic>
+          <Button color="green" basic>
             <Icon name="exchange" />
             Compare
           </Button>
