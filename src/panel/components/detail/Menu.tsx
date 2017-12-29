@@ -77,7 +77,7 @@ export default class DetailMenu extends React.Component<Props, State> {
           </Modal>
         </Menu.Item>
         <Menu.Item>
-          <Comparison snapshots={this.props.snapshots} />
+          <Comparison snapshots={this.props.snapshots} currentProviderName={this.props.payload.provider.canonicalName}/>
         </Menu.Item>
       </Menu>
     );
