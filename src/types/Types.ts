@@ -26,8 +26,10 @@ export type WebRequestMessageEnvelope = PostMessageEnvelope & {
 
 export type SnapshotMessageEnvelope = PostMessageEnvelope & {
   type: "snapshots";
-  payload: WebRequestPayload[];
+  payload: WebRequestPayloadSnapshot[];
 };
+
+export type MessageEnvelope = WebRequestMessageEnvelope | SnapshotMessageEnvelope;
 
 export type UserProviderSetting = {
     enabled: boolean,

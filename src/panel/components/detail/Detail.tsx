@@ -9,6 +9,7 @@ import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Typ
 import DetailMenu from "./Menu";
 
 type Props = {
+  snapshots: WebRequestPayloadSnapshot[];
   payload: WebRequestPayload;
   addSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
 };
@@ -66,7 +67,7 @@ const wrappedTable = (data: { [category: string]: WebRequestParam[] }): JSX.Elem
 export const Detail = (props: Props) => {
     const grouped = groupedCategories(props.payload.data.params);
     return <div>
-      <DetailMenu payload={props.payload} addSnapshot={props.addSnapshot}/>
+      <DetailMenu payload={props.payload} addSnapshot={props.addSnapshot} snapshots={props.snapshots}/>
       <Divider />
       {wrappedTable(grouped)}
     </div>;

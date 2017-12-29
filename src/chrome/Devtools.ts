@@ -1,6 +1,7 @@
-import { WebRequestMessageEnvelope, Port } from "../types/Types";
+import { WebRequestMessageEnvelope, Port, MessageEnvelope } from "../types/Types";
 import { map, empty } from "ramda";
-import { NewWebRequestPostMessage, ChromeIdPostMessage } from "../Constants";
+import { NewWebRequestPostMessage, ChromeIdPostMessage, NewSnapshotPostMessage } from "../Constants";
+import when from "when-switch";
 
 type ExtensionPanel = chrome.devtools.panels.ExtensionPanel;
 type ChromeWindow = chrome.windows.Window & Window;
@@ -11,8 +12,8 @@ const panelCreated = (panel: ExtensionPanel) => {
   let tabId: number = chrome.devtools.inspectedWindow.tabId;
   const port: Port = chrome.runtime.connect({ name: `skig-${tabId.toString()}` });
 
-  port.onMessage.addListener((msg: WebRequestMessageEnvelope): void => {
-    let event: CustomEvent = new CustomEvent(NewWebRequestPostMessage, { detail: msg });
+  port.onMessage.addListener((msg: MessageEnvelope): void => {
+    const event: CustomEvent = getAppropriateEvent(msg);
 
     if (panelWindow) {
       panelWindow.document.dispatchEvent(event);
@@ -42,6 +43,15 @@ const panelCreated = (panel: ExtensionPanel) => {
   };
 
   panel.onShown.addListener(onPanelFirstShow);
+};
+
+const getAppropriateEvent = (me: MessageEnvelope): CustomEvent => {
+  const eventType = when(me.type)
+  .is('snapshots', NewSnapshotPostMessage)
+  .is('webRequest', NewWebRequestPostMessage)
+  .else('blackHole')
+
+  return new CustomEvent(eventType, { detail: me });
 };
 
 chrome.devtools.panels.create("Ski Goggles", "images/ski-googles-icon.png", "panel.html", panelCreated);

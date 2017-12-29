@@ -1,12 +1,13 @@
 import * as React from "react";
-import { Button, Icon, Menu, Modal, Header, Form, Message } from "semantic-ui-react";
+import { Button, Icon, Menu, Modal, Header, Form, Message, Divider } from "semantic-ui-react";
 import { groupBy, defaultTo, map, keys, prop, sortBy, assoc, isNil } from "ramda";
 import { WebRequestParam } from "ski-providers";
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "src/types/Types";
-import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
+import Comparison from "./Comparison";
 
 interface Props {
   payload: WebRequestPayload;
+  snapshots: WebRequestPayloadSnapshot[];
   addSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
 }
 
@@ -76,10 +77,7 @@ export default class DetailMenu extends React.Component<Props, State> {
           </Modal>
         </Menu.Item>
         <Menu.Item>
-          <Button color="green" basic>
-            <Icon name="exchange" />
-            Compare
-          </Button>
+          <Comparison snapshots={this.props.snapshots} />
         </Menu.Item>
       </Menu>
     );

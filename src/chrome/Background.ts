@@ -1,5 +1,5 @@
-import { GlobalState, RunTimeMessage, WebRequestPayload } from "../types/Types";
-import { onInstall, refreshMasterPattern, processWebRequest, onConnectCallBack } from "./BackgroundHelpers";
+import { GlobalState, RunTimeMessage, WebRequestPayload, SnapshotMessageEnvelope, WebRequestPayloadSnapshot } from "../types/Types";
+import { onInstall, refreshMasterPattern, processWebRequest, onConnectCallBack, broadcastToAllTabs } from "./BackgroundHelpers";
 import when from "when-switch";
 import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE, GIT_ISSUES_URL, SAVE_SNAPSHOT } from "../Constants";
 import { setOptions, getOptions } from "./LocalStorage";
@@ -45,24 +45,32 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
       chrome.tabs.create({ url: GIT_ISSUES_URL });
     })
     .is(SAVE_SNAPSHOT, () => {
-      const snapshot = msg.payload as WebRequestPayload
+      const snapshot = msg.payload as WebRequestPayloadSnapshot
       getOptions(state.snapShotKey).then(
-        (data: WebRequestPayload[]) => {
+        (data: WebRequestPayloadSnapshot[]) => {
           const groomedData = isEmpty(data) ? [] : data;
           const snapshots = addSnapshot(groomedData, snapshot)
           console.log('Saving', snapshots);
-          setOptions(state.snapShotKey, snapshots);
+          setOptions(state.snapShotKey, snapshots).then(
+            (_: any) => {
+              const snapshotMessage: SnapshotMessageEnvelope = {
+                type: "snapshots",
+                payload: snapshots
+              }
+              broadcastToAllTabs(state, snapshotMessage);
+            }
+          )
         }
       )
     });
 });
 
-const addSnapshot = (state: WebRequestPayload[], row: WebRequestPayload): WebRequestPayload[] => {
+const addSnapshot = (state: WebRequestPayloadSnapshot[], row: WebRequestPayloadSnapshot): WebRequestPayloadSnapshot[] => {
   const added = [...state, row];
-  const uniq = uniqBy(prop("browserRequestId"), added) as WebRequestPayload[];
+  const uniq = uniqBy(prop("browserRequestId"), added) as WebRequestPayloadSnapshot[];
   return takeLast(10, uniq);
 };
 
-const removeSnapshot = (state: WebRequestPayload[], row: WebRequestPayload): WebRequestPayload[] => {
-  return filter((wrp: WebRequestPayload) => wrp.browserRequestId != row.browserRequestId, state);
+const removeSnapshot = (state: WebRequestPayloadSnapshot[], row: WebRequestPayloadSnapshot): WebRequestPayloadSnapshot[] => {
+  return filter((wrps: WebRequestPayloadSnapshot) => wrps.browserRequestId != row.browserRequestId, state);
 };

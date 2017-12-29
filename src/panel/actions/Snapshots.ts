@@ -32,20 +32,20 @@ export type  SyncSnapShotsAction = {
 
 type Action = (dispatch: Dispatch<any>) => void;
 
-export const addSnapshotAction = (chromeId: string, wrps: WebRequestPayloadSnapshot): Action => {
+export const AddSnapshotAction = (chromeId: string, wrps: WebRequestPayloadSnapshot): Action => {
   return (dispatch: Dispatch<any>): void => {
     SendRuntimeMessage(chromeId, "save-snapshot", wrps);
   }
 };
 
-export const removeSnapshot = (wrp: WebRequestPayload): RemoveSnapshotRowAction => {
-  return { type: REMOVE_SNAPSHOT_ROW, row: wrp };
+export const SyncSnapshots = (wrpss: WebRequestPayloadSnapshot[]): SyncSnapShotsAction => {
+  return { type: SYNC_SNAPSHOTS, rows:  wrpss};
+};
+
+export const removeSnapshot = (wrps: WebRequestPayloadSnapshot): RemoveSnapshotRowAction => {
+  return { type: REMOVE_SNAPSHOT_ROW, row: wrps };
 };
 
 export const clearAllSnapshot = (): ClearAllSnapshotRowsAction => {
   return { type: CLEAR_ALL_SNAPSHOTS };
-};
-
-export const syncSnapshots = (wrps: WebRequestPayload[]): SyncSnapShotsAction => {
-  return { type: SYNC_SNAPSHOTS, rows:  wrps};
 };

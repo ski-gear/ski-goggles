@@ -1,5 +1,14 @@
-import { curry, map, prop, filter } from "ramda";
-import { WebRequestMessageEnvelope, GlobalState, UserProviderSetting, UserOptions, Port } from "../types/Types";
+import { curry, map, prop, filter, keys } from "ramda";
+import {
+  WebRequestMessageEnvelope,
+  GlobalState,
+  UserProviderSetting,
+  UserOptions,
+  Port,
+  PostMessageType,
+  SnapshotMessageEnvelope,
+  MessageEnvelope,
+} from "../types/Types";
 import * as moment from "moment";
 import { parse } from "../Parser";
 import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
@@ -34,7 +43,7 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
       let eventData: WebRequestMessageEnvelope = {
         type: "webRequest",
         payload: {
-          browserRequestId, 
+          browserRequestId,
           url,
           timeStamp,
           provider: provider,
@@ -75,14 +84,20 @@ export const onConnectCallBack = curry((state: GlobalState, port: Port): void =>
   });
 });
 
+export const broadcastToAllTabs = (state: GlobalState, envelope: MessageEnvelope): void => {
+  map((tabId: string) => {
+    sendToSkiGoggles(state, tabId, envelope);
+  }, keys(state.tabs));
+};
+
 const getTabId = (port: Port): string => {
   return port.name.substring(port.name.indexOf("-") + 1);
 };
 
-const sendToSkiGoggles = (state: GlobalState, tabId: string, object: any) => {
-  console.debug("sending ", object.type, " message to tabId: ", tabId, ": ", object);
+const sendToSkiGoggles = (state: GlobalState, tabId: string, envelope: MessageEnvelope): void => {
+  console.debug("sending ", envelope.type, " message to tabId: ", tabId, ": ", envelope);
   try {
-    state.tabs[tabId].port.postMessage(object);
+    state.tabs[tabId].port.postMessage(envelope);
   } catch (ex) {
     console.error("error calling postMessage: ", ex.message);
   }

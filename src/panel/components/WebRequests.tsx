@@ -6,18 +6,19 @@ import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../types/Types"
 import { map, flatten, defaultTo, path } from "ramda";
 
 type Props = {
+  snapshots: WebRequestPayloadSnapshot[];
   data: WebRequestPayload[],
   chromeId: string,
   addSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot) => void
 };
 
-const panelRows = (data: WebRequestPayload[], addSnapshot: any): any[] => {
+const panelRows = (data: WebRequestPayload[], addSnapshot: any, snapshots: WebRequestPayloadSnapshot[]): any[] => {
   const panelRows = map(payload => {
     let requestData = payload.data;
     let provider = payload.provider;
     let title = defaultTo(provider.displayName, path(["meta", "title"], payload.data)) as string;
     let titleElem = <Title title={title} logo={provider.logo} timeStamp={payload.timeStamp} />;
-    let contentElem = <Detail payload={payload} addSnapshot={addSnapshot}/>;
+    let contentElem = <Detail payload={payload} addSnapshot={addSnapshot} snapshots={snapshots}/>;
     let titleNode = <Accordion.Title>{titleElem}</Accordion.Title>;
     let contentNode = <Accordion.Content>{contentElem}</Accordion.Content>;
 
@@ -39,7 +40,7 @@ export default class WebRequests extends React.Component<Props> {
     return (
       <div>
         <Accordion styled fluid>
-          {panelRows(this.props.data, this.addSnapshot.bind(this))}
+          {panelRows(this.props.data, this.addSnapshot.bind(this), this.props.snapshots)}
         </Accordion>
       </div>
     );
