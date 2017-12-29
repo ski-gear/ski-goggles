@@ -53,8 +53,7 @@ export default class DetailMenu extends React.Component<Props, State> {
   }
 
   render() {
-    return (
-      <Menu compact size="mini" secondary>
+    return <Menu compact size="mini" secondary>
         <Menu.Item>
           <Button color="green" basic onClick={this.handleOpen.bind(this)}>
             <Icon name="photo" />
@@ -65,12 +64,7 @@ export default class DetailMenu extends React.Component<Props, State> {
               <Header icon="save" content="Save Snapshot" inverted />
               <Divider />
               <Form inverted>
-                <Form.Input
-                  placeholder="Give it a name"
-                  name="snapshotName"
-                  value={this.state.snapShotName}
-                  onChange={this.handleInputChange.bind(this)}
-                />
+                <Form.Input placeholder="Give it a name" name="snapshotName" value={this.state.snapShotName} onChange={this.handleInputChange.bind(this)} />
                 <Button color="green" onClick={this.onSnapshot.bind(this)} inverted floated="left">
                   <Icon name="checkmark" /> Save
                 </Button>
@@ -81,13 +75,9 @@ export default class DetailMenu extends React.Component<Props, State> {
             </Modal.Content>
           </Modal>
         </Menu.Item>
-        <Menu.Item>
-          <Comparison
-            snapshots={this.props.snapshots}
-            currentPayload={this.props.payload}
-          />
+        <Menu.Item float="right">
+          <Comparison snapshots={this.props.snapshots} currentPayload={this.props.payload} />
         </Menu.Item>
-      </Menu>
-    );
+      </Menu>;
   }
 }

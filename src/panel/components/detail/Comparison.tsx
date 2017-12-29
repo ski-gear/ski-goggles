@@ -34,10 +34,20 @@ const options = (snapshots: WebRequestPayloadSnapshot[], currentProviderName: Pr
   return reverse(values);
 };
 
+const safeJsonParse = (json: string): {} => {
+  try{
+    return JSON.parse(json)
+  } catch(e) {
+    console.log(e);
+    return {}
+  }
+}
+
 const getBasicData = (wrps: WebRequestParam[]): {} => {
   return reduce(
     (acc: any, wrp: WebRequestParam) => {
-      return assoc(wrp.label, wrp.value, acc)
+      const val = wrp.valueType === 'json' ? safeJsonParse(wrp.value) : wrp.value
+      return assoc(wrp.label, val, acc)
     },
     {},
     wrps,
@@ -84,9 +94,9 @@ export default class Comparison extends React.Component<Props, State> {
         </Button.Group>
         <Modal open={this.state.diffModalShown} onClose={this.handleClose.bind(this)}>
           <Modal.Header>Comparison Data</Modal.Header>
-          <Modal.Content image>
+          <Modal.Content image className="diff-result">
             <Modal.Description>
-              <div dangerouslySetInnerHTML={{__html: this.state.diffData}}></div>
+              <div dangerouslySetInnerHTML={{__html: this.state.diffData}} ></div>
             </Modal.Description>
           </Modal.Content>
           <Modal.Actions>
