@@ -19,7 +19,6 @@ import { ProviderCanonicalName } from "ski-providers/dist/types/Types";
 export const onInstall = curry((state: GlobalState, _details: any): void => {
   const defaults = DefaultOptions();
   setOptions(state.userOptionsKey, defaults).then(_data => {
-    console.log("Initial Defaults set");
     refreshMasterPattern(state);
   });
 });
@@ -28,10 +27,7 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
   if (!(details.tabId in state.tabs)) {
     return;
   }
-  console.log(details.url, state.masterPattern);
   if (ProviderHelpers.matchesBroadly(details.url, state.masterPattern)) {
-    console.log("yes");
-    console.log(details);
     let url: string = details.url;
     let tabId: string = details.tabId;
     let browserRequestId: string = details.requestId;
@@ -57,7 +53,7 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
 
 export const refreshMasterPattern = (state: GlobalState) => {
   console.debug("Recreating masterpattern");
-  getOptions(state.userOptionsKey).then((opts: UserOptions) => {
+  getOptions(state.userOptionsKey, true).then((opts: UserOptions) => {
     const upss = opts.providers;
     state.masterPattern = ProviderHelpers.generateMasterPattern(enabledProvidersFromOptions(upss));
   });

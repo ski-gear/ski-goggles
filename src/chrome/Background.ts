@@ -50,7 +50,6 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
         (data: WebRequestPayloadSnapshot[]) => {
           const groomedData = isEmpty(data) ? [] : data;
           const snapshots = addSnapshot(groomedData, snapshot)
-          console.log('Saving', snapshots);
           setOptions(state.snapShotKey, snapshots).then(
             (_: any) => {
               const snapshotMessage: SnapshotMessageEnvelope = {
@@ -69,7 +68,6 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
         (data: WebRequestPayloadSnapshot[]) => {
           const groomedData = isEmpty(data) ? [] : data;
           const snapshots = removeSnapshot(groomedData, snapshot)
-          console.log('Saving', snapshots);
           setOptions(state.snapShotKey, snapshots).then(
             (_: any) => {
               const snapshotMessage: SnapshotMessageEnvelope = {

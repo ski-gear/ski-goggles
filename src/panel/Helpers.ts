@@ -11,7 +11,6 @@ export const SendRuntimeMessage = (chromeId: string, subject: RunTimeMessageSubj
 };
 
 export const generateDiff = (current: {}, snapshot: {}): string | undefined => {
-  console.log(current, snapshot);
   const delta = Differ.diff(current, snapshot);
   if(delta){
     return HtmlFormat(delta, undefined);
