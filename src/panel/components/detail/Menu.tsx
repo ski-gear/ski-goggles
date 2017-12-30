@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Button, Icon, Menu, Modal, Header, Form, Message, Divider, Popup } from "semantic-ui-react";
-import { groupBy, defaultTo, map, keys, prop, sortBy, assoc, isNil } from "ramda";
+import { groupBy, defaultTo, map, keys, prop, sortBy, assoc, isEmpty, merge } from "ramda";
 import { WebRequestParam } from "ski-providers";
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "src/types/Types";
 import Comparison from "./Comparison";
@@ -40,12 +40,17 @@ export default class DetailMenu extends React.Component<Props, State> {
     this.setState({ snapShotName: value });
   }
 
-  disableAddSnapShotButton = (): boolean => this.state.snapShotName.length < 1
+  disableAddSnapShotButton = (): boolean => this.state.snapShotName.length < 1;
 
   onSnapshot() {
     const name = this.state.snapShotName;
-    const title = isNil(name) ? "My Awesome Event" : name;
-    const wrps: WebRequestPayloadSnapshot = assoc("title", title, this.props.payload);
+    const title = isEmpty(name) ? "Some Event" : name;
+    const snapshotTimeStamp = Date.now();
+    const snapshotFields = {
+      title,
+      snapshotTimeStamp,
+    };
+    const wrps: WebRequestPayloadSnapshot = merge(this.props.payload, snapshotFields);
     this.props.addSnapshot(wrps);
     this.handleSaveClose();
   }
@@ -80,7 +85,13 @@ export default class DetailMenu extends React.Component<Props, State> {
                   onChange={this.handleInputChange.bind(this)}
                   maxlength={32}
                 />
-                <Button color="green" onClick={this.onSnapshot.bind(this)} inverted floated="left" disabled={this.disableAddSnapShotButton.bind(this)()}>
+                <Button
+                  color="green"
+                  onClick={this.onSnapshot.bind(this)}
+                  inverted
+                  floated="left"
+                  disabled={this.disableAddSnapShotButton.bind(this)()}
+                >
                   <Icon name="checkmark" /> Save
                 </Button>
                 <Button

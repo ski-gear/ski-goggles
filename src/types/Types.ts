@@ -12,7 +12,8 @@ export type WebRequestPayload = {
 }
 
 export type WebRequestPayloadSnapshot = WebRequestPayload & {
-  title: string
+  title: string;
+  snapshotTimeStamp: number;
 }
 
 interface PostMessageEnvelope {

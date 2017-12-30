@@ -18,6 +18,7 @@ import { WebRequestPayloadSnapshot, WebRequestPayload } from "./../../../types/T
 import { ProviderCanonicalName } from "ski-providers";
 import { WebRequestParam } from "ski-providers";
 import { generateDiff, generateImageUrl } from "./../../Helpers";
+import * as moment from "moment";
 
 interface Props {
   snapshots: WebRequestPayloadSnapshot[];
@@ -94,6 +95,7 @@ export default class Comparison extends React.Component<Props, State> {
 
     const values = map((s: WebRequestPayloadSnapshot) => {
       const eventTitle = propOr("Unknown Event", "title", s.data.meta) as string;
+      const time = moment(s.snapshotTimeStamp).fromNow();
       return (
         <Table.Row key={s.browserRequestId}>
           <Table.Cell>
@@ -101,6 +103,9 @@ export default class Comparison extends React.Component<Props, State> {
               <Image avatar src={generateImageUrl(s.provider.logo)} />
               {eventTitle}
               <Label.Detail>{s.title}</Label.Detail>
+            </Label>
+            <Label size="mini" basic>
+              {time}
             </Label>
           </Table.Cell>
           <Table.Cell collapsing textAlign="right">
@@ -135,13 +140,6 @@ export default class Comparison extends React.Component<Props, State> {
   table = (): JSX.Element => {
     return (
       <Table padded color="green">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Snapshot</Table.HeaderCell>
-            <Table.HeaderCell />
-            <Table.HeaderCell />
-          </Table.Row>
-        </Table.Header>
         <Table.Body>{map(e => e, this.options())}</Table.Body>
       </Table>
     );
