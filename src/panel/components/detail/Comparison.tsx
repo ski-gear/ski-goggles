@@ -1,10 +1,23 @@
 import * as React from "react";
-import { Button, Icon, Menu, Modal, Header, Form, Table, Divider, Popup, Segment, Transition } from "semantic-ui-react";
-import { map, reverse, filter, find, defaultTo, props, reduce, assoc } from "ramda";
+import {
+  Button,
+  Icon,
+  Menu,
+  Modal,
+  Header,
+  Form,
+  Table,
+  Divider,
+  Popup,
+  Segment,
+  Image,
+  Label,
+} from "semantic-ui-react";
+import { map, reverse, filter, find, defaultTo, props, propOr, reduce, assoc } from "ramda";
 import { WebRequestPayloadSnapshot, WebRequestPayload } from "./../../../types/Types";
 import { ProviderCanonicalName } from "ski-providers";
 import { WebRequestParam } from "ski-providers";
-import { generateDiff } from "./../../Helpers";
+import { generateDiff, generateImageUrl } from "./../../Helpers";
 
 interface Props {
   snapshots: WebRequestPayloadSnapshot[];
@@ -15,7 +28,7 @@ interface Props {
 interface State {
   diffTableShown: boolean;
   diffDataShown: boolean;
-  diffData: string;
+  formattedDiffData: string;
 }
 
 const hiddenClass = (hidden: boolean): string => (hidden ? "" : "hidden");
@@ -24,7 +37,7 @@ const safeJsonParse = (json: string): {} => {
   try {
     return JSON.parse(json);
   } catch (e) {
-    console.log('JSON parse error', e);
+    console.log("JSON parse error", e);
     return {};
   }
 };
@@ -43,7 +56,7 @@ const getBasicData = (wrps: WebRequestParam[]): {} => {
 export default class Comparison extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { diffDataShown: false, diffTableShown: true, diffData: "" };
+    this.state = { diffDataShown: false, diffTableShown: true, formattedDiffData: "" };
   }
 
   handleComparisonClose = () => this.setState({ diffDataShown: false, diffTableShown: true });
@@ -58,19 +71,20 @@ export default class Comparison extends React.Component<Props, State> {
 
       const current = getBasicData(this.props.currentPayload.data.params);
 
-      const diffData = defaultTo("No differences found.", generateDiff(current, selected)) as string;
+      const diff = generateDiff(current, selected);
+      const formattedDiffData = defaultTo("＼（＾ ＾）／ No difference. Great job!", diff.formatted) as string;
 
-      this.setState({ diffDataShown: true, diffTableShown: false, diffData });
+      this.setState({ diffDataShown: true, diffTableShown: false, formattedDiffData });
     };
   };
 
   handleRemove = (wrps: WebRequestPayloadSnapshot): Function => {
     return (): void => {
       this.props.removeSnapshot(wrps);
-    }
-  }
+    };
+  };
 
-  options = (): any => {
+  options = (): JSX.Element[] => {
     const snapshots = this.props.snapshots;
     const currentProviderName = this.props.currentPayload.provider.canonicalName;
     const filtered = filter(
@@ -79,16 +93,21 @@ export default class Comparison extends React.Component<Props, State> {
     );
 
     const values = map((s: WebRequestPayloadSnapshot) => {
-      const image = "images/providers/" + s.provider.logo;
+      const eventTitle = propOr("Unknown Event", "title", s.data.meta) as string;
       return (
         <Table.Row key={s.browserRequestId}>
-          <Table.Cell singleLine>{s.title}</Table.Cell>
           <Table.Cell>
+            <Label basic image>
+              <Image avatar src={generateImageUrl(s.provider.logo)} />
+              {eventTitle}
+              <Label.Detail>{s.title}</Label.Detail>
+            </Label>
+          </Table.Cell>
+          <Table.Cell collapsing textAlign="right">
             <Popup
               trigger={
                 <Icon
                   link
-                  size="large"
                   color="green"
                   name="window restore"
                   value={s.browserRequestId}
@@ -99,9 +118,9 @@ export default class Comparison extends React.Component<Props, State> {
               size="tiny"
             />
           </Table.Cell>
-          <Table.Cell>
+          <Table.Cell collapsing textAlign="right">
             <Popup
-              trigger={<Icon link size="large" color="red" name="trash" onClick={this.handleRemove(s)}/>}
+              trigger={<Icon link color="red" name="trash" onClick={this.handleRemove(s)} />}
               content="Remove this snapshot"
               size="tiny"
             />
@@ -113,9 +132,26 @@ export default class Comparison extends React.Component<Props, State> {
     return reverse(values);
   };
 
-  render() {
-    const tableRows = this.options();
+  table = (): JSX.Element => {
+    return (
+      <Table padded color="green">
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Snapshot</Table.HeaderCell>
+            <Table.HeaderCell />
+            <Table.HeaderCell />
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>{map(e => e, this.options())}</Table.Body>
+      </Table>
+    );
+  };
 
+  noRows = (): JSX.Element => {
+    return <Segment stacked>¯\_(ツ)_/¯ No Snapshots to compare.</Segment>;
+  };
+
+  render() {
     return (
       <div>
         <div className={hiddenClass(this.state.diffTableShown)}>
@@ -123,15 +159,7 @@ export default class Comparison extends React.Component<Props, State> {
             <Icon name="window restore" />
             Compare the current event with a saved Snapshot
           </Header>
-          <Table padded color="green">
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell singleLine>Snapshot Name</Table.HeaderCell>
-                <Table.HeaderCell colSpan={2} />
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>{map(e => e, tableRows)}</Table.Body>
-          </Table>
+          {this.props.snapshots.length > 0 ? this.table.bind(this)() : this.noRows.bind(this)()}
         </div>
         <div className={hiddenClass(this.state.diffDataShown)}>
           <Segment stacked className="diff-result">
@@ -139,7 +167,7 @@ export default class Comparison extends React.Component<Props, State> {
               <Icon name="file text outline" />
               Comparison Report
             </Header>
-            <div dangerouslySetInnerHTML={{ __html: this.state.diffData }} />
+            <div dangerouslySetInnerHTML={{ __html: this.state.formattedDiffData }} />
             <Divider />
             <Button color="green" onClick={this.handleComparisonClose.bind(this)} inverted floated="left">
               <Icon name="checkmark" /> Done

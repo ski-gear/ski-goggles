@@ -4,6 +4,7 @@ import { UserProviderSetting } from '../../types/Types';
 import { map, curry } from 'ramda';
 
 import { SkiProviderHelpers as ProviderHelpers } from 'ski-providers';
+import { generateImageUrl } from '../../panel/Helpers';
 
 type Props = {
   data: UserProviderSetting[],
@@ -24,7 +25,7 @@ const renderRows = (props: Props) => {
                     <Table.Row key={providerSetting.providerCanonicalName}>
                         <Table.Cell width='8' textAlign='right'>
                             <span>
-                                <Image src={'images/providers/' + provider.logo} avatar spaced />
+                                <Image src={generateImageUrl(provider.logo)} avatar spaced />
                                 <span>{provider.displayName}</span>
                             </span>
                         </Table.Cell>

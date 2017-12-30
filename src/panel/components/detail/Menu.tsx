@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Icon, Menu, Modal, Header, Form, Message, Divider } from "semantic-ui-react";
+import { Button, Icon, Menu, Modal, Header, Form, Message, Divider, Popup } from "semantic-ui-react";
 import { groupBy, defaultTo, map, keys, prop, sortBy, assoc, isNil } from "ramda";
 import { WebRequestParam } from "ski-providers";
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "src/types/Types";
@@ -13,29 +13,19 @@ interface Props {
 }
 
 interface State {
-  snapShotMenuText: string;
   modalSaveOpen: boolean;
   modalCompareOpen: boolean;
   snapShotName: string;
 }
 
 export default class DetailMenu extends React.Component<Props, State> {
-  DEFAULT_LABEL = "Snapshot";
-  SAVED_LABEL = "Snapshot Saved!";
-
   constructor(props: Props) {
     super(props);
     this.state = {
-      snapShotMenuText: this.DEFAULT_LABEL,
       modalSaveOpen: false,
       snapShotName: "Awesome Event",
       modalCompareOpen: false,
     };
-  }
-
-  changeToSavedLabel() {
-    this.setState({ snapShotMenuText: this.SAVED_LABEL });
-    setTimeout(() => this.resetToDefaultLabel(), 2000);
   }
 
   handleSaveOpen = () => this.setState({ modalSaveOpen: true });
@@ -46,31 +36,38 @@ export default class DetailMenu extends React.Component<Props, State> {
 
   handleCompareClose = () => this.setState({ modalCompareOpen: false });
 
-  resetToDefaultLabel() {
-    this.setState({ snapShotMenuText: this.DEFAULT_LABEL });
-  }
-
   handleInputChange(e: React.SyntheticEvent<any>, { value }: any) {
     this.setState({ snapShotName: value });
   }
+
+  disableAddSnapShotButton = (): boolean => this.state.snapShotName.length < 1
 
   onSnapshot() {
     const name = this.state.snapShotName;
     const title = isNil(name) ? "My Awesome Event" : name;
     const wrps: WebRequestPayloadSnapshot = assoc("title", title, this.props.payload);
     this.props.addSnapshot(wrps);
-    this.changeToSavedLabel();
     this.handleSaveClose();
   }
+
+  disableCompareButton = (): boolean => this.props.snapshots.length < 1;
+  compareButtonPopupText = (): string =>
+    this.disableCompareButton() ? "No Snapshots available to compare" : "Click to compare";
 
   render() {
     return (
       <Menu compact size="mini" secondary>
         <Menu.Item>
-          <Button color="green" basic onClick={this.handleSaveOpen.bind(this)}>
-            <Icon name="photo" />
-            {this.state.snapShotMenuText}
-          </Button>
+          <Popup
+            trigger={
+              <Button color="green" basic onClick={this.handleSaveOpen.bind(this)}>
+                <Icon name="photo" />
+                Snapshot
+              </Button>
+            }
+            content="Save a snapshot of this event"
+            size="tiny"
+          />
           <Modal open={this.state.modalSaveOpen} onClose={this.handleSaveClose} basic size="small">
             <Modal.Content>
               <Header icon="save" content="Save Snapshot" inverted />
@@ -81,8 +78,9 @@ export default class DetailMenu extends React.Component<Props, State> {
                   name="snapshotName"
                   value={this.state.snapShotName}
                   onChange={this.handleInputChange.bind(this)}
+                  maxlength={32}
                 />
-                <Button color="green" onClick={this.onSnapshot.bind(this)} inverted floated="left">
+                <Button color="green" onClick={this.onSnapshot.bind(this)} inverted floated="left" disabled={this.disableAddSnapShotButton.bind(this)()}>
                   <Icon name="checkmark" /> Save
                 </Button>
                 <Button
@@ -100,13 +98,28 @@ export default class DetailMenu extends React.Component<Props, State> {
           </Modal>
         </Menu.Item>
         <Menu.Item>
-          <Button color="green" basic onClick={this.handleCompareOpen.bind(this)}>
-            <Icon name="exchange" />
-            Compare
-          </Button>
+          <Popup
+            trigger={
+              <Button
+                color="green"
+                basic
+                onClick={this.handleCompareOpen.bind(this)}
+                disabled={this.disableCompareButton()}
+              >
+                <Icon name="window restore" />
+                Compare
+              </Button>
+            }
+            content={this.compareButtonPopupText.bind(this)()}
+            size="tiny"
+          />
           <Modal open={this.state.modalCompareOpen} onClose={this.handleCompareClose} size="small">
             <Modal.Content>
-              <Comparison snapshots={this.props.snapshots} currentPayload={this.props.payload} removeSnapshot={this.props.removeSnapshot}/>
+              <Comparison
+                snapshots={this.props.snapshots}
+                currentPayload={this.props.payload}
+                removeSnapshot={this.props.removeSnapshot}
+              />
             </Modal.Content>
           </Modal>
         </Menu.Item>

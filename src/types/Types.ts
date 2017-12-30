@@ -1,4 +1,5 @@
 import { WebRequestData, WebRequestParam, Provider, ProviderCanonicalName } from 'ski-providers'
+import { Delta } from 'jsondiffpatch';
 
 export type PostMessageType = "newWebRequest" | "newSnapshot" | "chromeId";
 
@@ -80,4 +81,9 @@ export type PanelState = {
   metaData: PanelMetaData;
   webRequests: WebRequestPayload[];
   snapshots: WebRequestPayload[];
+}
+
+export type DiffData = {
+  raw: Delta | undefined;
+  formatted: string | undefined;
 }

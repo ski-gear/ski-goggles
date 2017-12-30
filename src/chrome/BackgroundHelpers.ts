@@ -56,6 +56,7 @@ export const refreshMasterPattern = (state: GlobalState) => {
   getOptions(state.userOptionsKey, true).then((opts: UserOptions) => {
     const upss = opts.providers;
     state.masterPattern = ProviderHelpers.generateMasterPattern(enabledProvidersFromOptions(upss));
+    console.log(state.masterPattern);
   });
 };
 

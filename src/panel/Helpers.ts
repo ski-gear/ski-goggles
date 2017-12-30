@@ -1,4 +1,4 @@
-import { RunTimeMessage, RunTimeMessageSubject } from "../types/Types";
+import { RunTimeMessage, RunTimeMessageSubject, DiffData } from "../types/Types";
 import { WebRequestData } from "ski-providers";
 import { DiffPatcher, Delta } from "jsondiffpatch";
 import { format as HtmlFormat } from "jsondiffpatch/src/formatters/html";
@@ -10,9 +10,22 @@ export const SendRuntimeMessage = (chromeId: string, subject: RunTimeMessageSubj
   chrome.runtime.sendMessage(chromeId, msg);
 };
 
-export const generateDiff = (current: {}, snapshot: {}): string | undefined => {
+export const generateDiff = (current: {}, snapshot: {}): DiffData => {
   const delta = Differ.diff(current, snapshot);
   if(delta){
-    return HtmlFormat(delta, undefined);
+    return {
+      raw: delta,
+      formatted: HtmlFormat(delta, undefined)
+    }
   }
+  else {
+    return {
+      raw: undefined,
+      formatted: undefined
+    }
+  }
+}
+
+export const generateImageUrl = (fragment: string): string => {
+  return 'images/providers/' + fragment;
 }
