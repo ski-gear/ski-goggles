@@ -1,7 +1,7 @@
 import { GlobalState, RunTimeMessage, WebRequestPayload, SnapshotMessageEnvelope, WebRequestPayloadSnapshot } from "../types/Types";
 import { onInstall, refreshMasterPattern, processWebRequest, onConnectCallBack, broadcastToAllTabs } from "./BackgroundHelpers";
 import when from "when-switch";
-import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE, GIT_ISSUES_URL, SAVE_SNAPSHOT } from "../Constants";
+import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE, GIT_ISSUES_URL, ADD_SNAPSHOT, REMOVE_SNAPSHOT } from "../Constants";
 import { setOptions, getOptions } from "./LocalStorage";
 import { takeLast, uniqBy, prop, assoc, filter, isEmpty } from "ramda";
 import { snapshots } from "src/panel/reducers/Snapshots";
@@ -44,12 +44,31 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
     .is(OPEN_ISSUES_PAGE, () => {
       chrome.tabs.create({ url: GIT_ISSUES_URL });
     })
-    .is(SAVE_SNAPSHOT, () => {
+    .is(ADD_SNAPSHOT, () => {
       const snapshot = msg.payload as WebRequestPayloadSnapshot
       getOptions(state.snapShotKey).then(
         (data: WebRequestPayloadSnapshot[]) => {
           const groomedData = isEmpty(data) ? [] : data;
           const snapshots = addSnapshot(groomedData, snapshot)
+          console.log('Saving', snapshots);
+          setOptions(state.snapShotKey, snapshots).then(
+            (_: any) => {
+              const snapshotMessage: SnapshotMessageEnvelope = {
+                type: "snapshots",
+                payload: snapshots
+              }
+              broadcastToAllTabs(state, snapshotMessage);
+            }
+          )
+        }
+      )
+    })
+    .is(REMOVE_SNAPSHOT, () => {
+      const snapshot = msg.payload as WebRequestPayloadSnapshot
+      getOptions(state.snapShotKey).then(
+        (data: WebRequestPayloadSnapshot[]) => {
+          const groomedData = isEmpty(data) ? [] : data;
+          const snapshots = removeSnapshot(groomedData, snapshot)
           console.log('Saving', snapshots);
           setOptions(state.snapShotKey, snapshots).then(
             (_: any) => {

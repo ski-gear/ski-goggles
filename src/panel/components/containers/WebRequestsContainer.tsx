@@ -1,7 +1,7 @@
 import { connect, Dispatch } from "react-redux";
 import WebRequests from "../WebRequests";
 import { PanelState, WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
-import { AddSnapshotAction } from "../../actions/Snapshots";
+import { AddSnapshotAction, RemoveSnapshotAction } from "../../actions/Snapshots";
 
 const mapStateToProps = (state: PanelState) => {
   return {
@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     addSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot): void => {
       dispatch(AddSnapshotAction(chromeId, wrps));
+    },
+    removeSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot): void => {
+      dispatch(RemoveSnapshotAction(chromeId, wrps));
     },
   };
 };

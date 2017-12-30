@@ -2,6 +2,7 @@ import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../types/Types"
 import { Dispatch } from "react-redux";
 import { setOptions } from '../../chrome/LocalStorage';
 import { SendRuntimeMessage } from "../Helpers";
+import { ADD_SNAPSHOT, REMOVE_SNAPSHOT } from "../../Constants";
 
 export const ADD_SNAPSHOT_ROW = "ADD_SNAPSHOT_ROW";
 export const REMOVE_SNAPSHOT_ROW = "REMOVE_SNAPSHOT_ROW";
@@ -34,7 +35,13 @@ type Action = (dispatch: Dispatch<any>) => void;
 
 export const AddSnapshotAction = (chromeId: string, wrps: WebRequestPayloadSnapshot): Action => {
   return (dispatch: Dispatch<any>): void => {
-    SendRuntimeMessage(chromeId, "save-snapshot", wrps);
+    SendRuntimeMessage(chromeId, ADD_SNAPSHOT, wrps);
+  }
+};
+
+export const RemoveSnapshotAction = (chromeId: string, wrps: WebRequestPayloadSnapshot): Action => {
+  return (dispatch: Dispatch<any>): void => {
+    SendRuntimeMessage(chromeId, REMOVE_SNAPSHOT, wrps);
   }
 };
 

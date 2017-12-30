@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Icon, Menu, Modal, Header, Form, Dropdown, Divider } from "semantic-ui-react";
+import { Button, Icon, Menu, Modal, Header, Form, Table, Divider, Popup, Segment, Transition } from "semantic-ui-react";
 import { map, reverse, filter, find, defaultTo, props, reduce, assoc } from "ramda";
 import { WebRequestPayloadSnapshot, WebRequestPayload } from "./../../../types/Types";
 import { ProviderCanonicalName } from "ski-providers";
@@ -9,45 +9,31 @@ import { generateDiff } from "./../../Helpers";
 interface Props {
   snapshots: WebRequestPayloadSnapshot[];
   currentPayload: WebRequestPayload;
+  removeSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
 }
 
 interface State {
-  diffModalShown: boolean;
-  diffData: string
+  diffTableShown: boolean;
+  diffDataShown: boolean;
+  diffData: string;
 }
 
-const options = (snapshots: WebRequestPayloadSnapshot[], currentProviderName: ProviderCanonicalName): any => {
-  const filtered = filter(
-    (s: WebRequestPayloadSnapshot) => s.provider.canonicalName === currentProviderName,
-    snapshots,
-  );
-
-  const values = map((s: WebRequestPayloadSnapshot) => {
-    const image = "images/providers/" + s.provider.logo;
-    return {
-      value: s.browserRequestId,
-      text: s.title,
-      image: image,
-    };
-  }, filtered);
-
-  return reverse(values);
-};
+const hiddenClass = (hidden: boolean): string => (hidden ? "" : "hidden");
 
 const safeJsonParse = (json: string): {} => {
-  try{
-    return JSON.parse(json)
-  } catch(e) {
+  try {
+    return JSON.parse(json);
+  } catch (e) {
     console.log(e);
-    return {}
+    return {};
   }
-}
+};
 
 const getBasicData = (wrps: WebRequestParam[]): {} => {
   return reduce(
     (acc: any, wrp: WebRequestParam) => {
-      const val = wrp.valueType === 'json' ? safeJsonParse(wrp.value) : wrp.value
-      return assoc(wrp.label, val, acc)
+      const val = wrp.valueType === "json" ? safeJsonParse(wrp.value) : wrp.value;
+      return assoc(wrp.label, val, acc);
     },
     {},
     wrps,
@@ -57,54 +43,109 @@ const getBasicData = (wrps: WebRequestParam[]): {} => {
 export default class Comparison extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { diffModalShown: false, diffData: '' };
+    this.state = { diffDataShown: false, diffTableShown: true, diffData: "" };
   }
 
-  handleShow = () => this.setState({ diffModalShown: true });
-  handleClose = () => this.setState({ diffModalShown: false });
+  handleComparisonClose = () => this.setState({ diffDataShown: false, diffTableShown: true });
 
-  handleComparison = (e: React.SyntheticEvent<any>, { value }: any) => {
-    const selectedSnapshot = find(
-      (s: WebRequestPayloadSnapshot) => s.browserRequestId === value,
-      this.props.snapshots,
-    ) as WebRequestPayloadSnapshot;
-    const selected = getBasicData(selectedSnapshot.data.params);
+  handleComparison = (requestId: string): Function => {
+    return (e: React.SyntheticEvent<any>, a: any) => {
+      const selectedSnapshot = find(
+        (s: WebRequestPayloadSnapshot) => s.browserRequestId === requestId,
+        this.props.snapshots,
+      ) as WebRequestPayloadSnapshot;
+      const selected = getBasicData(selectedSnapshot.data.params);
 
-    const current = getBasicData(this.props.currentPayload.data.params);
+      const current = getBasicData(this.props.currentPayload.data.params);
 
-    const diffData = defaultTo('No Data', generateDiff(current, selected)) as string;
+      const diffData = defaultTo("No differences found.", generateDiff(current, selected)) as string;
 
-    this.setState({ diffModalShown: true, diffData });
+      this.setState({ diffDataShown: true, diffTableShown: false, diffData });
+    };
+  };
+
+  handleRemove = (wrps: WebRequestPayloadSnapshot): Function => {
+    return (): void => {
+      this.props.removeSnapshot(wrps);
+    }
+  }
+
+  options = (): any => {
+    const snapshots = this.props.snapshots;
+    const currentProviderName = this.props.currentPayload.provider.canonicalName;
+    const filtered = filter(
+      (s: WebRequestPayloadSnapshot) => s.provider.canonicalName === currentProviderName,
+      snapshots,
+    );
+
+    const values = map((s: WebRequestPayloadSnapshot) => {
+      const image = "images/providers/" + s.provider.logo;
+      return (
+        <Table.Row key={s.browserRequestId}>
+          <Table.Cell singleLine>{s.title}</Table.Cell>
+          <Table.Cell>
+            <Popup
+              trigger={
+                <Icon
+                  link
+                  size="large"
+                  color="green"
+                  name="window restore"
+                  value={s.browserRequestId}
+                  onClick={this.handleComparison.bind(this)(s.browserRequestId)}
+                />
+              }
+              content="Compare with this snapshot"
+              size="tiny"
+            />
+          </Table.Cell>
+          <Table.Cell>
+            <Popup
+              trigger={<Icon link size="large" color="red" name="trash" onClick={this.handleRemove(s)}/>}
+              content="Remove this snapshot"
+              size="tiny"
+            />
+          </Table.Cell>
+        </Table.Row>
+      );
+    }, filtered);
+
+    return reverse(values);
   };
 
   render() {
+    const tableRows = this.options();
+
     return (
       <div>
-        <Button.Group color="green" basic size="mini">
-          <Dropdown
-            options={options(this.props.snapshots, this.props.currentPayload.provider.canonicalName)}
-            text="Compare with ..."
-            icon="exchange"
-            labeled
-            button
-            className="icon"
-            onChange={this.handleComparison.bind(this)}
-            value="unknown"
-          />
-        </Button.Group>
-        <Modal open={this.state.diffModalShown} onClose={this.handleClose.bind(this)}>
-          <Modal.Header>Comparison Data</Modal.Header>
-          <Modal.Content image className="diff-result">
-            <Modal.Description>
-              <div dangerouslySetInnerHTML={{__html: this.state.diffData}} ></div>
-            </Modal.Description>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button color="black" onClick={this.handleClose.bind(this)}>
-              Done
+        <div className={hiddenClass(this.state.diffTableShown)}>
+          <Header size="small">
+            <Icon name="window restore" />
+            Compare the current event with a saved Snapshot
+          </Header>
+          <Table padded color="green">
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell singleLine>Snapshot Name</Table.HeaderCell>
+                <Table.HeaderCell colSpan={2} />
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>{map(e => e, tableRows)}</Table.Body>
+          </Table>
+        </div>
+        <div className={hiddenClass(this.state.diffDataShown)}>
+          <Segment stacked className="diff-result">
+            <Header size="tiny">
+              <Icon name="file text outline" />
+              Comparison Report
+            </Header>
+            <div dangerouslySetInnerHTML={{ __html: this.state.diffData }} />
+            <Divider />
+            <Button color="green" onClick={this.handleComparisonClose.bind(this)} inverted floated="left">
+              <Icon name="checkmark" /> Done
             </Button>
-          </Modal.Actions>
-        </Modal>
+          </Segment>
+        </div>
       </div>
     );
   }

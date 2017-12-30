@@ -5,3 +5,7 @@
 .diff-result{
   overflow: scroll
 }
+
+.hidden{
+  display: none
+}

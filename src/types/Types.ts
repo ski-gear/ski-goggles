@@ -62,7 +62,7 @@ export type GlobalState = {
     masterPattern: RegExp
 };
 
-export type RunTimeMessageSubject = "open-options-tab" | "open-issues-page" | "save-snapshot";
+export type RunTimeMessageSubject = "open-options-tab" | "open-issues-page" | "add-snapshot" | "remove-snapshot";
 export interface RunTimeMessage {
   subject: RunTimeMessageSubject
   payload: any
