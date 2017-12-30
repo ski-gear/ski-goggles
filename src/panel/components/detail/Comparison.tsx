@@ -30,6 +30,8 @@ interface State {
   diffTableShown: boolean;
   diffDataShown: boolean;
   formattedDiffData: string;
+  rawDiffData: {};
+  copyText: string;
 }
 
 const hiddenClass = (hidden: boolean): string => (hidden ? "" : "hidden");
@@ -57,7 +59,13 @@ const getBasicData = (wrps: WebRequestParam[]): {} => {
 export default class Comparison extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { diffDataShown: false, diffTableShown: true, formattedDiffData: "" };
+    this.state = {
+      diffDataShown: false,
+      diffTableShown: true,
+      formattedDiffData: "",
+      rawDiffData: {},
+      copyText: "Copy Raw",
+    };
   }
 
   handleComparisonClose = () => this.setState({ diffDataShown: false, diffTableShown: true });
@@ -74,8 +82,9 @@ export default class Comparison extends React.Component<Props, State> {
 
       const diff = generateDiff(current, selected);
       const formattedDiffData = defaultTo("＼（＾ ＾）／ No difference. Great job!", diff.formatted) as string;
+      const rawDiffData = defaultTo({}, diff.raw) as {};
 
-      this.setState({ diffDataShown: true, diffTableShown: false, formattedDiffData });
+      this.setState({ diffDataShown: true, diffTableShown: false, formattedDiffData, rawDiffData });
     };
   };
 
@@ -85,14 +94,17 @@ export default class Comparison extends React.Component<Props, State> {
     };
   };
 
-  options = (): JSX.Element[] => {
+  filteredSnapshots = (): WebRequestPayloadSnapshot[] => {
     const snapshots = this.props.snapshots;
     const currentProviderName = this.props.currentPayload.provider.canonicalName;
-    const filtered = filter(
+    return filter(
       (s: WebRequestPayloadSnapshot) => s.provider.canonicalName === currentProviderName,
-      snapshots,
+      this.props.snapshots,
     );
+  };
 
+  options = (): JSX.Element[] => {
+    const filtered = this.filteredSnapshots();
     const values = map((s: WebRequestPayloadSnapshot) => {
       const eventTitle = propOr("Unknown Event", "title", s.data.meta) as string;
       const time = moment(s.snapshotTimeStamp).fromNow();
@@ -149,6 +161,19 @@ export default class Comparison extends React.Component<Props, State> {
     return <Segment stacked>¯\_(ツ)_/¯ No Snapshots to compare.</Segment>;
   };
 
+  showCopiedLabel() {
+    this.setState({ copyText: "Copied!" });
+    setTimeout(() => this.showCopyLabel(), 2000);
+  }
+
+  showCopyLabel() {
+    this.setState({ copyText: "Copy" });
+  }
+
+  onCopy() {
+    this.showCopiedLabel();
+  }
+
   render() {
     return (
       <div>
@@ -157,7 +182,7 @@ export default class Comparison extends React.Component<Props, State> {
             <Icon name="window restore" />
             Compare the current event with a saved Snapshot
           </Header>
-          {this.props.snapshots.length > 0 ? this.table.bind(this)() : this.noRows.bind(this)()}
+          {this.filteredSnapshots.bind(this)().length > 0 ? this.table.bind(this)() : this.noRows.bind(this)()}
         </div>
         <div className={hiddenClass(this.state.diffDataShown)}>
           <Segment stacked className="diff-result">
@@ -167,9 +192,18 @@ export default class Comparison extends React.Component<Props, State> {
             </Header>
             <div dangerouslySetInnerHTML={{ __html: this.state.formattedDiffData }} />
             <Divider />
-            <Button color="green" onClick={this.handleComparisonClose.bind(this)} inverted floated="left">
-              <Icon name="checkmark" /> Done
-            </Button>
+            <Menu secondary compact size="mini">
+              <Menu.Item>
+                <Button color="green" onClick={this.handleComparisonClose.bind(this)}>
+                  <Icon name="checkmark" /> Done
+                </Button>
+              </Menu.Item>
+              <Menu.Item>
+                <Button basic data-clipboard-text={JSON.stringify(this.state.rawDiffData, null, 4)} className="clipBoard" onClick={this.onCopy.bind(this)}>
+                  <Icon name="copy" /> {this.state.copyText}
+                </Button>
+              </Menu.Item>
+            </Menu>
           </Segment>
         </div>
       </div>
