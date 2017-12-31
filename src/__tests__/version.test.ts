@@ -13,7 +13,7 @@ describe('App Version', () => {
     });
 
     describe('Package.json', () => {
-        let pkg = require('./package.json');
+        let pkg = require('../../package.json');
 
         it('has the correct version', () => {
             expect(pkg['version']).to.eq(AppVersion);
