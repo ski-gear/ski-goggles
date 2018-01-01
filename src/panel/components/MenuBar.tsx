@@ -20,46 +20,52 @@ export default class MenuBar extends React.Component<Props, State> {
     };
   }
 
-  openOptions() { SendRuntimeMessage(this.props.chromeId, OPEN_OPTIONS_TAB, {}); }
+  openOptions() {
+    SendRuntimeMessage(this.props.chromeId, OPEN_OPTIONS_TAB, {});
+  }
 
-  openIssues() { SendRuntimeMessage(this.props.chromeId, OPEN_ISSUES_PAGE, {}); }
+  openIssues() {
+    SendRuntimeMessage(this.props.chromeId, OPEN_ISSUES_PAGE, {});
+  }
 
   versionInfo(): string {
     return `Version: ${AppVersion}`;
   }
 
   render() {
-    return <Menu fixed="top" size="mini">
+    return (
+      <Menu fixed="top" size="mini">
         <Menu.Item name="home">
-            <Popup 
-              trigger={<Image src="images/ski-goggles-48.png" size="mini" />}
-              content={this.versionInfo()}
-              size='tiny'
-            />
+          <Popup
+            trigger={<Image src="images/ski-goggles-48.png" size="mini" />}
+            content={this.versionInfo()}
+            size="tiny"
+          />
         </Menu.Item>
         <Menu.Menu position="right">
-          <Menu.Item name="bug">
+          <Menu.Item name="bug-menu">
             <Popup
               trigger={<Icon link size="large" color="green" name="bug" onClick={this.openIssues.bind(this)} />}
               content="Report Bug/Feature Request"
-              size='tiny'
+              size="tiny"
             />
           </Menu.Item>
-          <Menu.Item name="options">
+          <Menu.Item name="options-menu">
             <Popup
               trigger={<Icon link size="large" color="green" name="options" onClick={this.openOptions.bind(this)} />}
               content="Open Options Page"
-              size='tiny'
+              size="tiny"
             />
           </Menu.Item>
-          <Menu.Item name="clear">
+          <Menu.Item name="delete-menu">
             <Popup
               trigger={<Icon link size="large" color="red" name="trash" onClick={this.props.clear} />}
               content="Clear All Events"
-              size='tiny'
+              size="tiny"
             />
           </Menu.Item>
         </Menu.Menu>
-      </Menu>;
+      </Menu>
+    );
   }
 }

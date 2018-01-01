@@ -20,6 +20,7 @@ const copyProps = (src, target) => {
 global.window = window;
 global.document = window.document;
 global.window.localStorage = {};
+global.chrome = {}
 global.navigator = {
   userAgent: 'node.js',
 };
