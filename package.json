@@ -1,6 +1,6 @@
 {
   "name": "ski-goggles",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Some eye protection before skiing into the world of Snowplow",
   "author": "prem.pillai@gmail.com",
   "homepage": "https://github.com/ski-gear/ski-goggles",
@@ -68,7 +68,7 @@
     "watch": "webpack --watch",
     "test": "NODE_ENV=test yarn lint && mocha -r ts-node/register --require './src/test-setup.js' './src/**/__tests__/*.test.+(ts|tsx)' --timeout=10000",
     "lint": "tslint -p . --fix",
-    "release": "yarn test && yarn build && yarn version && yarn publish",
+    "release": "yarn test && yarn build && yarn publish",
     "package": "zip ./dist/chrome.zip -r ./dist/chrome/"
   }
 }
