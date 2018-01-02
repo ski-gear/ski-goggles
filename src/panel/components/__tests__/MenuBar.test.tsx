@@ -10,7 +10,7 @@ import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE } from "../../../Constants";
 
 chai.use(require("sinon-chai"));
 
-describe.only("MenuBar", () => {
+describe("MenuBar", () => {
   let mock: any;
   let menuBarComponent: Enzyme.ReactWrapper<any, any>;
 

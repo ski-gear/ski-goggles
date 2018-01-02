@@ -19,7 +19,7 @@ export default class Title extends React.Component<Props> {
           <span>{this.props.title}</span>
         </Grid.Column>
         <Grid.Column floated="right" width={4} className="large screen only">
-          <Label>{formatTime(this.props.timeStamp)}</Label>
+          <Label name="timeStamp">{formatTime(this.props.timeStamp)}</Label>
         </Grid.Column>
       </Grid>
     );
