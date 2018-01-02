@@ -1,16 +1,32 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import { Provider as ReduxProvider } from "react-redux";
+import ThunkMiddleWare from 'redux-thunk';
+import { values, map, contains, defaultTo } from "ramda";
 
-import skiGoggles from "./panel/Reducers";
+import skiGoggles from "./panel/reducers/";
 import App from "./panel/components/App";
+import { getOptions } from './chrome/LocalStorage';
+import { SnapShotKey, PanelState } from './types/Types'
 
-let store = createStore(skiGoggles);
+const key: SnapShotKey = 'skiGogglesSnapshots';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root"),
-);
+getOptions(key).then((snapshots) => {
+    const localSnapshots = defaultTo([], snapshots);
+    const state: PanelState = {
+      webRequests: [],
+      metaData: {
+        chromeId: ''
+      },
+      snapshots: localSnapshots
+    }
+    let store = createStore(skiGoggles, state, applyMiddleware(ThunkMiddleWare));
+
+    ReactDOM.render(
+        <ReduxProvider store={store}>
+            <App />
+        </ReduxProvider>,
+        document.getElementById('root')
+    );
+});

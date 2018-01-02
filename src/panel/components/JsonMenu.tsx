@@ -9,7 +9,7 @@ type Props = {
   value: string;
 };
 
-export default class DetailMenu extends React.Component<Props, State> {
+export default class JsonMenu extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { copyText: 'Copy' }

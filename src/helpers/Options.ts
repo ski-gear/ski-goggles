@@ -4,7 +4,7 @@ import { UserOptionsVersion } from "../Versions";
 import { UserOptions, UserProviderSetting } from "../types/Types";
 import { PreferredProviders } from "../Constants";
 
-export const defaultOptions = (): UserOptions => {
+export const DefaultOptions = (): UserOptions => {
   return {
     version: UserOptionsVersion,
     providers: preferredProviders(),

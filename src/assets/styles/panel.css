@@ -1,3 +1,12 @@
 .data-rows {
   margin-top: 55px;
 }
+
+.diff-result{
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.hidden{
+  display: none
+}

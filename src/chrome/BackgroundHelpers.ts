@@ -1,17 +1,24 @@
-import { curry, map, prop, filter } from "ramda";
-import { WebRequestEnvelope, GlobalState, UserProviderSetting, UserOptions, Port } from "../types/Types";
+import { curry, map, prop, filter, keys } from "ramda";
+import {
+  WebRequestMessageEnvelope,
+  GlobalState,
+  UserProviderSetting,
+  UserOptions,
+  Port,
+  PostMessageType,
+  SnapshotMessageEnvelope,
+  MessageEnvelope,
+} from "../types/Types";
 import * as moment from "moment";
 import { parse } from "../Parser";
 import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
-import { defaultOptions } from "../options/Helpers";
+import { DefaultOptions } from "../helpers/Options";
 import { setOptions, getOptions } from "./LocalStorage";
 import { ProviderCanonicalName } from "ski-providers/dist/types/Types";
-import { DefaultUserProviderSettings } from "./../options/Reducers";
 
 export const onInstall = curry((state: GlobalState, _details: any): void => {
-  const defaults = defaultOptions();
-  setOptions(state.chromeOptionsKey, defaults).then(_data => {
-    console.log("Initial Defaults set");
+  const defaults = DefaultOptions();
+  setOptions(state.userOptionsKey, defaults).then(_data => {
     refreshMasterPattern(state);
   });
 });
@@ -20,10 +27,7 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
   if (!(details.tabId in state.tabs)) {
     return;
   }
-  console.log(details.url, state.masterPattern);
   if (ProviderHelpers.matchesBroadly(details.url, state.masterPattern)) {
-    console.log("yes");
-    console.log(details);
     let url: string = details.url;
     let tabId: string = details.tabId;
     let browserRequestId: string = details.requestId;
@@ -32,15 +36,13 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
     let provider = ProviderHelpers.lookupByUrl(url);
 
     if (provider) {
-      let eventData: WebRequestEnvelope = {
+      let eventData: WebRequestMessageEnvelope = {
         type: "webRequest",
         payload: {
-          browserRequestId, 
+          browserRequestId,
           url,
           timeStamp,
-          providerDisplayName: provider.displayName,
-          providerCanonicalName: provider.canonicalName,
-          providerLogo: provider.logo,
+          provider: provider,
           data: provider.transformer({ params: data }),
         },
       };
@@ -51,9 +53,10 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
 
 export const refreshMasterPattern = (state: GlobalState) => {
   console.debug("Recreating masterpattern");
-  getOptions(state.chromeOptionsKey).then((opts: UserOptions) => {
+  getOptions(state.userOptionsKey, true).then((opts: UserOptions) => {
     const upss = opts.providers;
     state.masterPattern = ProviderHelpers.generateMasterPattern(enabledProvidersFromOptions(upss));
+    console.log(state.masterPattern);
   });
 };
 
@@ -78,14 +81,20 @@ export const onConnectCallBack = curry((state: GlobalState, port: Port): void =>
   });
 });
 
+export const broadcastToAllTabs = (state: GlobalState, envelope: MessageEnvelope): void => {
+  map((tabId: string) => {
+    sendToSkiGoggles(state, tabId, envelope);
+  }, keys(state.tabs));
+};
+
 const getTabId = (port: Port): string => {
   return port.name.substring(port.name.indexOf("-") + 1);
 };
 
-const sendToSkiGoggles = (state: GlobalState, tabId: string, object: any) => {
-  console.debug("sending ", object.type, " message to tabId: ", tabId, ": ", object);
+const sendToSkiGoggles = (state: GlobalState, tabId: string, envelope: MessageEnvelope): void => {
+  console.debug("sending ", envelope.type, " message to tabId: ", tabId, ": ", envelope);
   try {
-    state.tabs[tabId].port.postMessage(object);
+    state.tabs[tabId].port.postMessage(envelope);
   } catch (ex) {
     console.error("error calling postMessage: ", ex.message);
   }

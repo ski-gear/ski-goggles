@@ -1,4 +1,4 @@
-import { WebRequestPayload } from "../types/Types";
+import { WebRequestPayload } from "../../types/Types";
 
 export type AddWebRequestRowAction = {
   type: string;
@@ -9,7 +9,7 @@ export type ClearAllWebRequestRowsAction = {
   type: string;
 };
 
-export type Action = AddWebRequestRowAction | ClearAllWebRequestRowsAction;
+export type WebRequestAction = AddWebRequestRowAction | ClearAllWebRequestRowsAction;
 
 export const ADD_WEB_REQUEST_ROW = "ADD_WEB_REQUEST_ROW";
 export const CLEAR_ALL_WEB_REQUESTS = "CLEAR_ALL_WEB_REQUESTS";
@@ -18,6 +18,6 @@ export const addWebRequestRowAction = (webRequest: WebRequestPayload): AddWebReq
   return { type: ADD_WEB_REQUEST_ROW, row: webRequest };
 };
 
-export const clearAll = (): ClearAllWebRequestRowsAction => {
+export const clearAllWebRequests = (): ClearAllWebRequestRowsAction => {
   return { type: CLEAR_ALL_WEB_REQUESTS };
 };

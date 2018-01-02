@@ -3,8 +3,11 @@ import MenuContainer from "./containers/MenuContainer";
 import { Container } from "semantic-ui-react";
 import * as Clipboard from "clipboard";
 
-import AddWebRequest from "./containers/AddWebRequest";
-import VisibleWebRequests from "./containers/VisibleWebRequests";
+import DocumentContainer from "./containers/DocumentContainer";
+import WebRequestsContainer from "./containers/WebRequestsContainer";
+import { SyncSnapshots } from './../actions/Snapshots'
+import { NewSnapshotPostMessage } from "./../../Constants";
+import { WebRequestPayloadSnapshot } from "src/types/Types";
 
 export default class App extends React.Component {
   componentDidMount() {
@@ -14,12 +17,12 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <AddWebRequest />
+        <DocumentContainer />
         <Container fluid>
           <MenuContainer />
         </Container>
         <Container fluid className="data-rows">
-          <VisibleWebRequests />
+          <WebRequestsContainer />
         </Container>
       </div>
     );

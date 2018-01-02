@@ -1,12 +1,18 @@
 import * as React from "react";
 import { Table, Header, Container, Icon, Menu, Transition } from "semantic-ui-react";
-import * as Highlight from "react-highlight";
+import Highlight from "react-highlight.js";
 import { groupBy, defaultTo, map, keys, prop, sortBy } from "ramda";
-import { WebRequestParam } from "ski-providers";
-import DetailMenu from './DetailMenu';
+import { WebRequestParam, Provider } from "ski-providers";
+import JsonMenu from '../JsonMenu';
+import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
+import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
+import DetailMenu from "./Menu";
 
 type Props = {
-  data: WebRequestParam[];
+  snapshots: WebRequestPayloadSnapshot[];
+  payload: WebRequestPayload;
+  addSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
+  removeSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
 };
 
 const renderRows = (rows: WebRequestParam[]) => {
@@ -24,8 +30,8 @@ const format = (valueType: string, value: string): JSX.Element => {
   if (valueType == "json") {
     return (
       <Container fluid>
-        <DetailMenu value={value} />
-        <Highlight className="json">{value}</Highlight>
+        <JsonMenu value={value} />
+        <Highlight language="json">{value}</Highlight>
       </Container>
     );
   } else {
@@ -39,6 +45,7 @@ const groupedCategories = (rows: WebRequestParam[]): { [key: string]: WebRequest
     rows,
   );
 };
+
 
 const wrappedTable = (data: { [category: string]: WebRequestParam[] }): JSX.Element[] => {
   const categories = sortBy(_ => _, keys(data));
@@ -58,13 +65,11 @@ const wrappedTable = (data: { [category: string]: WebRequestParam[] }): JSX.Elem
   }, categories);
 };
 
-export default class Detail extends React.Component<Props> {
-  constructor(props: Props){
-    super(props)
-  }
-
-  render() {
-    const grouped = groupedCategories(this.props.data);
-    return <div>{wrappedTable(grouped)}</div>;
-  }
+export const Detail = (props: Props) => {
+    const grouped = groupedCategories(props.payload.data.params);
+    return <div>
+      <DetailMenu payload={props.payload} addSnapshot={props.addSnapshot} snapshots={props.snapshots} removeSnapshot={props.removeSnapshot}/>
+      <Divider />
+      {wrappedTable(grouped)}
+    </div>;
 }

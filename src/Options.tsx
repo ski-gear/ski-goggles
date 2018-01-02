@@ -11,14 +11,14 @@ import { getOptions, setOptions } from './chrome/LocalStorage';
 
 const key: UserOptionsKey = 'skiGogglesOptions';
 
-getOptions(key).then((optionsFromLocal) => {
+getOptions(key, true).then((optionsFromLocal) => {
     const localOptions = defaultTo(optionsFromLocal, undefined);
     const store = createStore(options, localOptions);
 
     store.subscribe(() => {
         const state = store.getState();
         if(state){
-          setOptions(key, state).then(e => {});
+          setOptions(key, state, true).then(e => {});
         }
     });
 
