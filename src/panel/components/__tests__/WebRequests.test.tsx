@@ -10,7 +10,7 @@ import { wrps, wrp } from './Fixtures';
 import Title from '../Title';
 import { Detail } from '../detail/Detail';
 
-describe.only("WebRequests", () => {
+describe("WebRequests", () => {
   const addSpy = Sinon.spy();
   const removeSpy = Sinon.spy();
   const addSnapshot = () => { return "Added!" }

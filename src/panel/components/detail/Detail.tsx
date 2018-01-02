@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Table, Header, Container, Icon, Menu, Transition } from "semantic-ui-react";
-import * as Highlight from "react-highlight";
+import Highlight from "react-highlight.js";
 import { groupBy, defaultTo, map, keys, prop, sortBy } from "ramda";
 import { WebRequestParam, Provider } from "ski-providers";
 import JsonMenu from '../JsonMenu';
@@ -31,7 +31,7 @@ const format = (valueType: string, value: string): JSX.Element => {
     return (
       <Container fluid>
         <JsonMenu value={value} />
-        <Highlight className="json">{value}</Highlight>
+        <Highlight language="json">{value}</Highlight>
       </Container>
     );
   } else {

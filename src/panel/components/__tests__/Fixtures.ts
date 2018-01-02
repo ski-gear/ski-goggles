@@ -24,7 +24,7 @@ export const wrps: WebRequestPayloadSnapshot = {
   browserRequestId: "12345",
   url: "https://awesome.com?test=123",
   timeStamp: 1514790565000,
-  snapshottimestamp: 1514790565000,
+  snapshotTimeStamp: 1514790565000,
   provider,
   data: {
     params: []
