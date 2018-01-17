@@ -6,15 +6,19 @@ A browser extension (Chrome for now) that helps inspect web analytics requests f
 
 1. Install it from [here](https://chrome.google.com/webstore/detail/ski-goggles/epjlgeofddfejkenffcddgcdnjkcanle)
 
-### Usage
+### General Usage
 
-1. Open Devtools in the Chrome tab you want to inspect
+0. Ensure the extension is installed on Chrome.
 
-2. Open the `Ski Goggles` panel within Devtools
+1. Open Devtools in the browser tab you want to inspect analytics calls.
 
-3. Have fun inspecting the analytics calls.
+2. Open the `Ski Goggles` panel within Devtools.
 
-### Dev Workflow
+3. Have fun inspecting.
+
+---
+
+### Development Workflow
 
 0. Install `yarn`
 
