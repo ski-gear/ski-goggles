@@ -1,7 +1,8 @@
-import { WebRequestMessageEnvelope, Port, MessageEnvelope } from "../types/Types";
-import { map, empty } from "ramda";
-import { NewWebRequestPostMessage, ChromeIdPostMessage, NewSnapshotPostMessage } from "../Constants";
+import { empty, map } from "ramda";
 import when from "when-switch";
+
+import { ChromeIdPostMessage, NewSnapshotPostMessage, NewWebRequestPostMessage } from "../Constants";
+import { MessageEnvelope, Port } from "../types/Types";
 
 type ExtensionPanel = chrome.devtools.panels.ExtensionPanel;
 type ChromeWindow = chrome.windows.Window & Window;
@@ -47,9 +48,9 @@ const panelCreated = (panel: ExtensionPanel) => {
 
 const getAppropriateEvent = (me: MessageEnvelope): CustomEvent => {
   const eventType = when(me.type)
-  .is('snapshots', NewSnapshotPostMessage)
-  .is('webRequest', NewWebRequestPostMessage)
-  .else('blackHole')
+    .is("snapshots", NewSnapshotPostMessage)
+    .is("webRequest", NewWebRequestPostMessage)
+    .else("blackHole");
 
   return new CustomEvent(eventType, { detail: me });
 };

@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Button, Icon, Menu, Modal, Header, Form, Message, Divider, Popup } from "semantic-ui-react";
-import { groupBy, defaultTo, map, keys, prop, sortBy, assoc, isEmpty, merge } from "ramda";
-import { WebRequestParam } from "ski-providers";
-import { WebRequestPayload, WebRequestPayloadSnapshot } from "src/types/Types";
-import Comparison from "./Comparison";
+import { isEmpty, merge } from 'ramda';
+import * as React from 'react';
+import { Button, Divider, Form, Header, Icon, Menu, Modal, Popup } from 'semantic-ui-react';
+import { WebRequestPayload, WebRequestPayloadSnapshot } from 'src/types/Types';
+
+import Comparison from './Comparison';
 
 interface Props {
   payload: WebRequestPayload;

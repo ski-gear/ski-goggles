@@ -1,5 +1,6 @@
-import {WebRequestPayload, WebRequestPayloadSnapshot} from '../../../types/Types';
 import { Provider, ProviderCanonicalName, WebRequestData } from "ski-providers";
+
+import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
 
 export const provider: Provider = {
   canonicalName: "Snowplow" as ProviderCanonicalName,
@@ -15,8 +16,8 @@ export const wrp: WebRequestPayload = {
   timeStamp: 1514790565000,
   provider,
   data: {
-    params: []
-  }
+    params: [],
+  },
 };
 
 export const wrps: WebRequestPayloadSnapshot = {
@@ -27,6 +28,6 @@ export const wrps: WebRequestPayloadSnapshot = {
   snapshotTimeStamp: 1514790565000,
   provider,
   data: {
-    params: []
-  }
+    params: [],
+  },
 };

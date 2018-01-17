@@ -1,6 +1,7 @@
-import * as React from "react";
-import { Image, Label, Icon, Grid } from "semantic-ui-react";
 import * as moment from "moment";
+import * as React from "react";
+import { Grid, Icon, Image, Label } from "semantic-ui-react";
+
 import { generateImageUrl } from "../Helpers";
 
 type Props = {

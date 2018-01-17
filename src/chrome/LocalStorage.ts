@@ -1,4 +1,4 @@
-import { defaultTo, assoc } from "ramda";
+import { assoc, defaultTo } from "ramda";
 
 export const getOptions = (key: string, sync: boolean = false): Promise<any> => {
   const storage = sync ? chrome.storage.sync : chrome.storage.local;

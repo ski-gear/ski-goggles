@@ -1,8 +1,9 @@
-import { UserOptions } from "../../../types/Types";
-import { ProviderCanonicalName } from "ski-providers";
 import { connect, Dispatch } from "react-redux";
-import ProvidersList from "../ProvidersList";
+import { ProviderCanonicalName } from "ski-providers";
+
+import { UserOptions } from "../../../types/Types";
 import { disableProviderAction, enableProviderAction } from "../../Actions";
+import ProvidersList from "../ProvidersList";
 
 const mapStateToProps = (state: UserOptions) => {
   return {

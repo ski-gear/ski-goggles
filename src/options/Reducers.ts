@@ -1,12 +1,11 @@
-import { Action, EnableProvider, DisableProvider } from "./Actions";
-import { UserProviderSetting } from "./../types/Types";
-
-import { SkiProviders } from "ski-providers";
+import { assoc, map } from "ramda";
 import { combineReducers } from "redux";
-import { values, map, assoc } from "ramda";
-import { RESET_ALL_PROVIDER_OPTIONS, ENABLE_PROVIDER, DISABLE_PROVIDER } from "./Actions";
 import { ProviderCanonicalName } from "ski-providers";
+
 import { DefaultOptions } from "../helpers/Options";
+import { UserProviderSetting } from "./../types/Types";
+import { Action, DisableProvider, EnableProvider } from "./Actions";
+import { DISABLE_PROVIDER, ENABLE_PROVIDER, RESET_ALL_PROVIDER_OPTIONS } from "./Actions";
 
 type UserProviderSettings = UserProviderSetting[];
 
@@ -34,10 +33,10 @@ const providers = (
     case RESET_ALL_PROVIDER_OPTIONS:
       return DefaultUserProviderSettings();
     case ENABLE_PROVIDER:
-      const eAction = action as EnableProvider
+      const eAction = action as EnableProvider;
       return toggleProvider(state, eAction.provider, true);
     case DISABLE_PROVIDER:
-      const dAction = action as DisableProvider
+      const dAction = action as DisableProvider;
       return toggleProvider(state, dAction.provider, false);
     default:
       return state;

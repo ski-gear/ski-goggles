@@ -1,12 +1,13 @@
-import * as React from "react";
-import * as Enzyme from "enzyme";
-import { expect } from "chai";
-import "mocha";
-import { Icon, Button } from "semantic-ui-react";
-import * as Sinon from "sinon";
-import rewiremock, { addPlugin, plugins } from "rewiremock";
-import * as chai from "chai";
-import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE } from "../../../Constants";
+import 'mocha';
+
+import { expect } from 'chai';
+import * as chai from 'chai';
+import * as Enzyme from 'enzyme';
+import * as React from 'react';
+import rewiremock from 'rewiremock';
+import * as Sinon from 'sinon';
+
+import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from '../../../Constants';
 
 chai.use(require("sinon-chai"));
 
