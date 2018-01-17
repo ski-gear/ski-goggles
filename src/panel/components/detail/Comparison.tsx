@@ -93,16 +93,13 @@ export default class Comparison extends React.Component<Props, State> {
   options = (): JSX.Element[] => {
     const filtered = this.filteredSnapshots();
     const values = map((s: WebRequestPayloadSnapshot) => {
-      const eventTitle = propOr("Unknown Event", "title", s.data.meta) as string;
+      const eventTitle = s.data.meta.title || 'Unknown Event';
       const time = moment(s.snapshotTimeStamp).fromNow();
       return (
         <Table.Row key={s.browserRequestId}>
           <Table.Cell>
-            <Label basic image>
-              <Image avatar src={generateImageUrl(s.provider.logo)} />
-              {eventTitle}
-              <Label.Detail>{s.title}</Label.Detail>
-            </Label>
+            <Image avatar src={generateImageUrl(s.provider.logo)} />
+               { s.title } ({ eventTitle }) &nbsp;
             <Label size="mini" basic>
               {time}
             </Label>

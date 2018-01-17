@@ -42,7 +42,12 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
           url,
           timeStamp,
           provider: provider,
-          data: provider.transformer({ params: data }),
+          data: provider.transformer({ 
+            meta: {
+              requestUrl: url
+            },
+            params: data
+          }),
         },
       };
       sendToSkiGoggles(state, tabId, eventData);
