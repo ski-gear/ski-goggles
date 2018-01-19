@@ -66,8 +66,7 @@
     "start": "webpack-dev-server",
     "build": "webpack",
     "watch": "webpack --watch",
-    "test":
-      "NODE_ENV=test yarn lint && mocha -r ts-node/register --require './src/test-setup.js' './src/**/__tests__/*.test.+(ts|tsx)' --timeout=10000",
+    "test": "NODE_ENV=test yarn lint && mocha -r ts-node/register --require './src/test-setup.js' './src/**/__tests__/*.test.+(ts|tsx)' --timeout=10000",
     "lint": "tslint -p . --fix",
     "release": "yarn test && yarn build && yarn version",
     "package": "yarn build && zip ./dist/chrome.zip -r ./dist/chrome/"
