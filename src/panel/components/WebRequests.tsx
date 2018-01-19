@@ -1,25 +1,33 @@
+import { defaultTo, flatten, map, path } from "ramda";
 import * as React from "react";
 import { Accordion } from "semantic-ui-react";
-import Title from "./Title";
-import { Detail } from "./detail/Detail";
+
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../types/Types";
-import { map, flatten, defaultTo, path } from "ramda";
+import { Detail } from "./detail/Detail";
+import Title from "./Title";
 
 type Props = {
   snapshots: WebRequestPayloadSnapshot[];
-  data: WebRequestPayload[],
-  chromeId: string,
-  addSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot) => void
-  removeSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot) => void
+  data: WebRequestPayload[];
+  chromeId: string;
+  addSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot) => void;
+  removeSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot) => void;
 };
 
-const panelRows = (data: WebRequestPayload[], addSnapshot: any, removeSnapshot: any, snapshots: WebRequestPayloadSnapshot[]): any[] => {
+const panelRows = (
+  data: WebRequestPayload[],
+  addSnapshot: any,
+  removeSnapshot: any,
+  snapshots: WebRequestPayloadSnapshot[],
+): any[] => {
   const panelRows = map(payload => {
     let requestData = payload.data;
     let provider = payload.provider;
     let title = defaultTo(provider.displayName, path(["meta", "title"], payload.data)) as string;
     let titleElem = <Title title={title} logo={provider.logo} timeStamp={payload.timeStamp} />;
-    let contentElem = <Detail payload={payload} addSnapshot={addSnapshot} removeSnapshot={removeSnapshot} snapshots={snapshots}/>;
+    let contentElem = (
+      <Detail payload={payload} addSnapshot={addSnapshot} removeSnapshot={removeSnapshot} snapshots={snapshots} />
+    );
     let titleNode = <Accordion.Title>{titleElem}</Accordion.Title>;
     let contentNode = <Accordion.Content>{contentElem}</Accordion.Content>;
 
@@ -45,7 +53,12 @@ export default class WebRequests extends React.Component<Props> {
     return (
       <div>
         <Accordion styled fluid>
-          {panelRows(this.props.data, this.addSnapshot.bind(this), this.removeSnapshot.bind(this), this.props.snapshots)}
+          {panelRows(
+            this.props.data,
+            this.addSnapshot.bind(this),
+            this.removeSnapshot.bind(this),
+            this.props.snapshots,
+          )}
         </Accordion>
       </div>
     );

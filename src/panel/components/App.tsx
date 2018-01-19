@@ -1,13 +1,10 @@
-import * as React from "react";
-import MenuContainer from "./containers/MenuContainer";
-import { Container } from "semantic-ui-react";
 import * as Clipboard from "clipboard";
+import * as React from "react";
+import { Container } from "semantic-ui-react";
 
 import DocumentContainer from "./containers/DocumentContainer";
+import MenuContainer from "./containers/MenuContainer";
 import WebRequestsContainer from "./containers/WebRequestsContainer";
-import { SyncSnapshots } from './../actions/Snapshots'
-import { NewSnapshotPostMessage } from "./../../Constants";
-import { WebRequestPayloadSnapshot } from "src/types/Types";
 
 export default class App extends React.Component {
   componentDidMount() {

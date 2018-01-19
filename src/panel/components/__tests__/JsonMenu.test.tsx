@@ -1,9 +1,11 @@
-import * as React from "react";
-import * as Enzyme from "enzyme";
-import { expect } from "chai";
-import JsonMenu from "../JsonMenu";
 import "mocha";
-import { Icon, Button } from "semantic-ui-react";
+
+import { expect } from "chai";
+import * as Enzyme from "enzyme";
+import * as React from "react";
+import { Button } from "semantic-ui-react";
+
+import JsonMenu from "../JsonMenu";
 
 describe("JsonMenu", () => {
   const jsonMenu = Enzyme.mount(<JsonMenu value="stuff" />);

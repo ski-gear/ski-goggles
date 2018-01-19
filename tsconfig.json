@@ -9,26 +9,12 @@
     "module": "commonjs",
     "target": "es5",
     "allowJs": true,
-    "lib": [
-      "es2015",
-      "dom"
-    ],
+    "lib": ["es2015", "dom"],
     "baseUrl": "./",
-    "types": [
-      "node",
-      "chrome"
-    ],
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
+    "types": ["node", "chrome"],
+    "typeRoots": ["./node_modules/@types"],
     "jsx": "react"
   },
-  "include": [
-    "./src/",
-    "types/Typeless.d.ts"
-  ],
-  "exclude": [
-    "./node_modules/",
-    "**/*.test.ts"
-  ]
+  "include": ["./src/", "types/Typeless.d.ts"],
+  "exclude": ["./node_modules/", "**/*.test.ts"]
 }

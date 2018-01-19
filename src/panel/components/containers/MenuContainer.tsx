@@ -1,7 +1,8 @@
 import { connect, Dispatch } from "react-redux";
-import MenuBar from "../MenuBar";
-import { clearAllWebRequests } from "../../actions/WebRequests";
+
 import { PanelState } from "../../../types/Types";
+import { clearAllWebRequests } from "../../actions/WebRequests";
+import MenuBar from "../MenuBar";
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {

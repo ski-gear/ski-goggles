@@ -1,8 +1,9 @@
-import { SkiProviders, Provider, SkiProviderHelpers, ProviderCanonicalName } from "ski-providers";
-import { values, map, contains } from "ramda";
-import { UserOptionsVersion } from "../Versions";
-import { UserOptions, UserProviderSetting } from "../types/Types";
+import { contains, map, values } from "ramda";
+import { Provider, SkiProviders } from "ski-providers";
+
 import { PreferredProviders } from "../Constants";
+import { UserOptions, UserProviderSetting } from "../types/Types";
+import { UserOptionsVersion } from "../Versions";
 
 export const DefaultOptions = (): UserOptions => {
   return {

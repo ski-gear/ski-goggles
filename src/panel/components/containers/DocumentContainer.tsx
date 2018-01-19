@@ -1,13 +1,14 @@
 import * as React from "react";
 import { connect, Dispatch } from "react-redux";
-import { addWebRequestRowAction, AddWebRequestRowAction } from "../../actions/WebRequests";
+
+import { NewSnapshotPostMessage, NewWebRequestPostMessage } from "../../../Constants";
 import { WebRequestMessageEnvelope, WebRequestPayloadSnapshot } from "../../../types/Types";
-import { NewWebRequestPostMessage, NewSnapshotPostMessage } from "../../../Constants";
-import { AddChromeId } from '../../actions/MetaData'
+import { AddChromeId } from "../../actions/MetaData";
 import { SyncSnapshots } from "../../actions/Snapshots";
+import { addWebRequestRowAction } from "../../actions/WebRequests";
 
 type PostedData = {
-  detail: WebRequestMessageEnvelope
+  detail: WebRequestMessageEnvelope;
 };
 
 type Props = {
@@ -25,19 +26,19 @@ class DocumentContainer extends React.Component<Props, State> {
     let dispatch = this.props.dispatch;
 
     document.addEventListener(NewWebRequestPostMessage, (data: any) => {
-      const postedData = data as PostedData
+      const postedData = data as PostedData;
       if (postedData.detail.type == "webRequest") {
         dispatch(addWebRequestRowAction(postedData.detail.payload));
       }
     });
 
     document.addEventListener("chromeId", (data: any) => {
-     const chromeId: string = data.detail.chromeId;
-     dispatch(AddChromeId(chromeId));
+      const chromeId: string = data.detail.chromeId;
+      dispatch(AddChromeId(chromeId));
     });
 
     document.addEventListener(NewSnapshotPostMessage, (data: any) => {
-      const wrpss = data.detail.payload as WebRequestPayloadSnapshot[]
+      const wrpss = data.detail.payload as WebRequestPayloadSnapshot[];
       dispatch(SyncSnapshots(wrpss));
     });
   }

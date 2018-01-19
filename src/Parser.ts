@@ -1,7 +1,7 @@
-import { toPairs, map, defaultTo } from "ramda";
-import * as querystring from "querystring";
+import * as querystring from 'querystring';
+import { defaultTo, map, toPairs } from 'ramda';
+import { WebRequestParam } from 'ski-providers';
 import { parse as UrlParse } from 'url';
-import { WebRequestParam } from "ski-providers";
 
 export const parse = (url: string): WebRequestParam[] => {
   const parsed = UrlParse(url);

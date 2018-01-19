@@ -1,7 +1,8 @@
 import { connect, Dispatch } from "react-redux";
-import WebRequests from "../WebRequests";
-import { PanelState, WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
+
+import { PanelState, WebRequestPayloadSnapshot } from "../../../types/Types";
 import { AddSnapshotAction, RemoveSnapshotAction } from "../../actions/Snapshots";
+import WebRequests from "../WebRequests";
 
 const mapStateToProps = (state: PanelState) => {
   return {

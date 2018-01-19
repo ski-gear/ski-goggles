@@ -1,20 +1,19 @@
-import { curry, map, prop, filter, keys } from "ramda";
-import {
-  WebRequestMessageEnvelope,
-  GlobalState,
-  UserProviderSetting,
-  UserOptions,
-  Port,
-  PostMessageType,
-  SnapshotMessageEnvelope,
-  MessageEnvelope,
-} from "../types/Types";
 import * as moment from "moment";
-import { parse } from "../Parser";
+import { curry, filter, keys, map } from "ramda";
 import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
-import { DefaultOptions } from "../helpers/Options";
-import { setOptions, getOptions } from "./LocalStorage";
 import { ProviderCanonicalName } from "ski-providers/dist/types/Types";
+
+import { DefaultOptions } from "../helpers/Options";
+import { parse } from "../Parser";
+import {
+  GlobalState,
+  MessageEnvelope,
+  Port,
+  UserOptions,
+  UserProviderSetting,
+  WebRequestMessageEnvelope,
+} from "../types/Types";
+import { getOptions, setOptions } from "./LocalStorage";
 
 export const onInstall = curry((state: GlobalState, _details: any): void => {
   const defaults = DefaultOptions();
@@ -43,7 +42,12 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
           url,
           timeStamp,
           provider: provider,
-          data: provider.transformer({ params: data }),
+          data: provider.transformer({ 
+            meta: {
+              requestUrl: url
+            },
+            params: data
+          }),
         },
       };
       sendToSkiGoggles(state, tabId, eventData);

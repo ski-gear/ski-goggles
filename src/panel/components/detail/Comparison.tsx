@@ -1,24 +1,11 @@
-import * as React from "react";
-import {
-  Button,
-  Icon,
-  Menu,
-  Modal,
-  Header,
-  Form,
-  Table,
-  Divider,
-  Popup,
-  Segment,
-  Image,
-  Label,
-} from "semantic-ui-react";
-import { map, reverse, filter, find, defaultTo, props, propOr, reduce, assoc } from "ramda";
-import { WebRequestPayloadSnapshot, WebRequestPayload } from "./../../../types/Types";
-import { ProviderCanonicalName } from "ski-providers";
-import { WebRequestParam } from "ski-providers";
-import { generateDiff, generateImageUrl } from "./../../Helpers";
 import * as moment from "moment";
+import { assoc, defaultTo, filter, find, map, propOr, props, reduce, reverse } from "ramda";
+import * as React from "react";
+import { Button, Divider, Header, Icon, Image, Label, Menu, Popup, Segment, Table } from "semantic-ui-react";
+import { WebRequestParam } from "ski-providers";
+
+import { WebRequestPayload, WebRequestPayloadSnapshot } from "./../../../types/Types";
+import { generateDiff, generateImageUrl } from "./../../Helpers";
 
 interface Props {
   snapshots: WebRequestPayloadSnapshot[];
@@ -106,16 +93,13 @@ export default class Comparison extends React.Component<Props, State> {
   options = (): JSX.Element[] => {
     const filtered = this.filteredSnapshots();
     const values = map((s: WebRequestPayloadSnapshot) => {
-      const eventTitle = propOr("Unknown Event", "title", s.data.meta) as string;
+      const eventTitle = s.data.meta.title || 'Unknown Event';
       const time = moment(s.snapshotTimeStamp).fromNow();
       return (
         <Table.Row key={s.browserRequestId}>
           <Table.Cell>
-            <Label basic image>
-              <Image avatar src={generateImageUrl(s.provider.logo)} />
-              {eventTitle}
-              <Label.Detail>{s.title}</Label.Detail>
-            </Label>
+            <Image avatar src={generateImageUrl(s.provider.logo)} />
+               { s.title } ({ eventTitle }) &nbsp;
             <Label size="mini" basic>
               {time}
             </Label>
@@ -199,7 +183,12 @@ export default class Comparison extends React.Component<Props, State> {
                 </Button>
               </Menu.Item>
               <Menu.Item>
-                <Button basic data-clipboard-text={JSON.stringify(this.state.rawDiffData, null, 4)} className="clipBoard" onClick={this.onCopy.bind(this)}>
+                <Button
+                  basic
+                  data-clipboard-text={JSON.stringify(this.state.rawDiffData, null, 4)}
+                  className="clipBoard"
+                  onClick={this.onCopy.bind(this)}
+                >
                   <Icon name="copy" /> {this.state.copyText}
                 </Button>
               </Menu.Item>

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Menu, Image, Icon, Popup } from "semantic-ui-react";
-import { RunTimeMessage, RunTimeMessageSubject } from "../../types/Types";
-import { OPEN_OPTIONS_TAB, OPEN_ISSUES_PAGE } from "../../Constants";
+import { Icon, Image, Menu, Popup } from "semantic-ui-react";
+
+import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from "../../Constants";
 import { AppVersion } from "../../Versions";
 import { SendRuntimeMessage } from "../Helpers";
 

@@ -1,5 +1,6 @@
-import { RunTimeMessage, RunTimeMessageSubject, PostMessageType } from "./types/Types";
 import { ProviderCanonicalName } from "ski-providers";
+
+import { PostMessageType, RunTimeMessageSubject } from "./types/Types";
 
 export const GIT_ISSUES_URL: string = "https://github.com/ski-gear/ski-goggles/issues";
 export const OPEN_OPTIONS_TAB: RunTimeMessageSubject = "open-options-tab";

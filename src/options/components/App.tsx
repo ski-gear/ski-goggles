@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Label, Container, Divider } from "semantic-ui-react";
-import VisibleProviders from "./containers/VisibleProviders";
+import { Container, Divider, Label } from "semantic-ui-react";
+
 import { AppVersion } from "../../Versions";
+import VisibleProviders from "./containers/VisibleProviders";
 
 type Props = {};
 type State = {};

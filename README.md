@@ -24,11 +24,12 @@ A browser extension (Chrome for now) that helps inspect web analytics requests f
 
 1. Run `yarn`
 
-2. Build the extension (creates/updates the `dist` directory)
+1. Build the extension (creates/updates the `dist` directory)
 
-  ```
-    yarn build
-  ```
+
+```
+  yarn build
+```
 
 3. Go to `chrome://extensions` on Chrome.
 
