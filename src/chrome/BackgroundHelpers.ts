@@ -29,7 +29,10 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
   if (ProviderHelpers.matchesBroadly(details.url, state.masterPattern)) {
     let url: string = details.url;
     let tabId: string = details.tabId;
+    let httpMethod: string = details.method;
     let browserRequestId: string = details.requestId;
+    let requestBody: object = details.requestBody;
+
     let timeStamp: number = parseInt(moment().format("x"));
     let data = parse(url);
     let provider = ProviderHelpers.lookupByUrl(url);

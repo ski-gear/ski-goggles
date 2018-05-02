@@ -28,8 +28,8 @@ const panelRows = (
     let contentElem = (
       <Detail payload={payload} addSnapshot={addSnapshot} removeSnapshot={removeSnapshot} snapshots={snapshots} />
     );
-    let titleNode = <Accordion.Title>{titleElem}</Accordion.Title>;
-    let contentNode = <Accordion.Content>{contentElem}</Accordion.Content>;
+    let titleNode = <Accordion.Title key={"title-"+ payload.timeStamp}>{titleElem}</Accordion.Title>;
+    let contentNode = <Accordion.Content key={"content-" + payload.timeStamp}>{contentElem}</Accordion.Content>;
 
     return [titleNode, contentNode];
   }, data);
