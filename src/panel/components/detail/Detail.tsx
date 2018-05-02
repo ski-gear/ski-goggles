@@ -1,5 +1,6 @@
-import { defaultTo, groupBy, keys, map, prop, sortBy } from "ramda";
+import { defaultTo, groupBy, keys, map, prop, sortBy, assoc } from "ramda";
 import * as React from "react";
+import * as moment from "moment";
 import Highlight from "react-highlight.js";
 import { Container, Header, Table } from "semantic-ui-react";
 import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
@@ -14,6 +15,10 @@ type Props = {
   payload: WebRequestPayload;
   addSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
   removeSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
+};
+
+type GroupedData = {
+  [key: string]: WebRequestParam[]
 };
 
 const renderRows = (rows: WebRequestParam[]) => {
@@ -40,11 +45,11 @@ const format = (valueType: string, value: string): JSX.Element => {
   }
 };
 
-const groupedCategories = (rows: WebRequestParam[]): { [key: string]: WebRequestParam[] } => {
+const groupedCategories = (rows: WebRequestParam[]): GroupedData => {
   return groupBy(row => defaultTo("General Data", row.category) as string, rows);
 };
 
-const wrappedTable = (data: { [category: string]: WebRequestParam[] }): JSX.Element[] => {
+const wrappedTable = (data: GroupedData): JSX.Element[] => {
   const categories = sortBy(_ => _, keys(data));
 
   return map(category => {
@@ -60,8 +65,33 @@ const wrappedTable = (data: { [category: string]: WebRequestParam[] }): JSX.Elem
   }, categories);
 };
 
+const addMetaData = (data: GroupedData, payload: WebRequestPayload): GroupedData => {
+  const metaData = [
+    {
+      label: 'Intercepted Time',
+      value: formatTime(payload.timeStamp),
+      valueType: "string",
+      category: 'metaData'
+    },
+    {
+      label: 'Intercepted URL',
+      value: payload.url,
+      valueType: "string",
+      category: 'metaData'
+    }
+  ];
+
+  return assoc('Meta Data', metaData, data);
+}
+
+const formatTime = (timeStamp: number): string => {
+  return moment(timeStamp).format("MMMM Do YYYY HH:mm:ss:SSS");
+};
+
 export const Detail = (props: Props) => {
-  const grouped = groupedCategories(props.payload.data.params);
+  const categorized = groupedCategories(props.payload.data.params);
+  const groupedWithMetaData = addMetaData(categorized, props.payload);
+
   return (
     <div>
       <DetailMenu
@@ -71,7 +101,7 @@ export const Detail = (props: Props) => {
         removeSnapshot={props.removeSnapshot}
       />
       <Divider />
-      {wrappedTable(grouped)}
+      {wrappedTable(groupedWithMetaData)}
     </div>
   );
 };
