@@ -35,7 +35,7 @@ const Plugins = [
     { from: "node_modules/highlight.js/styles/atom-one-light.css", to: "css/highlight.css" },
     { from: "node_modules/jsondiffpatch/public/formatters-styles/html.css", to: "css/jsondiffpatch.css" },
     { from: "src/assets/fonts", to: "css/themes/default/assets/fonts" },
-    { from: "src/assets/images", to: "images" },
+    { from: "src/assets/images", to: "images", ignore: ["dev/**/*", '.DS_Store'] },
     { from: "node_modules/ski-providers/assets/images/providers", to: "images/providers" },
     { from: "src/chrome/manifest.json", to: "manifest.json" },
   ]),
@@ -62,25 +62,36 @@ const Plugins = [
   }),
 ];
 
-const Config = {
-  ...Modules,
+const DevPlugins = [
+  new CopyWebpackPlugin([
+    { from: "src/assets/images/dev/ski-goggles-48.png", to: "images/ski-goggles-48.png", toType: 'file', force: true },
+    { from: "src/assets/images/dev/ski-goggles-expanded.png", to: "images/ski-goggles-expanded.png", toType: 'file', force: true },
+  ]),
+];
 
-  entry: {
-    panel: "./src/Panel.tsx",
-    background: "./src/chrome/Background.ts",
-    devtools: "./src/chrome/Devtools.ts",
-    options: "./src/Options.tsx",
-  },
-  output: {
-    path: path.resolve("dist/chrome"),
-    filename: "[name].js",
-  },
-  resolve: {
-    extensions: ["*", ".ts", ".tsx", ".js", ".json"],
-  },
-  plugins: Plugins,
+const AllPlugins = env => env.NODE_ENV === "dev" ? Plugins.concat(DevPlugins) : Plugins;
+
+const Config = env => {
+  return {
+    ...Modules,
+
+    entry: {
+      panel: "./src/Panel.tsx",
+      background: "./src/chrome/Background.ts",
+      devtools: "./src/chrome/Devtools.ts",
+      options: "./src/Options.tsx",
+    },
+    output: {
+      path: path.resolve("dist/chrome"),
+      filename: "[name].js",
+    },
+    resolve: {
+      extensions: ["*", ".ts", ".tsx", ".js", ".json"],
+    },
+    plugins: AllPlugins(env),
+  };
 };
 
-module.exports = {
-  ...Config,
+module.exports = env => {
+  return Config(env || {})
 };
