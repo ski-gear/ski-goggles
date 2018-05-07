@@ -65,6 +65,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
+    "dev-build": "webpack --env.NODE_ENV=dev",
     "watch": "webpack --watch",
     "test": "NODE_ENV=test yarn lint && mocha -r ts-node/register --require './src/test-setup.js' './src/**/__tests__/*.test.+(ts|tsx)' --timeout=10000",
     "lint": "tslint -p . --fix",
