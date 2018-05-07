@@ -1,6 +1,6 @@
 {
   "name": "ski-goggles",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Some eye protection before skiing into the world of Snowplow",
   "author": "prem.pillai@gmail.com",
   "homepage": "https://github.com/ski-gear/ski-goggles",
@@ -58,7 +58,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.71.4",
-    "ski-providers": "^1.0.5",
+    "ski-providers": "^1.2.4",
     "url": "^0.11.0",
     "when-switch": "^0.2.0"
   },
