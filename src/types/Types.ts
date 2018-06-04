@@ -1,5 +1,5 @@
 import { Delta } from "jsondiffpatch";
-import { Provider, ProviderCanonicalName, WebRequestData } from "ski-providers";
+import { Provider, ProviderCanonicalName, FormattedWebRequestData } from "ski-providers";
 
 export type PostMessageType = "newWebRequest" | "newSnapshot" | "chromeId";
 
@@ -8,7 +8,7 @@ export type WebRequestPayload = {
   url: string;
   timeStamp: number;
   provider: Provider;
-  data: WebRequestData;
+  data: FormattedWebRequestData;
 };
 
 export type WebRequestPayloadSnapshot = WebRequestPayload & {

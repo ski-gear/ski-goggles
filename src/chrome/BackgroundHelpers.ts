@@ -1,7 +1,8 @@
 import * as moment from "moment";
 import { curry, filter, keys, map } from "ramda";
 import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
-import { ProviderCanonicalName } from "ski-providers/dist/types/Types";
+import { ProviderCanonicalName, BasicWebRequest } from "ski-providers/dist/types/Types";
+import { GetRequest, PostRequest } from "ski-providers/dist/types/Types";
 
 import { DefaultOptions } from "../helpers/Options";
 import { parse } from "../Parser";
@@ -34,7 +35,11 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
     let requestBody: object = details.requestBody;
 
     let timeStamp: number = parseInt(moment().format("x"));
-    let data = parse(url);
+    let rawRequestData: GetRequest = {
+      url,
+      requestType: "GET",
+      requestParams: parse(url)
+    }
     let provider = ProviderHelpers.lookupByUrl(url);
 
     if (provider) {
@@ -45,12 +50,7 @@ export const processWebRequest = curry((state: GlobalState, details: any): void 
           url,
           timeStamp,
           provider: provider,
-          data: provider.transformer({ 
-            meta: {
-              requestUrl: url
-            },
-            params: data
-          }),
+          data: provider.transformer(rawRequestData),
         },
       };
       sendToSkiGoggles(state, tabId, eventData);

@@ -1,5 +1,4 @@
 import { RunTimeMessage, RunTimeMessageSubject, DiffData } from "../types/Types";
-import { WebRequestData } from "ski-providers";
 import { DiffPatcher, Delta } from "jsondiffpatch";
 import { format as HtmlFormat } from "jsondiffpatch/src/formatters/html";
 
