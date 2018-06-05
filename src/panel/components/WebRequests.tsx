@@ -1,10 +1,10 @@
-import { defaultTo, flatten, map, path } from "ramda";
+import { defaultTo, map, path } from "ramda";
 import * as React from "react";
 import { Accordion } from "semantic-ui-react";
-
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../types/Types";
-import { Detail } from "./detail/Detail";
 import Title from "./Title";
+import { Detail } from "./detail/Detail";
+
 
 type Props = {
   snapshots: WebRequestPayloadSnapshot[];
@@ -28,19 +28,16 @@ const panelRows = (
     let contentElem = (
       <Detail payload={payload} addSnapshot={addSnapshot} removeSnapshot={removeSnapshot} snapshots={snapshots} />
     );
-    let titleNode = <Accordion.Title key={"title-"+ payload.timeStamp}>{titleElem}</Accordion.Title>;
+    let titleNode = <Accordion.Title key={"title-" + payload.timeStamp}>{titleElem}</Accordion.Title>;
     let contentNode = <Accordion.Content key={"content-" + payload.timeStamp}>{contentElem}</Accordion.Content>;
 
     return {
       title: titleNode,
-      //   key: "title-" + payload.timeStamp,
-      //   content: titleElem
-      // },
       content: {
         content: contentElem,
         key: "content-" + payload.timeStamp,
       },
-    }
+    };
   }, data);
   return panelRows;
 };
@@ -61,14 +58,16 @@ export default class WebRequests extends React.Component<Props> {
   render() {
     return (
       <div>
-        <Accordion styled fluid panels={
-          panelRows(
+        <Accordion
+          styled
+          fluid
+          panels={panelRows(
             this.props.data,
             this.addSnapshot.bind(this),
             this.removeSnapshot.bind(this),
             this.props.snapshots,
-          )
-        } />
+          )}
+        />
       </div>
     );
   }

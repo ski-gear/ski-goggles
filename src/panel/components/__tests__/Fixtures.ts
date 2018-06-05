@@ -5,7 +5,7 @@ import { RawWebRequestData } from "ski-providers/dist/types/Types";
 
 export const provider: Provider = {
   canonicalName: "Snowplow" as ProviderCanonicalName,
-  displayName: "snowplow",
+  displayName: "Snowplow",
   logo: "stuff-logo",
   pattern: /\s/,
   transformer: (rwrd: RawWebRequestData) => {
@@ -25,7 +25,7 @@ export const wrp: WebRequestPayload = {
   provider,
   data: {
     meta: {
-      title: "stuff",
+      title: "Snowplow",
     },
     data: [
       {

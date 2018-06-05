@@ -57,7 +57,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.81.1",
-    "ski-providers": "file:../ski-providers/",
+    "ski-providers": "file:../ski-providers",
     "url": "^0.11.0",
     "when-switch": "^0.2.0"
   },
