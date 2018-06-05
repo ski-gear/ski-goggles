@@ -171,7 +171,7 @@ export default class Comparison extends React.Component<Props, State> {
         <div className={hiddenClass(this.state.diffDataShown)}>
           <Segment stacked className="diff-result">
             <Header size="tiny">
-              <Icon name="file text outline" />
+              <Icon name="file code outline" />
               Comparison Report
             </Header>
             <div dangerouslySetInnerHTML={{ __html: this.state.formattedDiffData }} />

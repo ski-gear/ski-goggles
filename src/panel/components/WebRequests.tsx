@@ -31,9 +31,18 @@ const panelRows = (
     let titleNode = <Accordion.Title key={"title-"+ payload.timeStamp}>{titleElem}</Accordion.Title>;
     let contentNode = <Accordion.Content key={"content-" + payload.timeStamp}>{contentElem}</Accordion.Content>;
 
-    return [titleNode, contentNode];
+    return {
+      title: titleNode,
+      //   key: "title-" + payload.timeStamp,
+      //   content: titleElem
+      // },
+      content: {
+        content: contentElem,
+        key: "content-" + payload.timeStamp,
+      },
+    }
   }, data);
-  return flatten(panelRows);
+  return panelRows;
 };
 
 export default class WebRequests extends React.Component<Props> {
@@ -52,14 +61,14 @@ export default class WebRequests extends React.Component<Props> {
   render() {
     return (
       <div>
-        <Accordion styled fluid>
-          {panelRows(
+        <Accordion styled fluid panels={
+          panelRows(
             this.props.data,
             this.addSnapshot.bind(this),
             this.removeSnapshot.bind(this),
             this.props.snapshots,
-          )}
-        </Accordion>
+          )
+        } />
       </div>
     );
   }
