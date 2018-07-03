@@ -4,7 +4,7 @@ import * as moment from "moment";
 import Highlight from "react-highlight.js";
 import { Container, Header, Table } from "semantic-ui-react";
 import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
-import { WebRequestParam } from "ski-providers";
+import { FormattedDataItem } from "ski-providers";
 
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
 import JsonMenu from "../JsonMenu";
@@ -18,15 +18,15 @@ type Props = {
 };
 
 type GroupedData = {
-  [key: string]: WebRequestParam[]
+  [key: string]: FormattedDataItem[]
 };
 
-const renderRows = (rows: WebRequestParam[]) => {
+const renderRows = (rows: FormattedDataItem[]) => {
   return map(row => {
     return (
       <Table.Row key={row.label}>
         <Table.Cell>{row.label}</Table.Cell>
-        <Table.Cell>{format(row.valueType, row.value)}</Table.Cell>
+        <Table.Cell>{format(row.formatting, row.value)}</Table.Cell>
       </Table.Row>
     );
   }, rows);
@@ -45,7 +45,7 @@ const format = (valueType: string, value: string): JSX.Element => {
   }
 };
 
-const groupedCategories = (rows: WebRequestParam[]): GroupedData => {
+const groupedCategories = (rows: FormattedDataItem[]): GroupedData => {
   return groupBy(row => defaultTo("General Data", row.category) as string, rows);
 };
 
@@ -70,13 +70,13 @@ const addMetaData = (data: GroupedData, payload: WebRequestPayload): GroupedData
     {
       label: 'Intercepted Time',
       value: formatTime(payload.timeStamp),
-      valueType: "string",
+      formatting: "string",
       category: 'metaData'
     },
     {
       label: 'Intercepted URL',
       value: payload.url,
-      valueType: "string",
+      formatting: "string",
       category: 'metaData'
     }
   ];
@@ -89,7 +89,7 @@ const formatTime = (timeStamp: number): string => {
 };
 
 export const Detail = (props: Props) => {
-  const categorized = groupedCategories(props.payload.data.params);
+  const categorized = groupedCategories(props.payload.data.data);
   const groupedWithMetaData = addMetaData(categorized, props.payload);
 
   return (

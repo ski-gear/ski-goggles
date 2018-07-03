@@ -1,11 +1,19 @@
-import { configure } from "enzyme";
+import {
+    configure
+} from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
-import { JSDOM } from "jsdom";
+import {
+    JSDOM
+} from "jsdom";
 
-configure({ adapter: new Adapter() });
+configure({
+    adapter: new Adapter()
+});
 
 const jsdom = new JSDOM("<!doctype html><html><body></body></html>");
-const { window } = jsdom;
+const {
+    window
+} = jsdom;
 
 const copyProps = (src, target) => {
     const props = Object.getOwnPropertyNames(src)
@@ -14,8 +22,7 @@ const copyProps = (src, target) => {
             (result, prop) => ({
                 ...result,
                 [prop]: Object.getOwnPropertyDescriptor(src, prop),
-            }),
-            {},
+            }), {},
         );
     Object.defineProperties(target, props);
 };
@@ -26,5 +33,8 @@ global.window.localStorage = {};
 global.chrome = {};
 global.navigator = {
     userAgent: "node.js",
+};
+global.requestAnimationFrame = function (callback) {
+    setTimeout(callback, 0);
 };
 copyProps(window, global);

@@ -2,7 +2,7 @@ import * as moment from "moment";
 import { assoc, defaultTo, filter, find, map, propOr, props, reduce, reverse } from "ramda";
 import * as React from "react";
 import { Button, Divider, Header, Icon, Image, Label, Menu, Popup, Segment, Table } from "semantic-ui-react";
-import { WebRequestParam } from "ski-providers";
+import { FormattedDataItem } from "ski-providers";
 
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "./../../../types/Types";
 import { generateDiff, generateImageUrl } from "./../../Helpers";
@@ -32,10 +32,10 @@ const safeJsonParse = (json: string): {} => {
   }
 };
 
-const getBasicData = (wrps: WebRequestParam[]): {} => {
+const getBasicData = (wrps: FormattedDataItem[]): {} => {
   return reduce(
-    (acc: any, wrp: WebRequestParam) => {
-      const val = wrp.valueType === "json" ? safeJsonParse(wrp.value) : wrp.value;
+    (acc: any, wrp: FormattedDataItem) => {
+      const val = wrp.formatting === "json" ? safeJsonParse(wrp.value) : wrp.value;
       return assoc(wrp.label, val, acc);
     },
     {},
@@ -63,9 +63,9 @@ export default class Comparison extends React.Component<Props, State> {
         (s: WebRequestPayloadSnapshot) => s.browserRequestId === requestId,
         this.props.snapshots,
       ) as WebRequestPayloadSnapshot;
-      const selected = getBasicData(selectedSnapshot.data.params);
+      const selected = getBasicData(selectedSnapshot.data.data);
 
-      const current = getBasicData(this.props.currentPayload.data.params);
+      const current = getBasicData(this.props.currentPayload.data.data);
 
       const diff = generateDiff(current, selected);
       const formattedDiffData = defaultTo("＼（＾ ＾）／ No difference. Great job!", diff.formatted) as string;
@@ -171,7 +171,7 @@ export default class Comparison extends React.Component<Props, State> {
         <div className={hiddenClass(this.state.diffDataShown)}>
           <Segment stacked className="diff-result">
             <Header size="tiny">
-              <Icon name="file text outline" />
+              <Icon name="file code outline" />
               Comparison Report
             </Header>
             <div dangerouslySetInnerHTML={{ __html: this.state.formattedDiffData }} />
