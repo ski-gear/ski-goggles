@@ -4588,9 +4588,10 @@ sinon@^4.1.3:
     supports-color "^4.4.0"
     type-detect "^4.0.5"
 
-ski-providers@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-1.4.0.tgz#0682866f81f26b12b33e636e49e07159a779d9b7"
+ski-providers@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/ski-providers/-/ski-providers-1.5.0.tgz#d5826da0200d52b3274d5e391f5fc0ea2d126ed2"
+  integrity sha512-l9zXNuuv4KyBBwn7Fjq3giboz3NsTl/jWs1I4HIvwQP52XbLHK+nViazNztD6xoN9L7/DCAXppcpqm1nhhkW0g==
   dependencies:
     moment "^2.18.1"
     querystring "^0.2.0"
