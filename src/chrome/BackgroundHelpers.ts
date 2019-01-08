@@ -4,7 +4,14 @@ import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
 import { ProviderCanonicalName, RawRequestBody, RawWebRequestData } from "ski-providers/dist/types/Types";
 import { parse } from "../Parser";
 import { DefaultOptions } from "../helpers/Options";
-import { GlobalState, MessageEnvelope, Port, UserOptions, UserProviderSetting, WebRequestMessageEnvelope } from "../types/Types";
+import {
+  GlobalState,
+  MessageEnvelope,
+  Port,
+  UserOptions,
+  UserProviderSetting,
+  WebRequestMessageEnvelope,
+} from "../types/Types";
 import { getOptions, setOptions } from "./LocalStorage";
 
 export const onInstall = curry(
@@ -76,7 +83,7 @@ const buildRawWebRequestData = (method: string, url: string, requestBody: RawReq
 export const refreshMasterPattern = (state: GlobalState) => {
   console.debug("Recreating masterpattern");
   getOptions(state.userOptionsKey, true).then((opts: UserOptions) => {
-    const upss = opts.providers;
+    const upss = opts.providers || [];
     state.masterPattern = ProviderHelpers.generateMasterPattern(enabledProvidersFromOptions(upss));
     console.log(state.masterPattern);
   });
@@ -125,6 +132,8 @@ const sendToSkiGoggles = (state: GlobalState, tabId: string, envelope: MessageEn
 };
 
 const enabledProvidersFromOptions = (opts: UserProviderSetting[]): ProviderCanonicalName[] => {
-  const enabled = filter((ups: UserProviderSetting) => ups.enabled, opts);
+  const enabled = filter((ups: UserProviderSetting) => {
+    return ups.enabled;
+  }, opts);
   return map((ups: UserProviderSetting) => ups.providerCanonicalName, enabled);
 };
