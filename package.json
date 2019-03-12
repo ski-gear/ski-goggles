@@ -40,7 +40,7 @@
     "tslint": "^5.8.0",
     "typescript": "^2.6.2",
     "webpack": "^3.5.3",
-    "webpack-dev-server": "^2.7.1",
+    "webpack-dev-server": ">=3.1.11",
     "webpack-node-externals": "^1.6.0",
     "yarn": "^1.6.0"
   },
