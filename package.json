@@ -1,6 +1,6 @@
 {
   "name": "ski-goggles",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Some eye protection before skiing into the world of Snowplow",
   "author": "prem.pillai@gmail.com",
   "homepage": "https://github.com/ski-gear/ski-goggles",
@@ -38,7 +38,7 @@
     "ts-loader": "^3.2.0",
     "ts-node": "^4.1.0",
     "tslint": "^5.8.0",
-    "typescript": "^2.6.2",
+    "typescript": "^3.7.0",
     "webpack": "^3.5.3",
     "webpack-dev-server": ">=3.1.11",
     "webpack-node-externals": "^1.6.0",

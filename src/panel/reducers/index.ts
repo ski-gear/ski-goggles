@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-import { webRequests } from './WebRequests'
-import { snapshots } from './Snapshots'
-import { metaData } from './MetaData'
+import { metaData } from "./MetaData";
+import { snapshots } from "./Snapshots";
+import { webRequests } from "./WebRequests";
 
 const skiGoggles = combineReducers({
   webRequests,
   snapshots,
-  metaData
+  metaData,
 });
 
 export default skiGoggles;

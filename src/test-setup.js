@@ -1,18 +1,18 @@
 import {
-    configure
+    configure,
 } from "enzyme";
 import * as Adapter from "enzyme-adapter-react-16";
 import {
-    JSDOM
+    JSDOM,
 } from "jsdom";
 
 configure({
-    adapter: new Adapter()
+    adapter: new Adapter(),
 });
 
 const jsdom = new JSDOM("<!doctype html><html><body></body></html>");
 const {
-    window
+    window,
 } = jsdom;
 
 const copyProps = (src, target) => {
@@ -29,12 +29,17 @@ const copyProps = (src, target) => {
 
 global.window = window;
 global.document = window.document;
-global.window.localStorage = {};
+Object.defineProperty(global.window, "localStorage", {
+    value: {},
+    configurable: true,
+    enumerable: true,
+    writable: true,
+});
 global.chrome = {};
 global.navigator = {
     userAgent: "node.js",
 };
-global.requestAnimationFrame = function (callback) {
+global.requestAnimationFrame = function(callback) {
     setTimeout(callback, 0);
 };
 copyProps(window, global);

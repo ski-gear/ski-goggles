@@ -1,6 +1,6 @@
-import * as querystring from 'querystring';
-import { defaultTo, map, toPairs } from 'ramda';
-import { parse as UrlParse } from 'url';
+import * as querystring from "querystring";
+import { defaultTo, map, toPairs } from "ramda";
+import { parse as UrlParse } from "url";
 
 export const parse = (url: string): object => {
   const parsed = UrlParse(url);

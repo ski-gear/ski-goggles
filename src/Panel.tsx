@@ -21,7 +21,7 @@ getOptions(key).then(snapshots => {
     },
     snapshots: localSnapshots,
   };
-  let store = createStore(skiGoggles, state, applyMiddleware(ThunkMiddleWare));
+  const store = createStore(skiGoggles, state, applyMiddleware(ThunkMiddleWare));
 
   ReactDOM.render(
     <ReduxProvider store={store}>

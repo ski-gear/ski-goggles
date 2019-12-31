@@ -2,8 +2,8 @@ import * as moment from "moment";
 import { curry, filter, isNil, keys, map } from "ramda";
 import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
 import { ProviderCanonicalName, RawRequestBody, RawWebRequestData } from "ski-providers/dist/types/Types";
-import { parse } from "../Parser";
 import { DefaultOptions } from "../helpers/Options";
+import { parse } from "../Parser";
 import {
   GlobalState,
   MessageEnvelope,
@@ -50,7 +50,7 @@ export const processWebRequest = curry(
             browserRequestId,
             url,
             timeStamp,
-            provider: provider,
+            provider,
             data: provider.transformer(rawRequestData),
           },
         };
@@ -91,12 +91,12 @@ export const refreshMasterPattern = (state: GlobalState) => {
 
 export const onConnectCallBack = curry(
   (state: GlobalState, port: Port): void => {
-    if (port.name.indexOf("skig-") !== 0) return;
+    if (port.name.indexOf("skig-") !== 0) { return; }
     console.debug(`Registered port: ${port.name}`);
 
     const tabId = getTabId(port);
     state.tabs[tabId] = {
-      port: port,
+      port,
     };
 
     // Remove port when destroyed (e.g. when devtools instance is closed)

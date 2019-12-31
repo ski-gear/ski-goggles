@@ -1,18 +1,18 @@
 import { ProviderCanonicalName } from "ski-providers";
 
-export type EnableProvider = {
+export interface EnableProvider {
   type: string;
   provider: ProviderCanonicalName;
-};
+}
 
-export type DisableProvider = {
+export interface DisableProvider {
   type: string;
   provider: ProviderCanonicalName;
-};
+}
 
-export type ResetAllProviderOptions = {
+export interface ResetAllProviderOptions {
   type: string;
-};
+}
 
 export type Action = EnableProvider | DisableProvider | ResetAllProviderOptions;
 

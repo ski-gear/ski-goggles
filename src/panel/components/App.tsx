@@ -7,11 +7,11 @@ import MenuContainer from "./containers/MenuContainer";
 import WebRequestsContainer from "./containers/WebRequestsContainer";
 
 export default class App extends React.Component {
-  componentDidMount() {
+  public componentDidMount() {
     new Clipboard(".clipBoard");
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <DocumentContainer />

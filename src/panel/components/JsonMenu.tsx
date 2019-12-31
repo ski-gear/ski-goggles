@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Button, Icon, Menu } from "semantic-ui-react";
 
-type State = {
+interface State {
   copyText: string;
-};
+}
 
-type Props = {
+interface Props {
   value: string;
-};
+}
 
 export default class JsonMenu extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -15,20 +15,20 @@ export default class JsonMenu extends React.Component<Props, State> {
     this.state = { copyText: "Copy" };
   }
 
-  showCopiedLabel() {
+  public showCopiedLabel() {
     this.setState({ copyText: "Copied!" });
     setTimeout(() => this.showCopyLabel(), 2000);
   }
 
-  showCopyLabel() {
+  public showCopyLabel() {
     this.setState({ copyText: "Copy" });
   }
 
-  onCopy() {
+  public onCopy() {
     this.showCopiedLabel();
   }
 
-  render() {
+  public render() {
     return (
       <Menu compact size="mini" secondary>
         <Menu.Item>

@@ -13,7 +13,7 @@ describe("Title", () => {
 
   it("Generates the correct logo", () => {
     const logo = titleComponent.find(Image);
-    expect(logo.props()["src"]).to.eq("images/providers/stuff-logo");
+    expect(logo.props().src).to.eq("images/providers/stuff-logo");
   });
 
   it("Generates the correct title", () => {

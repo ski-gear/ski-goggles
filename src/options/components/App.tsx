@@ -4,11 +4,11 @@ import { Container, Divider, Label } from "semantic-ui-react";
 import { AppVersion } from "../../Versions";
 import VisibleProviders from "./containers/VisibleProviders";
 
-type Props = {};
-type State = {};
+interface Props {}
+interface State {}
 
 export default class App extends React.Component<Props, State> {
-  render() {
+  public render() {
     return (
       <Container>
         <VisibleProviders />

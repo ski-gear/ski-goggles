@@ -6,11 +6,11 @@ import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
 import { generateImageUrl } from "../../panel/Helpers";
 import { UserProviderSetting } from "../../types/Types";
 
-type Props = {
+interface Props {
   data: UserProviderSetting[];
   onEnableProvider: any;
   onDisableProvider: any;
-};
+}
 
 const onToggle = curry((props: Props, _event: any, data: any): void => {
   data.checked ? props.onEnableProvider(data.value) : props.onDisableProvider(data.value);
@@ -43,7 +43,7 @@ const renderRows = (props: Props) => {
 };
 
 export default class ProviderList extends React.Component<Props> {
-  render() {
+  public render() {
     return (
       <Grid centered columns={2}>
         <Grid.Column>

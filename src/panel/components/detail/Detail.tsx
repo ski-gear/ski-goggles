@@ -1,6 +1,6 @@
-import { defaultTo, groupBy, keys, map, prop, sortBy, assoc } from "ramda";
-import * as React from "react";
 import * as moment from "moment";
+import { assoc, defaultTo, groupBy, keys, map, prop, sortBy } from "ramda";
+import * as React from "react";
 import Highlight from "react-highlight.js";
 import { Container, Header, Table } from "semantic-ui-react";
 import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
@@ -10,16 +10,16 @@ import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Typ
 import JsonMenu from "../JsonMenu";
 import DetailMenu from "./Menu";
 
-type Props = {
+interface Props {
   snapshots: WebRequestPayloadSnapshot[];
   payload: WebRequestPayload;
   addSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
   removeSnapshot: (wrps: WebRequestPayloadSnapshot) => void;
-};
+}
 
-type GroupedData = {
-  [key: string]: FormattedDataItem[]
-};
+interface GroupedData {
+  [key: string]: FormattedDataItem[];
+}
 
 const renderRows = (rows: FormattedDataItem[]) => {
   return map(row => {
@@ -68,21 +68,21 @@ const wrappedTable = (data: GroupedData): JSX.Element[] => {
 const addMetaData = (data: GroupedData, payload: WebRequestPayload): GroupedData => {
   const metaData = [
     {
-      label: 'Intercepted Time',
+      label: "Intercepted Time",
       value: formatTime(payload.timeStamp),
       formatting: "string",
-      category: 'metaData'
+      category: "metaData",
     },
     {
-      label: 'Intercepted URL',
+      label: "Intercepted URL",
       value: payload.url,
       formatting: "string",
-      category: 'metaData'
-    }
+      category: "metaData",
+    },
   ];
 
-  return assoc('Meta Data', metaData, data);
-}
+  return assoc("Meta Data", metaData, data);
+};
 
 const formatTime = (timeStamp: number): string => {
   return moment(timeStamp).format("MMMM Do YYYY HH:mm:ss:SSS");

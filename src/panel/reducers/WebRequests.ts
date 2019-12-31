@@ -1,12 +1,12 @@
 import { WebRequestPayload } from "../../types/Types";
 
-import { takeLast, uniqBy, prop, assoc } from "ramda";
+import { assoc, prop, takeLast, uniqBy } from "ramda";
 import { combineReducers } from "redux";
 import {
-  WebRequestAction,
-  AddWebRequestRowAction,
   ADD_WEB_REQUEST_ROW,
+  AddWebRequestRowAction,
   CLEAR_ALL_WEB_REQUESTS,
+  WebRequestAction,
 } from "../actions/WebRequests";
 
 import { MaxRequestsDisplayed } from "../../Constants";
