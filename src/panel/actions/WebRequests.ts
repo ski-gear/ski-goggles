@@ -1,13 +1,13 @@
 import { WebRequestPayload } from "../../types/Types";
 
-export type AddWebRequestRowAction = {
+export interface AddWebRequestRowAction {
   type: string;
   row: WebRequestPayload;
-};
+}
 
-export type ClearAllWebRequestRowsAction = {
+export interface ClearAllWebRequestRowsAction {
   type: string;
-};
+}
 
 export type WebRequestAction = AddWebRequestRowAction | ClearAllWebRequestRowsAction;
 

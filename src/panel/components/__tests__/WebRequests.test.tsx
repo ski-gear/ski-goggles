@@ -40,16 +40,16 @@ describe("WebRequests", () => {
 
   it("Passes the correct props to Title", () => {
     const title = wrComponent.find(Title);
-    expect(title.props()["title"]).to.eq(wrp.provider.displayName);
-    expect(title.props()["logo"]).to.eq(wrp.provider.logo);
-    expect(title.props()["timeStamp"]).to.eq(wrp.timeStamp);
+    expect(title.props().title).to.eq(wrp.provider.displayName);
+    expect(title.props().logo).to.eq(wrp.provider.logo);
+    expect(title.props().timeStamp).to.eq(wrp.timeStamp);
   });
 
   it("Passes the correct props to Detail", () => {
     const detail = wrComponent.find(Detail);
-    expect(detail.props()["payload"]).to.eq(wrp);
-    expect(detail.props()["addSnapshot"](wrps)).to.eq("Added!");
-    expect(detail.props()["removeSnapshot"](wrps)).to.eq("Removed!");
-    expect(detail.props()["snapshots"]).to.eq(props.snapshots);
+    expect(detail.props().payload).to.eq(wrp);
+    expect(detail.props().addSnapshot(wrps)).to.eq("Added!");
+    expect(detail.props().removeSnapshot(wrps)).to.eq("Removed!");
+    expect(detail.props().snapshots).to.eq(props.snapshots);
   });
 });

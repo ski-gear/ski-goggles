@@ -5,12 +5,12 @@ import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from "../../Constants";
 import { AppVersion } from "../../Versions";
 import { SendRuntimeMessage } from "../Helpers";
 
-type Props = {
+interface Props {
   clear: () => void;
   chromeId: string;
-};
+}
 
-type State = {};
+interface State {}
 
 export default class MenuBar extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -20,19 +20,19 @@ export default class MenuBar extends React.Component<Props, State> {
     };
   }
 
-  openOptions() {
+  public openOptions() {
     SendRuntimeMessage(this.props.chromeId, OPEN_OPTIONS_TAB, {});
   }
 
-  openIssues() {
+  public openIssues() {
     SendRuntimeMessage(this.props.chromeId, OPEN_ISSUES_PAGE, {});
   }
 
-  versionInfo(): string {
+  public versionInfo(): string {
     return `Version: ${AppVersion}`;
   }
 
-  render() {
+  public render() {
     return (
       <Menu fixed="top" size="mini">
         <Menu.Item name="home">

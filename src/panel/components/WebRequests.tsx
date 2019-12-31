@@ -2,17 +2,16 @@ import { defaultTo, map, path } from "ramda";
 import * as React from "react";
 import { Accordion } from "semantic-ui-react";
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../types/Types";
-import Title from "./Title";
 import { Detail } from "./detail/Detail";
+import Title from "./Title";
 
-
-type Props = {
+interface Props {
   snapshots: WebRequestPayloadSnapshot[];
   data: WebRequestPayload[];
   chromeId: string;
   addSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot) => void;
   removeSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot) => void;
-};
+}
 
 const panelRows = (
   data: WebRequestPayload[],
@@ -21,15 +20,15 @@ const panelRows = (
   snapshots: WebRequestPayloadSnapshot[],
 ): any[] => {
   const panelRows = map(payload => {
-    let requestData = payload.data;
-    let provider = payload.provider;
-    let title = defaultTo(provider.displayName, path(["meta", "title"], payload.data)) as string;
-    let titleElem = <Title title={title} logo={provider.logo} timeStamp={payload.timeStamp} />;
-    let contentElem = (
+    const requestData = payload.data;
+    const provider = payload.provider;
+    const title = defaultTo(provider.displayName, path(["meta", "title"], payload.data)) as string;
+    const titleElem = <Title title={title} logo={provider.logo} timeStamp={payload.timeStamp} />;
+    const contentElem = (
       <Detail payload={payload} addSnapshot={addSnapshot} removeSnapshot={removeSnapshot} snapshots={snapshots} />
     );
-    let titleNode = <Accordion.Title key={"title-" + payload.timeStamp}>{titleElem}</Accordion.Title>;
-    let contentNode = <Accordion.Content key={"content-" + payload.timeStamp}>{contentElem}</Accordion.Content>;
+    const titleNode = <Accordion.Title key={"title-" + payload.timeStamp}>{titleElem}</Accordion.Title>;
+    const contentNode = <Accordion.Content key={"content-" + payload.timeStamp}>{contentElem}</Accordion.Content>;
 
     return {
       title: titleNode,
@@ -47,15 +46,15 @@ export default class WebRequests extends React.Component<Props> {
     super(props);
   }
 
-  addSnapshot(wrps: WebRequestPayloadSnapshot) {
+  public addSnapshot(wrps: WebRequestPayloadSnapshot) {
     return this.props.addSnapshot(this.props.chromeId, wrps);
   }
 
-  removeSnapshot(wrps: WebRequestPayloadSnapshot) {
+  public removeSnapshot(wrps: WebRequestPayloadSnapshot) {
     return this.props.removeSnapshot(this.props.chromeId, wrps);
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <Accordion

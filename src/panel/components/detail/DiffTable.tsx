@@ -11,7 +11,7 @@ export default class DiffTable extends React.Component<Props, State> {
     super(props);
   }
 
-  render() {
+  public render() {
     return <p>{this.props.formattedDiff}</p>;
   }
 }

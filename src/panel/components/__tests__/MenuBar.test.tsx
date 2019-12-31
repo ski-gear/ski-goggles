@@ -1,13 +1,13 @@
-import 'mocha';
+import "mocha";
 
-import { expect } from 'chai';
-import * as chai from 'chai';
-import * as Enzyme from 'enzyme';
-import * as React from 'react';
-import rewiremock from 'rewiremock';
-import * as Sinon from 'sinon';
+import { expect } from "chai";
+import * as chai from "chai";
+import * as Enzyme from "enzyme";
+import * as React from "react";
+import rewiremock from "rewiremock";
+import * as Sinon from "sinon";
 
-import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from '../../../Constants';
+import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from "../../../Constants";
 
 chai.use(require("sinon-chai"));
 

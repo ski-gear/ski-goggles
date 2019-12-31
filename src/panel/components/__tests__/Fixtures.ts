@@ -1,7 +1,7 @@
-import { Provider, ProviderCanonicalName, FormattedWebRequestData } from "ski-providers";
+import { FormattedWebRequestData, Provider, ProviderCanonicalName } from "ski-providers";
 
-import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
 import { RawWebRequestData } from "ski-providers/dist/types/Types";
+import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
 
 export const provider: Provider = {
   canonicalName: "Snowplow" as ProviderCanonicalName,
@@ -11,10 +11,10 @@ export const provider: Provider = {
   transformer: (rwrd: RawWebRequestData) => {
     return {
       meta: {
-        title: ""
+        title: "",
       },
-      data: []
-    }
+      data: [],
+    };
   },
 };
 

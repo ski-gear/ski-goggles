@@ -12,7 +12,7 @@ import {
 } from "./BackgroundHelpers";
 import { getOptions, setOptions } from "./LocalStorage";
 
-let state: GlobalState = {
+const state: GlobalState = {
   masterPattern: /(?:)/,
   tabs: {},
   userOptionsKey: "skiGogglesOptions",

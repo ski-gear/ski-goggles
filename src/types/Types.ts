@@ -1,15 +1,15 @@
 import { Delta } from "jsondiffpatch";
-import { Provider, ProviderCanonicalName, FormattedWebRequestData } from "ski-providers";
+import { FormattedWebRequestData, Provider, ProviderCanonicalName } from "ski-providers";
 
 export type PostMessageType = "newWebRequest" | "newSnapshot" | "chromeId";
 
-export type WebRequestPayload = {
+export interface WebRequestPayload {
   browserRequestId: string;
   url: string;
   timeStamp: number;
   provider: Provider;
   data: FormattedWebRequestData;
-};
+}
 
 export type WebRequestPayloadSnapshot = WebRequestPayload & {
   title: string;
@@ -33,36 +33,36 @@ export type SnapshotMessageEnvelope = PostMessageEnvelope & {
 
 export type MessageEnvelope = WebRequestMessageEnvelope | SnapshotMessageEnvelope;
 
-export type UserProviderSetting = {
+export interface UserProviderSetting {
   enabled: boolean;
   providerCanonicalName: ProviderCanonicalName;
   providerPattern?: RegExp;
-};
+}
 
-export type UserOptions = {
+export interface UserOptions {
   version: string;
   providers: UserProviderSetting[];
-};
+}
 
 export type Port = chrome.runtime.Port;
 
-export type Tab = {
+export interface Tab {
   port: Port;
-};
+}
 
-export type Tabs = { [key: string]: Tab };
+export interface Tabs { [key: string]: Tab; }
 
 export type Version = string;
 
 export type UserOptionsKey = "skiGogglesOptions";
 export type SnapShotKey = "skiGogglesSnapshots";
 
-export type GlobalState = {
+export interface GlobalState {
   userOptionsKey: UserOptionsKey;
   snapShotKey: SnapShotKey;
   tabs: Tabs;
   masterPattern: RegExp;
-};
+}
 
 export type RunTimeMessageSubject = "open-options-tab" | "open-issues-page" | "add-snapshot" | "remove-snapshot";
 export interface RunTimeMessage {
@@ -74,17 +74,17 @@ export type SnapshotRunTimeMessage = RunTimeMessage & {
   payload: WebRequestPayload;
 };
 
-export type PanelMetaData = {
+export interface PanelMetaData {
   chromeId: string;
-};
+}
 
-export type PanelState = {
+export interface PanelState {
   metaData: PanelMetaData;
   webRequests: WebRequestPayload[];
   snapshots: WebRequestPayload[];
-};
+}
 
-export type DiffData = {
+export interface DiffData {
   raw: Delta | undefined;
   formatted: string | undefined;
-};
+}

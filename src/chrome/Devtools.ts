@@ -10,7 +10,7 @@ type ChromeWindow = chrome.windows.Window & Window;
 const panelCreated = (panel: ExtensionPanel) => {
   let queuedMessages: CustomEvent[] = [];
   let panelWindow: Window;
-  let tabId: number = chrome.devtools.inspectedWindow.tabId;
+  const tabId: number = chrome.devtools.inspectedWindow.tabId;
   const port: Port = chrome.runtime.connect({ name: `skig-${tabId.toString()}` });
 
   port.onMessage.addListener((msg: MessageEnvelope): void => {
@@ -55,4 +55,11 @@ const getAppropriateEvent = (me: MessageEnvelope): CustomEvent => {
   return new CustomEvent(eventType, { detail: me });
 };
 
-chrome.devtools.panels.create("Ski Goggles", "images/ski-googles-icon.png", "panel.html", panelCreated);
+let tabName = "Ski Googles"
+const iconImage = "images/ski-googles-icon.png"
+
+if (process.env.NODE_ENV !== "production")  {
+  tabName = "Ski Googles Dev"
+}
+
+chrome.devtools.panels.create(tabName, iconImage, "panel.html", panelCreated);

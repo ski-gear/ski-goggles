@@ -55,9 +55,9 @@ export default class Comparison extends React.Component<Props, State> {
     };
   }
 
-  handleComparisonClose = () => this.setState({ diffDataShown: false, diffTableShown: true });
+  public handleComparisonClose = () => this.setState({ diffDataShown: false, diffTableShown: true });
 
-  handleComparison = (requestId: string): Function => {
+  public handleComparison = (requestId: string): Function => {
     return (e: React.SyntheticEvent<any>, a: any) => {
       const selectedSnapshot = find(
         (s: WebRequestPayloadSnapshot) => s.browserRequestId === requestId,
@@ -73,27 +73,27 @@ export default class Comparison extends React.Component<Props, State> {
 
       this.setState({ diffDataShown: true, diffTableShown: false, formattedDiffData, rawDiffData });
     };
-  };
+  }
 
-  handleRemove = (wrps: WebRequestPayloadSnapshot): Function => {
+  public handleRemove = (wrps: WebRequestPayloadSnapshot): Function => {
     return (): void => {
       this.props.removeSnapshot(wrps);
     };
-  };
+  }
 
-  filteredSnapshots = (): WebRequestPayloadSnapshot[] => {
+  public filteredSnapshots = (): WebRequestPayloadSnapshot[] => {
     const snapshots = this.props.snapshots;
     const currentProviderName = this.props.currentPayload.provider.canonicalName;
     return filter(
       (s: WebRequestPayloadSnapshot) => s.provider.canonicalName === currentProviderName,
       this.props.snapshots,
     );
-  };
+  }
 
-  options = (): JSX.Element[] => {
+  public options = (): JSX.Element[] => {
     const filtered = this.filteredSnapshots();
     const values = map((s: WebRequestPayloadSnapshot) => {
-      const eventTitle = s.data.meta.title || 'Unknown Event';
+      const eventTitle = s.data.meta.title || "Unknown Event";
       const time = moment(s.snapshotTimeStamp).fromNow();
       return (
         <Table.Row key={s.browserRequestId}>
@@ -131,34 +131,34 @@ export default class Comparison extends React.Component<Props, State> {
     }, filtered);
 
     return reverse(values);
-  };
+  }
 
-  table = (): JSX.Element => {
+  public table = (): JSX.Element => {
     return (
       <Table padded color="green">
         <Table.Body>{map(e => e, this.options())}</Table.Body>
       </Table>
     );
-  };
+  }
 
-  noRows = (): JSX.Element => {
+  public noRows = (): JSX.Element => {
     return <Segment stacked>¯\_(ツ)_/¯ No Snapshots to compare.</Segment>;
-  };
+  }
 
-  showCopiedLabel() {
+  public showCopiedLabel() {
     this.setState({ copyText: "Copied!" });
     setTimeout(() => this.showCopyLabel(), 2000);
   }
 
-  showCopyLabel() {
+  public showCopyLabel() {
     this.setState({ copyText: "Copy" });
   }
 
-  onCopy() {
+  public onCopy() {
     this.showCopiedLabel();
   }
 
-  render() {
+  public render() {
     return (
       <div>
         <div className={hiddenClass(this.state.diffTableShown)}>

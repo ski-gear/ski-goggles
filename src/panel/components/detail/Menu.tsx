@@ -1,9 +1,9 @@
-import { isEmpty, merge } from 'ramda';
-import * as React from 'react';
-import { Button, Divider, Form, Header, Icon, Menu, Modal, Popup } from 'semantic-ui-react';
-import { WebRequestPayload, WebRequestPayloadSnapshot } from 'src/types/Types';
+import { isEmpty, merge } from "ramda";
+import * as React from "react";
+import { Button, Divider, Form, Header, Icon, Menu, Modal, Popup } from "semantic-ui-react";
+import { WebRequestPayload, WebRequestPayloadSnapshot } from "src/types/Types";
 
-import Comparison from './Comparison';
+import Comparison from "./Comparison";
 
 interface Props {
   payload: WebRequestPayload;
@@ -28,21 +28,21 @@ export default class DetailMenu extends React.Component<Props, State> {
     };
   }
 
-  handleSaveOpen = () => this.setState({ modalSaveOpen: true });
+  public handleSaveOpen = () => this.setState({ modalSaveOpen: true });
 
-  handleSaveClose = () => this.setState({ modalSaveOpen: false });
+  public handleSaveClose = () => this.setState({ modalSaveOpen: false });
 
-  handleCompareOpen = () => this.setState({ modalCompareOpen: true });
+  public handleCompareOpen = () => this.setState({ modalCompareOpen: true });
 
-  handleCompareClose = () => this.setState({ modalCompareOpen: false });
+  public handleCompareClose = () => this.setState({ modalCompareOpen: false });
 
-  handleInputChange(e: React.SyntheticEvent<any>, { value }: any) {
+  public handleInputChange(e: React.SyntheticEvent<any>, { value }: any) {
     this.setState({ snapShotName: value });
   }
 
-  disableAddSnapShotButton = (): boolean => this.state.snapShotName.length < 1;
+  public disableAddSnapShotButton = (): boolean => this.state.snapShotName.length < 1;
 
-  onSnapshot() {
+  public onSnapshot() {
     const name = this.state.snapShotName;
     const title = isEmpty(name) ? "Some Event" : name;
     const snapshotTimeStamp = Date.now();
@@ -55,11 +55,11 @@ export default class DetailMenu extends React.Component<Props, State> {
     this.handleSaveClose();
   }
 
-  disableCompareButton = (): boolean => this.props.snapshots.length < 1;
-  compareButtonPopupText = (): string =>
-    this.disableCompareButton() ? "No Snapshots available to compare" : "Click to compare";
+  public disableCompareButton = (): boolean => this.props.snapshots.length < 1;
+  public compareButtonPopupText = (): string =>
+    this.disableCompareButton() ? "No Snapshots available to compare" : "Click to compare"
 
-  render() {
+  public render() {
     return (
       <Menu compact size="mini" secondary>
         <Menu.Item>

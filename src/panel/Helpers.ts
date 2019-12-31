@@ -1,6 +1,6 @@
-import { RunTimeMessage, RunTimeMessageSubject, DiffData } from "../types/Types";
-import { DiffPatcher, Delta } from "jsondiffpatch";
+import { Delta, DiffPatcher } from "jsondiffpatch";
 import { format as HtmlFormat } from "jsondiffpatch/src/formatters/html";
+import { DiffData, RunTimeMessage, RunTimeMessageSubject } from "../types/Types";
 
 const Differ = new DiffPatcher;
 
@@ -11,20 +11,19 @@ export const SendRuntimeMessage = (chromeId: string, subject: RunTimeMessageSubj
 
 export const generateDiff = (current: {}, snapshot: {}): DiffData => {
   const delta = Differ.diff(current, snapshot);
-  if(delta){
+  if (delta) {
     return {
       raw: delta,
-      formatted: HtmlFormat(delta, undefined)
-    }
-  }
-  else {
+      formatted: HtmlFormat(delta, undefined),
+    };
+  } else {
     return {
       raw: undefined,
-      formatted: undefined
-    }
+      formatted: undefined,
+    };
   }
-}
+};
 
 export const generateImageUrl = (fragment: string): string => {
-  return 'images/providers/' + fragment;
-}
+  return "images/providers/" + fragment;
+};

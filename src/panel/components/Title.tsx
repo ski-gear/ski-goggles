@@ -4,14 +4,14 @@ import { Grid, Icon, Image, Label } from "semantic-ui-react";
 
 import { generateImageUrl } from "../Helpers";
 
-type Props = {
+interface Props {
   logo: string;
   title: string;
   timeStamp: number;
-};
+}
 
 export default class Title extends React.Component<Props> {
-  render() {
+  public render() {
     return (
       <Grid>
         <Grid.Column floated="left" width={8}>
