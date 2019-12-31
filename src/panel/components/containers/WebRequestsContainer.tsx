@@ -15,10 +15,10 @@ const mapStateToProps = (state: PanelState) => {
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     addSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot): void => {
-      dispatch(AddSnapshotAction(chromeId, wrps));
+      AddSnapshotAction(chromeId, wrps)(dispatch);
     },
     removeSnapshot: (chromeId: string, wrps: WebRequestPayloadSnapshot): void => {
-      dispatch(RemoveSnapshotAction(chromeId, wrps));
+      RemoveSnapshotAction(chromeId, wrps)(dispatch);
     },
   };
 };
