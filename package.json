@@ -42,7 +42,7 @@
     "webpack": "^3.5.3",
     "webpack-dev-server": ">=3.1.11",
     "webpack-node-externals": "^1.6.0",
-    "yarn": "^1.6.0"
+    "yarn": "^1.22.0"
   },
   "dependencies": {
     "clipboard": "^1.7.1",
