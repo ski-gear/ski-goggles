@@ -1,7 +1,11 @@
 import * as moment from "moment";
-import { curry, filter, isNil, keys, map } from "ramda";
+import { curry, filter, isNil, keys, map, forEach } from "ramda";
 import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
-import { ProviderCanonicalName, RawRequestBody, RawWebRequestData } from "ski-providers/dist/types/Types";
+import {
+  ProviderCanonicalName,
+  RawRequestBody,
+  RawWebRequestData
+} from "ski-providers/dist/types/Types";
 import { DefaultOptions } from "../helpers/Options";
 import { parse } from "../Parser";
 import {
@@ -10,18 +14,16 @@ import {
   Port,
   UserOptions,
   UserProviderSetting,
-  WebRequestMessageEnvelope,
+  WebRequestMessageEnvelope
 } from "../types/Types";
 import { getOptions, setOptions } from "./LocalStorage";
 
-export const onInstall = curry(
-  (state: GlobalState, _details: any): void => {
-    const defaults = DefaultOptions();
-    setOptions(state.userOptionsKey, defaults).then(_data => {
-      refreshMasterPattern(state);
-    });
-  },
-);
+export const onInstall = curry((state: GlobalState, _details: any): void => {
+  const defaults = DefaultOptions();
+  setOptions(state.userOptionsKey, defaults).then(_data => {
+    refreshMasterPattern(state);
+  });
+});
 
 export const processWebRequest = curry(
   (state: GlobalState, details: any): void => {
@@ -36,7 +38,11 @@ export const processWebRequest = curry(
       const requestBody: RawRequestBody = details.requestBody;
 
       const timeStamp: number = parseInt(moment().format("x"));
-      const rawRequestData = buildRawWebRequestData(httpMethod, url, requestBody);
+      const rawRequestData = buildRawWebRequestData(
+        httpMethod,
+        url,
+        requestBody
+      );
       if (isNil(rawRequestData)) {
         console.debug(`Could not process request with url: ${url}`);
         return;
@@ -44,35 +50,43 @@ export const processWebRequest = curry(
 
       const provider = ProviderHelpers.lookupByUrl(url);
       if (provider) {
-        const eventData: WebRequestMessageEnvelope = {
-          type: "webRequest",
-          payload: {
-            browserRequestId,
-            url,
-            timeStamp,
-            provider,
-            data: provider.transformer(rawRequestData),
-          },
-        };
-        sendToSkiGoggles(state, tabId, eventData);
+        var idx = 1;
+        forEach(req => {
+          const eventData: WebRequestMessageEnvelope = {
+            type: "webRequest",
+            payload: {
+              browserRequestId: `${browserRequestId}-${idx}`,
+              url,
+              timeStamp,
+              provider,
+              data: req
+            }
+          };
+          sendToSkiGoggles(state, tabId, eventData);
+          idx = idx + 1;
+        }, provider.transformer(rawRequestData));
       }
     }
-  },
+  }
 );
 
-const buildRawWebRequestData = (method: string, url: string, requestBody: RawRequestBody): RawWebRequestData | null => {
+const buildRawWebRequestData = (
+  method: string,
+  url: string,
+  requestBody: RawRequestBody
+): RawWebRequestData | null => {
   switch (method) {
     case "GET":
       return {
         url,
         requestType: "GET",
-        requestParams: parse(url),
+        requestParams: parse(url)
       };
     case "POST":
       return {
         url,
         requestType: "POST",
-        requestBody,
+        requestBody
       };
     default:
       console.debug(`Unsupported request method: ${method} for url: ${url}`);
@@ -84,19 +98,23 @@ export const refreshMasterPattern = (state: GlobalState) => {
   console.debug("Recreating masterpattern");
   getOptions(state.userOptionsKey, true).then((opts: UserOptions) => {
     const upss = opts.providers || [];
-    state.masterPattern = ProviderHelpers.generateMasterPattern(enabledProvidersFromOptions(upss));
+    state.masterPattern = ProviderHelpers.generateMasterPattern(
+      enabledProvidersFromOptions(upss)
+    );
     console.log(state.masterPattern);
   });
 };
 
 export const onConnectCallBack = curry(
   (state: GlobalState, port: Port): void => {
-    if (port.name.indexOf("skig-") !== 0) { return; }
+    if (port.name.indexOf("skig-") !== 0) {
+      return;
+    }
     console.debug(`Registered port: ${port.name}`);
 
     const tabId = getTabId(port);
     state.tabs[tabId] = {
-      port,
+      port
     };
 
     // Remove port when destroyed (e.g. when devtools instance is closed)
@@ -109,10 +127,13 @@ export const onConnectCallBack = curry(
     port.onMessage.addListener(msg => {
       console.debug(`Message from port[${tabId}]: `, msg);
     });
-  },
+  }
 );
 
-export const broadcastToAllTabs = (state: GlobalState, envelope: MessageEnvelope): void => {
+export const broadcastToAllTabs = (
+  state: GlobalState,
+  envelope: MessageEnvelope
+): void => {
   map((tabId: string) => {
     sendToSkiGoggles(state, tabId, envelope);
   }, keys(state.tabs));
@@ -122,8 +143,19 @@ const getTabId = (port: Port): string => {
   return port.name.substring(port.name.indexOf("-") + 1);
 };
 
-const sendToSkiGoggles = (state: GlobalState, tabId: string, envelope: MessageEnvelope): void => {
-  console.debug("sending ", envelope.type, " message to tabId: ", tabId, ": ", envelope);
+const sendToSkiGoggles = (
+  state: GlobalState,
+  tabId: string,
+  envelope: MessageEnvelope
+): void => {
+  console.debug(
+    "sending ",
+    envelope.type,
+    " message to tabId: ",
+    tabId,
+    ": ",
+    envelope
+  );
   try {
     state.tabs[tabId].port.postMessage(envelope);
   } catch (ex) {
@@ -131,7 +163,9 @@ const sendToSkiGoggles = (state: GlobalState, tabId: string, envelope: MessageEn
   }
 };
 
-const enabledProvidersFromOptions = (opts: UserProviderSetting[]): ProviderCanonicalName[] => {
+const enabledProvidersFromOptions = (
+  opts: UserProviderSetting[]
+): ProviderCanonicalName[] => {
   const enabled = filter((ups: UserProviderSetting) => {
     return ups.enabled;
   }, opts);
