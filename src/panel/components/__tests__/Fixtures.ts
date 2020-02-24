@@ -1,7 +1,14 @@
-import { FormattedWebRequestData, Provider, ProviderCanonicalName } from "ski-providers";
+import {
+  FormattedWebRequestData,
+  Provider,
+  ProviderCanonicalName
+} from "ski-providers";
 
 import { RawWebRequestData } from "ski-providers/dist/types/Types";
-import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
+import {
+  WebRequestPayload,
+  WebRequestPayloadSnapshot
+} from "../../../types/Types";
 
 export const provider: Provider = {
   canonicalName: "Snowplow" as ProviderCanonicalName,
@@ -9,13 +16,15 @@ export const provider: Provider = {
   logo: "stuff-logo",
   pattern: /\s/,
   transformer: (rwrd: RawWebRequestData) => {
-    return {
-      meta: {
-        title: "",
-      },
-      data: [],
-    };
-  },
+    return [
+      {
+        meta: {
+          title: ""
+        },
+        data: []
+      }
+    ];
+  }
 };
 
 export const wrp: WebRequestPayload = {
@@ -25,16 +34,16 @@ export const wrp: WebRequestPayload = {
   provider,
   data: {
     meta: {
-      title: "Snowplow",
+      title: "Snowplow"
     },
     data: [
       {
         label: "test",
         value: "test",
-        formatting: "string",
-      },
-    ],
-  },
+        formatting: "string"
+      }
+    ]
+  }
 };
 
 export const wrps: WebRequestPayloadSnapshot = {
@@ -46,14 +55,14 @@ export const wrps: WebRequestPayloadSnapshot = {
   provider,
   data: {
     meta: {
-      title: "stuff",
+      title: "stuff"
     },
     data: [
       {
         label: "test",
         value: "test",
-        formatting: "string",
-      },
-    ],
-  },
+        formatting: "string"
+      }
+    ]
+  }
 };

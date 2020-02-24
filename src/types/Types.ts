@@ -1,5 +1,9 @@
 import { Delta } from "jsondiffpatch";
-import { FormattedWebRequestData, Provider, ProviderCanonicalName } from "ski-providers";
+import {
+  FormattedWebRequestData,
+  Provider,
+  ProviderCanonicalName,
+} from "ski-providers";
 
 export type PostMessageType = "newWebRequest" | "newSnapshot" | "chromeId";
 
@@ -31,7 +35,9 @@ export type SnapshotMessageEnvelope = PostMessageEnvelope & {
   payload: WebRequestPayloadSnapshot[];
 };
 
-export type MessageEnvelope = WebRequestMessageEnvelope | SnapshotMessageEnvelope;
+export type MessageEnvelope =
+  | WebRequestMessageEnvelope
+  | SnapshotMessageEnvelope;
 
 export interface UserProviderSetting {
   enabled: boolean;
@@ -50,7 +56,9 @@ export interface Tab {
   port: Port;
 }
 
-export interface Tabs { [key: string]: Tab; }
+export interface Tabs {
+  [key: string]: Tab;
+}
 
 export type Version = string;
 
@@ -64,7 +72,11 @@ export interface GlobalState {
   masterPattern: RegExp;
 }
 
-export type RunTimeMessageSubject = "open-options-tab" | "open-issues-page" | "add-snapshot" | "remove-snapshot";
+export type RunTimeMessageSubject =
+  | "open-options-tab"
+  | "open-issues-page"
+  | "add-snapshot"
+  | "remove-snapshot";
 export interface RunTimeMessage {
   subject: RunTimeMessageSubject;
   payload: any;
