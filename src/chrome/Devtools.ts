@@ -55,11 +55,11 @@ const getAppropriateEvent = (me: MessageEnvelope): CustomEvent => {
   return new CustomEvent(eventType, { detail: me });
 };
 
-let tabName = "Ski Googles";
-const iconImage = "images/ski-googles-icon.png";
+let tabName = "Ski Goggles";
+const iconImage = "images/ski-goggles-icon.png";
 
 if (process.env.NODE_ENV !== "production")  {
-  tabName = "Ski Googles Dev";
+  tabName = "Ski Goggles Dev";
 }
 
 chrome.devtools.panels.create(tabName, iconImage, "panel.html", panelCreated);
