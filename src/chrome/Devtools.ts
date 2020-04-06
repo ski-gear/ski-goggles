@@ -37,7 +37,7 @@ const panelCreated = (panel: ExtensionPanel) => {
 
     map(
       (event) => panelWindowRef.document.dispatchEvent(event),
-      queuedMessages
+      queuedMessages,
     );
 
     queuedMessages = empty(queuedMessages);
