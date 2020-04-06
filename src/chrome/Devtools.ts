@@ -1,7 +1,11 @@
 import { empty, map } from "ramda";
 import when from "when-switch";
 
-import { ChromeIdPostMessage, NewSnapshotPostMessage, NewWebRequestPostMessage } from "../Constants";
+import {
+  ChromeIdPostMessage,
+  NewSnapshotPostMessage,
+  NewWebRequestPostMessage,
+} from "../Constants";
 import { MessageEnvelope, Port } from "../types/Types";
 
 type ExtensionPanel = chrome.devtools.panels.ExtensionPanel;
@@ -11,7 +15,9 @@ const panelCreated = (panel: ExtensionPanel) => {
   let queuedMessages: CustomEvent[] = [];
   let panelWindow: Window;
   const tabId: number = chrome.devtools.inspectedWindow.tabId;
-  const port: Port = chrome.runtime.connect({ name: `skig-${tabId.toString()}` });
+  const port: Port = chrome.runtime.connect({
+    name: `skig-${tabId.toString()}`,
+  });
 
   port.onMessage.addListener((msg: MessageEnvelope): void => {
     const event: CustomEvent = getAppropriateEvent(msg);
@@ -29,7 +35,10 @@ const panelCreated = (panel: ExtensionPanel) => {
   const onPanelFirstShow = (panelWindowRef: ChromeWindow): void => {
     panel.onShown.removeListener(onPanelFirstShow); // Ensure this fires only once.
 
-    map(event => panelWindowRef.document.dispatchEvent(event), queuedMessages);
+    map(
+      (event) => panelWindowRef.document.dispatchEvent(event),
+      queuedMessages,
+    );
 
     queuedMessages = empty(queuedMessages);
 
@@ -37,7 +46,9 @@ const panelCreated = (panel: ExtensionPanel) => {
     const chromeIdPayload = {
       chromeId: chrome.runtime.id,
     };
-    const chromeIdEvent: CustomEvent = new CustomEvent(ChromeIdPostMessage, { detail: chromeIdPayload });
+    const chromeIdEvent: CustomEvent = new CustomEvent(ChromeIdPostMessage, {
+      detail: chromeIdPayload,
+    });
     panelWindowRef.document.dispatchEvent(chromeIdEvent);
     // set the global reference
     panelWindow = panelWindowRef;
@@ -58,7 +69,7 @@ const getAppropriateEvent = (me: MessageEnvelope): CustomEvent => {
 let tabName = "Ski Goggles";
 const iconImage = "images/ski-goggles-icon.png";
 
-if (process.env.NODE_ENV !== "production")  {
+if (process.env.NODE_ENV !== "production") {
   tabName = "Ski Goggles Dev";
 }
 
