@@ -9,7 +9,7 @@ import Title from "../Title";
 
 describe("Title", () => {
   const time = 1514790565000;
-  const titleComponent = Enzyme.mount(<Title logo="stuff-logo" title="stuff-title" timeStamp={time} />);
+  const titleComponent = Enzyme.mount(<Title logo="stuff-logo" title="stuff-title" timeStamp={time} primaryInfo="placeholder" />);
 
   it("Generates the correct logo", () => {
     const logo = titleComponent.find(Image);

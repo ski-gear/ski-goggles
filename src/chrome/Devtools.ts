@@ -6,7 +6,7 @@ import {
   NewSnapshotPostMessage,
   NewWebRequestPostMessage,
 } from "../Constants";
-import { MessageEnvelope, Port } from "../types/Types";
+import { MessageEnvelope, Port } from "../types/Types"; 
 
 type ExtensionPanel = chrome.devtools.panels.ExtensionPanel;
 type ChromeWindow = chrome.windows.Window & Window;

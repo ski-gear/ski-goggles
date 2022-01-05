@@ -23,7 +23,7 @@ const panelRows = (
     const requestData = payload.data;
     const provider = payload.provider;
     const title = defaultTo(provider.displayName, path(["meta", "title"], payload.data)) as string;
-    const titleElem = <Title title={title} logo={provider.logo} timeStamp={payload.timeStamp} />;
+    const titleElem = <Title title={title} logo={provider.logo} timeStamp={payload.timeStamp} primaryInfo="placeholder"/>;
     const contentElem = (
       <Detail payload={payload} addSnapshot={addSnapshot} removeSnapshot={removeSnapshot} snapshots={snapshots} />
     );
