@@ -1,5 +1,5 @@
 import { connect, Dispatch } from "react-redux";
-import { ProviderCanonicalName } from "ski-providers";
+import { ProviderCanonicalName } from "ski-vendors";
 
 import { UserOptions } from "../../../types/Types";
 import { disableProviderAction, enableProviderAction } from "../../Actions";

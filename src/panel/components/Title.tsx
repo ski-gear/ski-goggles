@@ -1,7 +1,6 @@
 import * as moment from "moment";
 import * as React from "react";
 import { Grid, Icon, Image, Label } from "semantic-ui-react";
-
 import { generateImageUrl } from "../Helpers";
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 export default class Title extends React.Component<Props> {
   public render() {
     return (
-      <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+      <Grid container columnspacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid.Column floated="left" width={5}>
           <Icon name="dropdown" />
           <Image src={generateImageUrl(this.props.logo)} avatar spaced />
@@ -25,7 +24,7 @@ export default class Title extends React.Component<Props> {
         </Grid.Column>
         <Grid.Column floated="right" width={4}>
           <Label name="timeStamp">{formatTime(this.props.timeStamp)}</Label>
-        </Grid.Column>
+        </Grid.Column>  
       </Grid>
     );
   }

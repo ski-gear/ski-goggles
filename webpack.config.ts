@@ -48,7 +48,7 @@ const Plugins = [
       ignore: ["dev/**/*", ".DS_Store"]
     },
     {
-      from: "node_modules/ski-providers/assets/images/providers",
+      from: "node_modules/ski-vendors/assets/images/providers",
       to: "images/providers"
     },
     { from: "src/chrome/manifest.json", to: "manifest.json" }
