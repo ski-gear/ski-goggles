@@ -1,4 +1,4 @@
-import { ProviderCanonicalName } from "ski-providers";
+import { ProviderCanonicalName } from "ski-vendors";
 
 import { PostMessageType, RunTimeMessageSubject } from "./types/Types";
 
