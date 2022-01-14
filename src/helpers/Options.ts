@@ -1,5 +1,5 @@
 import { contains, map, values } from "ramda";
-import { Provider, SkiProviders } from "ski-providers";
+import { Provider, SkiProviders } from "ski-vendors";
 
 import { PreferredProviders } from "../Constants";
 import { UserOptions, UserProviderSetting } from "../types/Types";

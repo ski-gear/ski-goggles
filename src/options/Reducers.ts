@@ -1,6 +1,6 @@
 import { assoc, map } from "ramda";
 import { combineReducers } from "redux";
-import { ProviderCanonicalName } from "ski-providers";
+import { ProviderCanonicalName } from "ski-vendors";
 
 import { DefaultOptions } from "../helpers/Options";
 import { UserProviderSetting } from "./../types/Types";

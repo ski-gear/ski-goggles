@@ -2,9 +2,9 @@ import {
   FormattedWebRequestData,
   Provider,
   ProviderCanonicalName,
-} from "ski-providers";
+} from "ski-vendors";
 
-import { RawWebRequestData } from "ski-providers/dist/types/Types";
+import { RawWebRequestData } from "ski-vendors/dist/types/Types";
 import {
   WebRequestPayload,
   WebRequestPayloadSnapshot,
