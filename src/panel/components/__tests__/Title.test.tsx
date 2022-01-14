@@ -4,8 +4,8 @@ import * as Enzyme from "enzyme";
 import * as React from "react";
 import { Image, Label } from "semantic-ui-react";
 import Title from "../Title";
-import { ProviderCanonicalName } from "ski-providers";
-import { Formatting } from "ski-providers/dist/types/Types";
+import { ProviderCanonicalName } from "ski-vendors";
+import { Formatting } from "ski-vendors/dist/types/Types";
 
 describe("Title", () => {
   const time = 1514790565000;
