@@ -1,7 +1,11 @@
 import { defaultTo, map, path } from "ramda";
 import * as React from "react";
+import { Provider } from "react-redux";
 import { Accordion } from "semantic-ui-react";
-import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../types/Types";
+import {
+  WebRequestPayload,
+  WebRequestPayloadSnapshot,
+} from "../../types/Types";
 import { Detail } from "./detail/Detail";
 import Title from "./Title";
 
@@ -17,18 +21,41 @@ const panelRows = (
   data: WebRequestPayload[],
   addSnapshot: any,
   removeSnapshot: any,
-  snapshots: WebRequestPayloadSnapshot[],
+  snapshots: WebRequestPayloadSnapshot[]
 ): any[] => {
-  const panelRows = map(payload => {
-    const requestData = payload.data;
+  const panelRows = map((payload) => {
     const provider = payload.provider;
-    const title = defaultTo(provider.displayName, path(["meta", "title"], payload.data)) as string;
-    const titleElem = <Title title={title} logo={provider.logo} timeStamp={payload.timeStamp} />;
-    const contentElem = (
-      <Detail payload={payload} addSnapshot={addSnapshot} removeSnapshot={removeSnapshot} snapshots={snapshots} />
+    const title = defaultTo(
+      provider.displayName,
+      path(["meta", "title"], payload.data)
+    ) as string;
+    const titleElem = (
+      <Title
+        title={title}
+        payload={payload}
+        provider={provider.displayName}
+        logo={provider.logo}
+        timeStamp={payload.timeStamp}
+      />
     );
-    const titleNode = <Accordion.Title key={"title-" + payload.timeStamp}>{titleElem}</Accordion.Title>;
-    const contentNode = <Accordion.Content key={"content-" + payload.timeStamp}>{contentElem}</Accordion.Content>;
+    const contentElem = (
+      <Detail
+        payload={payload}
+        addSnapshot={addSnapshot}
+        removeSnapshot={removeSnapshot}
+        snapshots={snapshots}
+      />
+    );
+    const titleNode = (
+      <Accordion.Title key={"title-" + payload.timeStamp}>
+        {titleElem}
+      </Accordion.Title>
+    );
+    const contentNode = (
+      <Accordion.Content key={"content-" + payload.timeStamp}>
+        {contentElem}
+      </Accordion.Content>
+    );
 
     return {
       title: titleNode,
@@ -64,7 +91,7 @@ export default class WebRequests extends React.Component<Props> {
             this.props.data,
             this.addSnapshot.bind(this),
             this.removeSnapshot.bind(this),
-            this.props.snapshots,
+            this.props.snapshots
           )}
         />
       </div>
