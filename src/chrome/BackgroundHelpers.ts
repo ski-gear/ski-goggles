@@ -1,11 +1,11 @@
 import * as moment from "moment";
 import { curry, filter, forEach, isNil, keys, map } from "ramda";
-import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
+import { SkiProviderHelpers as ProviderHelpers } from "ski-vendors";
 import {
   ProviderCanonicalName,
   RawRequestBody,
   RawWebRequestData,
-} from "ski-providers/dist/types/Types";
+} from "ski-vendors/dist/types/Types";
 import { DefaultOptions } from "../helpers/Options";
 import { parse } from "../Parser";
 import {

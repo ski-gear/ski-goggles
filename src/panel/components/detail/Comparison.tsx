@@ -2,7 +2,7 @@ import * as moment from "moment";
 import { assoc, defaultTo, filter, find, map, propOr, props, reduce, reverse } from "ramda";
 import * as React from "react";
 import { Button, Divider, Header, Icon, Image, Label, Menu, Popup, Segment, Table } from "semantic-ui-react";
-import { FormattedDataItem } from "ski-providers";
+import { FormattedDataItem } from "ski-vendors";
 
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "./../../../types/Types";
 import { generateDiff, generateImageUrl } from "./../../Helpers";

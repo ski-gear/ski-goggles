@@ -1,7 +1,7 @@
 import { curry, map } from "ramda";
 import * as React from "react";
 import { Checkbox, Grid, Header, Icon, Image, Message, Segment, Table } from "semantic-ui-react";
-import { SkiProviderHelpers as ProviderHelpers } from "ski-providers";
+import { SkiProviderHelpers as ProviderHelpers } from "ski-vendors";
 
 import { generateImageUrl } from "../../panel/Helpers";
 import { UserProviderSetting } from "../../types/Types";

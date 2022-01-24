@@ -1,4 +1,4 @@
-import { ProviderCanonicalName } from "ski-providers";
+import { ProviderCanonicalName } from "ski-vendors";
 
 export interface EnableProvider {
   type: string;

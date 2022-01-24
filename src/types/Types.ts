@@ -3,7 +3,7 @@ import {
   FormattedWebRequestData,
   Provider,
   ProviderCanonicalName,
-} from "ski-providers";
+} from "ski-vendors";
 
 export type PostMessageType = "newWebRequest" | "newSnapshot" | "chromeId";
 

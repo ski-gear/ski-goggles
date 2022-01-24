@@ -4,7 +4,7 @@ import * as React from "react";
 import Highlight from "react-highlight.js";
 import { Container, Header, Table } from "semantic-ui-react";
 import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
-import { FormattedDataItem } from "ski-providers";
+import { FormattedDataItem } from "ski-vendors";
 
 import { WebRequestPayload, WebRequestPayloadSnapshot } from "../../../types/Types";
 import JsonMenu from "../JsonMenu";
