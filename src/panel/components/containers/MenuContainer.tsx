@@ -15,6 +15,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
 const mapStateToProps = (state: PanelState) => {
   return {
     chromeId: state.metaData.chromeId,
+    data: state.webRequests,
   };
 };
 

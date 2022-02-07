@@ -10,6 +10,7 @@ const mapStateToProps = (state: UserOptions) => {
     data: state.providers,
   };
 };
+
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     onDisableProvider: (provider: ProviderCanonicalName) => dispatch(disableProviderAction(provider)),
