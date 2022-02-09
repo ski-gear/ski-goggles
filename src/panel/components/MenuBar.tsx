@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Icon, Image, Menu, Popup, Label, Accordion } from "semantic-ui-react";
+import { Icon, Image, Menu, Popup, Header, Label } from "semantic-ui-react";
 import { WebRequestPayload } from "src/types/Types";
-
 import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from "../../Constants";
 import { AppVersion } from "../../Versions";
 import { SendRuntimeMessage } from "../Helpers";
@@ -20,7 +19,8 @@ const nameSpaceInfo = (data: WebRequestPayload[]): string => {
     .map((payload) => {
       const tealium_url = payload.url;
       const keywords = tealium_url.split("/");
-      const result = "Tealium Profile/Environment: " + keywords[5] + "/" + keywords[6];
+      const result =
+        "Tealium Profile/Environment: " + keywords[5] + "/" + keywords[6];
       return result;
     })
     .slice(-1)[0];
@@ -59,7 +59,11 @@ export default class MenuBar extends React.Component<Props, State> {
           />
         </Menu.Item>
         <Menu.Item name="Tealium Profile/Environment">
-          {nameSpaceInfo(this.props.data)}
+          <Label size="large" color="blue">
+            {nameSpaceInfo(this.props.data)
+              ? nameSpaceInfo(this.props.data)
+              : "Tealium Profile/Environment: main/prod"}
+          </Label>
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item name="bug-menu">
