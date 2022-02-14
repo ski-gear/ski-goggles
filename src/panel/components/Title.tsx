@@ -16,7 +16,7 @@ interface Props {
 const displayKeyInfo = (
   provider: string,
   payload: WebRequestPayload,
-  title: string 
+  title: string
 ): string => {
   try {
     if (provider === "Snowplow") {
@@ -63,10 +63,6 @@ const displayKeyInfo = (
   return "";
 };
 
-const styledSpan = {
-  fontSize: "small",
-};
-
 export default class Title extends React.Component<Props> {
   public render() {
     return (
@@ -74,12 +70,12 @@ export default class Title extends React.Component<Props> {
         <Grid.Column floated="left" width={8}>
           <Icon name="dropdown" />
           <Image src={generateImageUrl(this.props.logo)} avatar spaced />
-          <Label size="tiny" name="title">
+          <Label size="small" name="title">
             {this.props.title}
           </Label>
         </Grid.Column>
         <Grid.Column floated="left" width={4}>
-          <Label size="tiny" name="ketInfo">
+          <Label size="small" name="keyInfo">
             {displayKeyInfo(
               this.props.provider,
               this.props.payload,
