@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Icon, Image, Menu, Popup, Label, Accordion } from "semantic-ui-react";
+import { Icon, Image, Menu, Popup, Header, Label } from "semantic-ui-react";
 import { WebRequestPayload } from "src/types/Types";
 
 import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from "../../Constants";
@@ -36,6 +36,11 @@ export default class MenuBar extends React.Component<Props, State> {
     };
   }
 
+  public getTiqInfo() {
+    const [count, setCount] = React.useState(0);
+
+  }
+
   public openOptions() {
     SendRuntimeMessage(this.props.chromeId, OPEN_OPTIONS_TAB, {});
   }
@@ -58,8 +63,12 @@ export default class MenuBar extends React.Component<Props, State> {
             size="tiny"
           />
         </Menu.Item>
-        <Menu.Item name="tiq version">
-          <Label>{nameSpaceInfo(this.props.data)}</Label>
+        <Menu.Item name="tiq-profile-env">
+          <Label size="large" color="blue">
+            {nameSpaceInfo(this.props.data)
+              ? nameSpaceInfo(this.props.data)
+              : "Tealium Profile/Environment: NA/NA"}
+          </Label>
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item name="bug-menu">
