@@ -81,7 +81,7 @@ export default class Title extends React.Component<Props> {
           </Label>
         </Grid.Column>
         <Grid.Column name="key-info">
-          <Header Header name="keyInfo" size="small" as="h5" color="blue">
+          <Header name="keyInfo" size="small" as="h5" color="blue">
             {displayKeyInfo(
               this.props.provider,
               this.props.payload,

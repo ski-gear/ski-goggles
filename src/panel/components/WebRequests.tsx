@@ -36,6 +36,7 @@ const panelRows = (
         provider={provider.displayName}
         logo={provider.logo}
         timeStamp={payload.timeStamp}
+        key={title}
       />
     );
     const contentElem = (
