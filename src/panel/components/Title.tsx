@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import * as React from "react";
-import { Grid, Icon, Image, Label } from "semantic-ui-react";
+import { Grid, Icon, Image, Label, Header } from "semantic-ui-react";
 import { WebRequestPayload } from "src/types/Types";
 
 import { generateImageUrl } from "../Helpers";
@@ -16,7 +16,7 @@ interface Props {
 const displayKeyInfo = (
   provider: string,
   payload: WebRequestPayload,
-  title: string 
+  title: string
 ): string => {
   try {
     if (provider === "Snowplow") {
@@ -63,32 +63,41 @@ const displayKeyInfo = (
   return "";
 };
 
-const styledSpan = {
-  fontSize: "small",
-};
-
 export default class Title extends React.Component<Props> {
   public render() {
     return (
-      <Grid>
-        <Grid.Column floated="left" width={8}>
+      <Grid columns="equal" verticalAlign="middle" centered>
+        <Grid.Column name="logo" width={9}>
           <Icon name="dropdown" />
           <Image src={generateImageUrl(this.props.logo)} avatar spaced />
-          <Label size="tiny" name="title">
+          <Label as="a"
+            basic
+            size="small"
+            color="blue"
+            name="timeStamp"
+            width={4}
+          >
             {this.props.title}
           </Label>
         </Grid.Column>
-        <Grid.Column floated="left" width={4}>
-          <Label size="tiny" name="ketInfo">
+        <Grid.Column name="key-info">
+          <Header name="keyInfo" size="small" as="h5" color="blue">
             {displayKeyInfo(
               this.props.provider,
               this.props.payload,
               this.props.title
             )}
-          </Label>
+          </Header>
         </Grid.Column>
-        <Grid.Column floated="right" width={4}>
-          <Label size="mini" name="timeStamp">
+        <Grid.Column name="timestamp">
+          <Label
+            as="a"
+            basic
+            size="small"
+            color="blue"
+            name="timeStamp"
+            width={4}
+          >
             {formatTime(this.props.timeStamp)}
           </Label>
         </Grid.Column>
@@ -98,5 +107,5 @@ export default class Title extends React.Component<Props> {
 }
 
 const formatTime = (timeStamp: number): string => {
-  return moment(timeStamp).format("MMM Do YYYY HH:mm:ss");
+  return moment(timeStamp).format("MMM Do HH:mm:ss A");
 };

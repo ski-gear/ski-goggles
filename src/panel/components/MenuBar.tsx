@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Icon, Image, Menu, Popup } from "semantic-ui-react";
+import { Icon, Image, Menu, Popup, Header, Label } from "semantic-ui-react";
+import { WebRequestPayload } from "src/types/Types";
 
 import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from "../../Constants";
 import { AppVersion } from "../../Versions";
@@ -8,9 +9,24 @@ import { SendRuntimeMessage } from "../Helpers";
 interface Props {
   clear: () => void;
   chromeId: string;
+  data: WebRequestPayload[];
 }
 
 interface State {}
+
+const nameSpaceInfo = (data: WebRequestPayload[]): string => {
+  const nameSpaceInfo = data
+    .filter((payload) => payload.provider.displayName === "TealiumIQ")
+    .map((payload) => {
+      const tealium_url = payload.url;
+      const keywords = tealium_url.split("/");
+      const result = "Tealium: " + keywords[5] + "/" + keywords[6];
+      return result;
+    })
+    .slice(-1)[0];
+
+  return nameSpaceInfo;
+};
 
 export default class MenuBar extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -18,6 +34,11 @@ export default class MenuBar extends React.Component<Props, State> {
     this.state = {
       chromeId: "",
     };
+  }
+
+  public getTiqInfo() {
+    const [count, setCount] = React.useState(0);
+
   }
 
   public openOptions() {
@@ -42,24 +63,55 @@ export default class MenuBar extends React.Component<Props, State> {
             size="tiny"
           />
         </Menu.Item>
+        <Menu.Item name="tiq-profile-env">
+          <Label size="large" color="blue">
+            {nameSpaceInfo(this.props.data)
+              ? nameSpaceInfo(this.props.data)
+              : "Tealium Profile/Environment: NA/NA"}
+          </Label>
+        </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item name="bug-menu">
             <Popup
-              trigger={<Icon link size="large" color="green" name="bug" onClick={this.openIssues.bind(this)} />}
+              trigger={
+                <Icon
+                  link
+                  size="large"
+                  color="green"
+                  name="bug"
+                  onClick={this.openIssues.bind(this)}
+                />
+              }
               content="Report Bug/Feature Request"
               size="tiny"
             />
           </Menu.Item>
           <Menu.Item name="options-menu">
             <Popup
-              trigger={<Icon link size="large" color="green" name="options" onClick={this.openOptions.bind(this)} />}
+              trigger={
+                <Icon
+                  link
+                  size="large"
+                  color="green"
+                  name="options"
+                  onClick={this.openOptions.bind(this)}
+                />
+              }
               content="Open Options Page"
               size="tiny"
             />
           </Menu.Item>
           <Menu.Item name="delete-menu">
             <Popup
-              trigger={<Icon link size="large" color="red" name="trash" onClick={this.props.clear} />}
+              trigger={
+                <Icon
+                  link
+                  size="large"
+                  color="red"
+                  name="trash"
+                  onClick={this.props.clear}
+                />
+              }
               content="Clear All Events"
               size="tiny"
             />
@@ -67,5 +119,8 @@ export default class MenuBar extends React.Component<Props, State> {
         </Menu.Menu>
       </Menu>
     );
+  }
+  panelRows(data: WebRequestPayload[]): React.ReactNode {
+    throw new Error("Method not implemented.");
   }
 }
