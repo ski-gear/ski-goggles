@@ -8,6 +8,7 @@ import {
 } from "../../types/Types";
 import { Detail } from "./detail/Detail";
 import Title from "./Title";
+import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   snapshots: WebRequestPayloadSnapshot[];
@@ -36,7 +37,7 @@ const panelRows = (
         provider={provider.displayName}
         logo={provider.logo}
         timeStamp={payload.timeStamp}
-        key={title}
+        key={ {title} + uuidv4() }
       />
     );
     const contentElem = (
@@ -48,21 +49,20 @@ const panelRows = (
       />
     );
     const titleNode = (
-      <Accordion.Title key={"title-" + payload.timeStamp}>
+      <Accordion.Title key={"title-" + uuidv4() }>
         {titleElem}
       </Accordion.Title>
     );
     const contentNode = (
-      <Accordion.Content key={"content-" + payload.timeStamp}>
+      <Accordion.Content key={"content-" + uuidv4() }>
         {contentElem}
       </Accordion.Content>
     );
-
     return {
       title: titleNode,
       content: {
         content: contentElem,
-        key: "content-" + payload.timeStamp,
+        key: "content-" + uuidv4(),
       },
     };
   }, data);

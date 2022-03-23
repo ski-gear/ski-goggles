@@ -1,6 +1,6 @@
 {
   "name": "ski-goggles",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Some eye protection before skiing into the world of Snowplow",
   "author": "shawn.foo@rea-group.com",
   "homepage": "https://github.com/ski-gear/ski-goggles",
@@ -21,6 +21,7 @@
     "@types/react-redux": "^5.0.14",
     "@types/sinon": "^4.1.2",
     "@types/sinon-chai": "^2.7.29",
+    "@types/uuid": "^8.3.4",
     "chai": "^4.1.2",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^3.4.0",
@@ -57,6 +58,7 @@
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.81.1",
     "ski-vendors": "^1.0.7",
+    "uuid": "^8.3.2",
     "when-switch": "^0.2.0"
   },
   "scripts": {

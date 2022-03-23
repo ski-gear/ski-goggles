@@ -36,11 +36,6 @@ export default class MenuBar extends React.Component<Props, State> {
     };
   }
 
-  public getTiqInfo() {
-    const [count, setCount] = React.useState(0);
-
-  }
-
   public openOptions() {
     SendRuntimeMessage(this.props.chromeId, OPEN_OPTIONS_TAB, {});
   }
