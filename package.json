@@ -46,7 +46,7 @@
     "yarn": "^1.22.0"
   },
   "dependencies": {
-    "clipboard": "^1.7.1",
+    "clipboard": "^2.0.10",
     "jsondiffpatch": "^0.2.5",
     "moment": "^2.18.1",
     "ramda": "^0.24.1",
@@ -59,7 +59,7 @@
     "semantic-ui-react": "^0.81.1",
     "ski-vendors": "^1.0.7",
     "uuid": "^8.3.2",
-    "when-switch": "^0.2.0"
+    "when-switch": "^0.3.1"
   },
   "scripts": {
     "start": "webpack-dev-server",
