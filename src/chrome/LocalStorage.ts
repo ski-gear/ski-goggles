@@ -12,6 +12,7 @@ export const getOptions = (key: string, sync: boolean = false): Promise<any> => 
 
 export const setOptions = (key: string, val: any, sync: boolean = false): Promise<boolean> => {
   const storage = sync ? chrome.storage.sync : chrome.storage.local;
+  console.log('Ski Goggles Debugger: ' + key);
 
   return new Promise((resolve, reject) => {
     storage.set(assoc(key, val, {}), () => {
