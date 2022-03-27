@@ -9,7 +9,7 @@
     "module": "commonjs",
     "target": "es5",
     "allowJs": true,
-    "lib": ["es2015", "dom"],
+    "lib": ["es2017", "dom"],
     "baseUrl": "./",
     "types": ["node", "chrome"],
     "typeRoots": ["./node_modules/@types"],
