@@ -1,6 +1,5 @@
 import { defaultTo, map, path } from "ramda";
 import * as React from "react";
-import { Provider } from "react-redux";
 import { Accordion } from "semantic-ui-react";
 import {
   WebRequestPayload,
@@ -46,6 +45,7 @@ const panelRows = (
         addSnapshot={addSnapshot}
         removeSnapshot={removeSnapshot}
         snapshots={snapshots}
+        key={uuidv4()}
       />
     );
     const titleNode = (
@@ -53,12 +53,8 @@ const panelRows = (
         {titleElem}
       </Accordion.Title>
     );
-    const contentNode = (
-      <Accordion.Content key={"content-" + uuidv4() }>
-        {contentElem}
-      </Accordion.Content>
-    );
     return {
+      key: uuidv4(),
       title: titleNode,
       content: {
         content: contentElem,
@@ -94,6 +90,7 @@ export default class WebRequests extends React.Component<Props> {
             this.removeSnapshot.bind(this),
             this.props.snapshots
           )}
+          key={uuidv4()}
         />
       </div>
     );
