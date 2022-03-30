@@ -1,6 +1,5 @@
 import { defaultTo, map, path } from "ramda";
 import * as React from "react";
-import { Provider } from "react-redux";
 import { Accordion } from "semantic-ui-react";
 import {
   WebRequestPayload,
@@ -8,6 +7,7 @@ import {
 } from "../../types/Types";
 import { Detail } from "./detail/Detail";
 import Title from "./Title";
+import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   snapshots: WebRequestPayloadSnapshot[];
@@ -36,7 +36,7 @@ const panelRows = (
         provider={provider.displayName}
         logo={provider.logo}
         timeStamp={payload.timeStamp}
-        key={title}
+        key={ {title} + uuidv4() }
       />
     );
     const contentElem = (
@@ -45,24 +45,20 @@ const panelRows = (
         addSnapshot={addSnapshot}
         removeSnapshot={removeSnapshot}
         snapshots={snapshots}
+        key={uuidv4()}
       />
     );
     const titleNode = (
-      <Accordion.Title key={"title-" + payload.timeStamp}>
+      <Accordion.Title key={"title-" + uuidv4() }>
         {titleElem}
       </Accordion.Title>
     );
-    const contentNode = (
-      <Accordion.Content key={"content-" + payload.timeStamp}>
-        {contentElem}
-      </Accordion.Content>
-    );
-
     return {
+      key: uuidv4(),
       title: titleNode,
       content: {
         content: contentElem,
-        key: "content-" + payload.timeStamp,
+        key: "content-" + uuidv4(),
       },
     };
   }, data);
@@ -94,6 +90,7 @@ export default class WebRequests extends React.Component<Props> {
             this.removeSnapshot.bind(this),
             this.props.snapshots
           )}
+          key={uuidv4()}
         />
       </div>
     );

@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import { assoc, defaultTo, groupBy, keys, map, prop, sortBy } from "ramda";
 import * as React from "react";
-import Highlight from "react-highlight.js";
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Container, Header, Table } from "semantic-ui-react";
 import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
 import { FormattedDataItem } from "ski-vendors";
@@ -37,7 +37,7 @@ const format = (valueType: string, value: string): JSX.Element => {
     return (
       <Container fluid>
         <JsonMenu value={value} />
-        <Highlight language="json">{value}</Highlight>
+        <SyntaxHighlighter language="json" showLineNumbers>{value}</SyntaxHighlighter>
       </Container>
     );
   } else {
