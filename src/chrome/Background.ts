@@ -42,7 +42,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 chrome.runtime.onConnect.addListener(onConnectCallBack(state));
 
-chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
+chrome.runtime.onMessage.addListener((msg: RunTimeMessage, sender: chrome.runtime.MessageSender, sendResponse): void => {
   when(msg.subject)
     .is(OPEN_OPTIONS_TAB, () => {
       chrome.runtime.openOptionsPage(console.log);
@@ -78,6 +78,7 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
         });
       });
     });
+    sendResponse({farewell: 'goodbye'});
 });
 
 const addSnapshot = (

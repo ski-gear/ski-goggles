@@ -14,20 +14,6 @@ interface Props {
 
 interface State {}
 
-const nameSpaceInfo = (data: WebRequestPayload[]): string => {
-  const nameSpaceInfo = data
-    .filter((payload) => payload.provider.displayName === "TealiumIQ")
-    .map((payload) => {
-      const tealium_url = payload.url;
-      const keywords = tealium_url.split("/");
-      const result = "Tealium: " + keywords[5] + "/" + keywords[6];
-      return result;
-    })
-    .slice(-1)[0];
-
-  return nameSpaceInfo;
-};
-
 export default class MenuBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -36,11 +22,27 @@ export default class MenuBar extends React.Component<Props, State> {
     };
   }
 
+  public nameSpaceInfo = (data: WebRequestPayload[]): string => {
+    const nameSpaceInfo = data
+      .filter((payload) => payload.provider.displayName === "TealiumIQ")
+      .map((payload) => {
+        const tealium_url = payload.url;
+        const keywords = tealium_url.split("/");
+        const result = "Tealium: " + keywords[5] + "/" + keywords[6];
+        return result;
+      })
+      .slice(-1)[0];
+  
+    return nameSpaceInfo;
+  };
+
   public openOptions() {
+    console.log("Ski Goggles: Opening options page...");
     SendRuntimeMessage(this.props.chromeId, OPEN_OPTIONS_TAB, {});
   }
 
   public openIssues() {
+    console.log("Ski Goggles: Opening issues page...");
     SendRuntimeMessage(this.props.chromeId, OPEN_ISSUES_PAGE, {});
   }
 
@@ -60,8 +62,8 @@ export default class MenuBar extends React.Component<Props, State> {
         </Menu.Item>
         <Menu.Item name="tiq-profile-env">
           <Label size="large" color="blue">
-            {nameSpaceInfo(this.props.data)
-              ? nameSpaceInfo(this.props.data)
+            {this.nameSpaceInfo(this.props.data)
+              ? this.nameSpaceInfo(this.props.data)
               : "Tealium Profile/Environment: NA/NA"}
           </Label>
         </Menu.Item>
