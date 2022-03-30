@@ -78,7 +78,7 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage, sender: chrome.runtim
         });
       });
     });
-    sendResponse({farewell: 'goodbye'});
+  sendResponse({ farewell: 'goodbye' });
 });
 
 const addSnapshot = (
