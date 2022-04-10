@@ -19,6 +19,7 @@ import {
 import { getOptions, setOptions } from "./LocalStorage";
 
 export const onInstall = curry((state: GlobalState, _details: any): void => {
+  console.debug("SG: chrome.runtime.onInstalled.");
   const defaults = DefaultOptions();
   setOptions(state.userOptionsKey, defaults).then(_data => {
     refreshMasterPattern(state);
@@ -95,7 +96,7 @@ const buildRawWebRequestData = (
 };
 
 export const refreshMasterPattern = (state: GlobalState) => {
-  console.debug("Recreating masterpattern");
+  console.debug("SG: Recreating masterpattern");
   getOptions(state.userOptionsKey, true).then((opts: UserOptions) => {
     const upss = opts.providers || [];
     state.masterPattern = ProviderHelpers.generateMasterPattern(
@@ -123,7 +124,7 @@ export const onConnectCallBack = curry(
       delete state.tabs[getTabId(port)];
     });
 
-    // logs messages from the port (in the background page's console!)
+    // Logs messages from the port (in the background page's console!)
     port.onMessage.addListener(msg => {
       console.debug(`Message from port[${tabId}]: `, msg);
     });

@@ -27,7 +27,7 @@ const safeJsonParse = (json: string): {} => {
   try {
     return JSON.parse(json);
   } catch (e) {
-    console.log("JSON parse error", e);
+      console.log("JSON parse error", e);
     return {};
   }
 };

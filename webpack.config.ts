@@ -74,7 +74,7 @@ const Plugins = [
     inject: "head",
     chunks: ["devtools"]
   }),
-  new webpack.EnvironmentPlugin(["NODE_ENV"])
+  new webpack.EnvironmentPlugin({NODE_ENV: "production"})
 ];
 
 const DevPlugins = [

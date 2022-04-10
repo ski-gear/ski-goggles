@@ -14,10 +14,9 @@ type ChromeWindow = chrome.windows.Window & Window;
 const panelCreated = (panel: ExtensionPanel) => {
   let queuedMessages: CustomEvent[] = [];
   let panelWindow: Window;
-  const tabId: number = chrome.devtools.inspectedWindow.tabId;
-  const formatTabId: string = tabId.toString();
+
   const port: Port = chrome.runtime.connect({
-    name: `skig-${formatTabId}`,
+    name: `skig-${ chrome.devtools.inspectedWindow.tabId }`,
   });
 
   port.onMessage.addListener((msg: MessageEnvelope): void => {
@@ -35,6 +34,8 @@ const panelCreated = (panel: ExtensionPanel) => {
    */
   const onPanelFirstShow = (panelWindowRef: ChromeWindow): void => {
     panel.onShown.removeListener(onPanelFirstShow); // Ensure this fires only once.
+  
+    panelWindow = panelWindowRef; // Set the global reference
 
     map(
       (event) => panelWindowRef.document.dispatchEvent(event),
@@ -51,8 +52,6 @@ const panelCreated = (panel: ExtensionPanel) => {
       detail: chromeIdPayload,
     });
     panelWindowRef.document.dispatchEvent(chromeIdEvent);
-    // set the global reference
-    panelWindow = panelWindowRef;
   };
 
   panel.onShown.addListener(onPanelFirstShow);
@@ -67,11 +66,8 @@ const getAppropriateEvent = (me: MessageEnvelope): CustomEvent => {
   return new CustomEvent(eventType, { detail: me });
 };
 
-let tabName = "Ski Goggles";
 const iconImage = "images/ski-goggles-icon.png";
 
-if (process.env.NODE_ENV === "dev") {
-  tabName = "Ski Goggles Dev";
-}
+let tabName = process.env.NODE_ENV === "dev" ? "Ski Goggles Dev" : "Ski Goggles";
 
 chrome.devtools.panels.create(tabName, iconImage, "panel.html", panelCreated);
