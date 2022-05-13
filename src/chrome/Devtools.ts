@@ -34,7 +34,7 @@ const panelCreated = (panel: ExtensionPanel) => {
    */
   const onPanelFirstShow = (panelWindowRef: ChromeWindow): void => {
     panel.onShown.removeListener(onPanelFirstShow); // Ensure this fires only once.
-  
+
     panelWindow = panelWindowRef; // Set the global reference
 
     map(
@@ -68,6 +68,6 @@ const getAppropriateEvent = (me: MessageEnvelope): CustomEvent => {
 
 const iconImage = "images/ski-goggles-icon.png";
 
-let tabName = process.env.NODE_ENV === "dev" ? "Ski Goggles Dev" : "Ski Goggles";
+const tabName = process.env.NODE_ENV === "dev" ? "Ski Goggles Dev" : "Ski Goggles";
 
 chrome.devtools.panels.create(tabName, iconImage, "panel.html", panelCreated);

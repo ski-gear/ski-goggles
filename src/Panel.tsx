@@ -15,11 +15,11 @@ const key: SnapShotKey = "skiGogglesSnapshots";
 getOptions(key).then(snapshots => {
   const localSnapshots = defaultTo([], snapshots);
   const state: PanelState = {
-    webRequests: [],
     metaData: {
       chromeId: "",
     },
     snapshots: localSnapshots,
+    webRequests: [],
   };
   const store = createStore(skiGoggles, state, applyMiddleware(ThunkMiddleWare));
 

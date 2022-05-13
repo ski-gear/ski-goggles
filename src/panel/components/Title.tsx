@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import * as React from "react";
-import { Grid, Icon, Image, Label, Header } from "semantic-ui-react";
+import { Grid, Header, Icon, Image, Label } from "semantic-ui-react";
 import { WebRequestPayload } from "src/types/Types";
 
 import { generateImageUrl } from "../Helpers";
@@ -16,15 +16,15 @@ interface Props {
 const displayKeyInfo = (
   provider: string,
   payload: WebRequestPayload,
-  title: string
+  title: string,
 ): string => {
   try {
     if (provider === "Snowplow") {
       if (title === "Page View") {
         const pageSchemaVersion = JSON.parse(
           payload.data.data.filter(
-            (item) => item.label === "Context Payload"
-          )[0].value
+            (item) => item.label === "Context Payload",
+          )[0].value,
         )
           .data[0].schema.match(/\d/g)
           .join("-");
@@ -34,7 +34,7 @@ const displayKeyInfo = (
       } else {
         const eventSchemaVersion = JSON.parse(
           payload.data.data.filter((item) => item.label === "Event Payload")[0]
-            .value
+            .value,
         )
           .data.schema.match(/\d/g)
           .join("-");
@@ -44,14 +44,14 @@ const displayKeyInfo = (
       }
     } else if (provider === "Adobe Analytics AppMeasurement") {
       const visitorNamespace = payload.data.data.filter(
-        (item) => item.label === "Visitor namespace"
+        (item) => item.label === "Visitor namespace",
       )[0].value;
       const name = "Visitor: ";
       const result = name.concat(visitorNamespace);
       return result;
     } else if (provider === "Google Analytics") {
       const trackingId = payload.data.data.filter(
-        (item) => item.label === "Tracking ID"
+        (item) => item.label === "Tracking ID",
       )[0].value;
       const name = "Id: ";
       const result = name.concat(trackingId);
@@ -85,7 +85,7 @@ export default class Title extends React.Component<Props> {
             {displayKeyInfo(
               this.props.provider,
               this.props.payload,
-              this.props.title
+              this.props.title,
             )}
           </Header>
         </Grid.Column>

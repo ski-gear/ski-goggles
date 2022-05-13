@@ -14,9 +14,9 @@ import { getOptions, setOptions } from "./LocalStorage";
 
 const state: GlobalState = {
   masterPattern: /(?:)/,
+  snapShotKey: "skiGogglesSnapshots",
   tabs: {},
   userOptionsKey: "skiGogglesOptions",
-  snapShotKey: "skiGogglesSnapshots",
 };
 
 chrome.runtime.onInstalled.addListener(onInstall(state));
@@ -57,8 +57,8 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage, sender: chrome.runtim
         const snapshots = addSnapshot(groomedData, snapshot);
         setOptions(state.snapShotKey, snapshots).then((_: any) => {
           const snapshotMessage: SnapshotMessageEnvelope = {
-            type: "snapshots",
             payload: snapshots,
+            type: "snapshots",
           };
           broadcastToAllTabs(state, snapshotMessage);
         });
@@ -71,14 +71,14 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage, sender: chrome.runtim
         const snapshots = removeSnapshot(groomedData, snapshot);
         setOptions(state.snapShotKey, snapshots).then((_: any) => {
           const snapshotMessage: SnapshotMessageEnvelope = {
-            type: "snapshots",
             payload: snapshots,
+            type: "snapshots",
           };
           broadcastToAllTabs(state, snapshotMessage);
         });
       });
     });
-    sendResponse({farewell: 'goodbye'});
+  sendResponse({farewell: "goodbye"});
 });
 
 const addSnapshot = (
@@ -94,5 +94,5 @@ const removeSnapshot = (
   state: WebRequestPayloadSnapshot[],
   row: WebRequestPayloadSnapshot,
 ): WebRequestPayloadSnapshot[] => {
-  return filter((wrps: WebRequestPayloadSnapshot) => wrps.browserRequestId != row.browserRequestId, state);
+  return filter((wrps: WebRequestPayloadSnapshot) => wrps.browserRequestId !== row.browserRequestId, state);
 };

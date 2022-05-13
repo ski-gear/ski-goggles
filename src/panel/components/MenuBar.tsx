@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Icon, Image, Menu, Popup, Header, Label } from "semantic-ui-react";
+import { Header, Icon, Image, Label, Menu, Popup } from "semantic-ui-react";
 import { WebRequestPayload } from "src/types/Types";
 
 import { OPEN_ISSUES_PAGE, OPEN_OPTIONS_TAB } from "../../Constants";
@@ -32,9 +32,9 @@ export default class MenuBar extends React.Component<Props, State> {
         return result;
       })
       .slice(-1)[0];
-  
+
     return nameSpaceInfo;
-  };
+  }
 
   public openOptions() {
     console.log("Ski Goggles: Opening options page...");
@@ -117,7 +117,7 @@ export default class MenuBar extends React.Component<Props, State> {
       </Menu>
     );
   }
-  panelRows(data: WebRequestPayload[]): React.ReactNode {
+  public panelRows(data: WebRequestPayload[]): React.ReactNode {
     throw new Error("Method not implemented.");
   }
 }

@@ -2,7 +2,7 @@ import { Delta, DiffPatcher } from "jsondiffpatch";
 import { format as HtmlFormat } from "jsondiffpatch/src/formatters/html";
 import { DiffData, RunTimeMessage, RunTimeMessageSubject } from "../types/Types";
 
-const Differ = new DiffPatcher;
+const Differ = new DiffPatcher();
 
 export const SendRuntimeMessage = (chromeId: string, subject: RunTimeMessageSubject, payload: any): void => {
   const msg: RunTimeMessage = { subject, payload };
@@ -13,13 +13,13 @@ export const generateDiff = (current: {}, snapshot: {}): DiffData => {
   const delta = Differ.diff(current, snapshot);
   if (delta) {
     return {
-      raw: delta,
       formatted: HtmlFormat(delta, undefined),
+      raw: delta,
     };
   } else {
     return {
-      raw: undefined,
       formatted: undefined,
+      raw: undefined,
     };
   }
 };

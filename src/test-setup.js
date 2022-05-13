@@ -30,9 +30,9 @@ const copyProps = (src, target) => {
 global.window = window;
 global.document = window.document;
 Object.defineProperty(global.window, "localStorage", {
-    value: {},
     configurable: true,
     enumerable: true,
+    value: {},
     writable: true,
 });
 global.chrome = {};

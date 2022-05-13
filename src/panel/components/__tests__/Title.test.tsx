@@ -1,18 +1,29 @@
-import "mocha";
 import { expect } from "chai";
 import * as Enzyme from "enzyme";
+import "mocha";
 import * as React from "react";
 import { Image, Label } from "semantic-ui-react";
-import Title from "../Title";
 import { ProviderCanonicalName } from "ski-vendors";
 import { Formatting } from "ski-vendors/dist/types/Types";
+import Title from "../Title";
 
 describe("Title", () => {
   const time = 1514790565000;
   const payload = {
     browserRequestId: "35946-1",
-    url: "https://smetrics.realestate.com.au",
-    timeStamp: 1641528195448,
+    data: {
+      data: [
+        {
+          category: null,
+          formatting: "string" as Formatting,
+          label: "AQB",
+          value: "1",
+        },
+      ],
+      meta: {
+        title: "Event",
+      },
+    },
     provider: {
       canonicalName: "AdobeAnalyticsAppMeasurement" as ProviderCanonicalName,
       displayName: "Adobe Analytics AppMeasurement",
@@ -20,19 +31,8 @@ describe("Title", () => {
       pattern: /./,
       transformer: () => [],
     },
-    data: {
-      meta: {
-        title: "Event",
-      },
-      data: [
-        {
-          label: "AQB",
-          value: "1",
-          formatting: "string" as Formatting,
-          category: null,
-        },
-      ],
-    },
+    timeStamp: 1641528195448,
+    url: "https://smetrics.realestate.com.au",
   };
 
   const titleComponent = Enzyme.mount(
@@ -42,7 +42,7 @@ describe("Title", () => {
       title="stuff-title"
       timeStamp={time}
       payload={payload}
-    />
+    />,
   );
 
   it("Generates the correct logo", () => {
@@ -60,5 +60,4 @@ describe("Title", () => {
     expect(title.text()).to.contain("Jan 1st 2018 18:09:25");
   });
 
-  
 });

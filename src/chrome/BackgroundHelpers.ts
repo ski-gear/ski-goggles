@@ -54,14 +54,14 @@ export const processWebRequest = curry(
         let idx = 1;
         forEach(req => {
           const eventData: WebRequestMessageEnvelope = {
-            type: "webRequest",
             payload: {
               browserRequestId: `${browserRequestId}-${idx}`,
-              url,
-              timeStamp,
-              provider,
               data: req,
+              provider,
+              timeStamp,
+              url,
             },
+            type: "webRequest",
           };
           sendToSkiGoggles(state, tabId, eventData);
           idx = idx + 1;
@@ -79,15 +79,15 @@ const buildRawWebRequestData = (
   switch (method) {
     case "GET":
       return {
-        url,
-        requestType: "GET",
         requestParams: parse(url),
+        requestType: "GET",
+        url,
       };
     case "POST":
       return {
-        url,
-        requestType: "POST",
         requestBody,
+        requestType: "POST",
+        url,
       };
     default:
       console.debug(`Unsupported request method: ${method} for url: ${url}`);
@@ -112,6 +112,7 @@ export const onConnectCallBack = curry(
       return;
     }
     console.debug(`Registered port: ${port.name}`);
+    refreshMasterPattern(state);
 
     const tabId = getTabId(port);
     state.tabs[tabId] = {

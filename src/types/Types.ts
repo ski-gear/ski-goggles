@@ -77,7 +77,7 @@ export type RunTimeMessageSubject =
   | "open-issues-page"
   | "add-snapshot"
   | "remove-snapshot";
-  
+
 export interface RunTimeMessage {
   subject: RunTimeMessageSubject;
   payload: any;

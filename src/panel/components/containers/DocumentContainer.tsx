@@ -27,7 +27,7 @@ class DocumentContainer extends React.Component<Props, State> {
 
     document.addEventListener(NewWebRequestPostMessage, (data: any) => {
       const postedData = data as PostedData;
-      if (postedData.detail.type == "webRequest") {
+      if (postedData.detail.type === "webRequest") {
         dispatch(addWebRequestRowAction(postedData.detail.payload));
       }
     });

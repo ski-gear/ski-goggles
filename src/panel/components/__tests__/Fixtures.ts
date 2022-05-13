@@ -18,10 +18,10 @@ export const provider: Provider = {
   transformer: (rwrd: RawWebRequestData) => {
     return [
       {
+        data: [],
         meta: {
           title: "",
         },
-        data: [],
       },
     ];
   },
@@ -29,40 +29,40 @@ export const provider: Provider = {
 
 export const wrp: WebRequestPayload = {
   browserRequestId: "12345",
-  url: "https://awesome.com?test=123",
-  timeStamp: 1514790565000,
-  provider,
   data: {
+    data: [
+      {
+        formatting: "string",
+        label: "test",
+        value: "test",
+      },
+    ],
     meta: {
       title: "Snowplow",
     },
-    data: [
-      {
-        label: "test",
-        value: "test",
-        formatting: "string",
-      },
-    ],
   },
+  provider,
+  timeStamp: 1514790565000,
+  url: "https://awesome.com?test=123",
 };
 
 export const wrps: WebRequestPayloadSnapshot = {
-  title: "Awesome",
   browserRequestId: "12345",
-  url: "https://awesome.com?test=123",
-  timeStamp: 1514790565000,
-  snapshotTimeStamp: 1514790565000,
-  provider,
   data: {
+    data: [
+      {
+        formatting: "string",
+        label: "test",
+        value: "test",
+      },
+    ],
     meta: {
       title: "stuff",
     },
-    data: [
-      {
-        label: "test",
-        value: "test",
-        formatting: "string",
-      },
-    ],
   },
+  provider,
+  snapshotTimeStamp: 1514790565000,
+  timeStamp: 1514790565000,
+  title: "Awesome",
+  url: "https://awesome.com?test=123",
 };

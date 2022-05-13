@@ -28,7 +28,7 @@ const safeJsonParse = (json: string): {} => {
     return JSON.parse(json);
   } catch (e) {
       console.log("JSON parse error", e);
-    return {};
+      return {};
   }
 };
 
@@ -47,11 +47,11 @@ export default class Comparison extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      copyText: "Copy Raw",
       diffDataShown: false,
       diffTableShown: true,
       formattedDiffData: "",
       rawDiffData: {},
-      copyText: "Copy Raw",
     };
   }
 

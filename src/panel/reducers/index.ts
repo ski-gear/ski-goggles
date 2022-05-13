@@ -4,9 +4,9 @@ import { snapshots } from "./Snapshots";
 import { webRequests } from "./WebRequests";
 
 const skiGoggles = combineReducers({
-  webRequests,
-  snapshots,
   metaData,
+  snapshots,
+  webRequests,
 });
 
 export default skiGoggles;

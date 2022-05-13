@@ -1,13 +1,13 @@
 import { defaultTo, map, path } from "ramda";
 import * as React from "react";
 import { Accordion } from "semantic-ui-react";
+import { v4 as uuidv4 } from "uuid";
 import {
   WebRequestPayload,
   WebRequestPayloadSnapshot,
 } from "../../types/Types";
 import { Detail } from "./detail/Detail";
 import Title from "./Title";
-import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
   snapshots: WebRequestPayloadSnapshot[];
@@ -21,13 +21,13 @@ const panelRows = (
   data: WebRequestPayload[],
   addSnapshot: any,
   removeSnapshot: any,
-  snapshots: WebRequestPayloadSnapshot[]
+  snapshots: WebRequestPayloadSnapshot[],
 ): any[] => {
   const panelRows = map((payload) => {
     const provider = payload.provider;
     const title = defaultTo(
       provider.displayName,
-      path(["meta", "title"], payload.data)
+      path(["meta", "title"], payload.data),
     ) as string;
     const titleElem = (
       <Title
@@ -54,12 +54,12 @@ const panelRows = (
       </Accordion.Title>
     );
     return {
-      key: uuidv4(),
-      title: titleNode,
       content: {
         content: contentElem,
         key: "content-" + uuidv4(),
       },
+      key: uuidv4(),
+      title: titleNode,
     };
   }, data);
   return panelRows;
@@ -88,7 +88,7 @@ export default class WebRequests extends React.Component<Props> {
             this.props.data,
             this.addSnapshot.bind(this),
             this.removeSnapshot.bind(this),
-            this.props.snapshots
+            this.props.snapshots,
           )}
           key={uuidv4()}
         />
