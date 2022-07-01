@@ -63,6 +63,10 @@ const displayKeyInfo = (
   return "";
 };
 
+const formatTime = (timeStamp: number): string => {
+  return moment(timeStamp).format("MMM Do HH:mm:ss A");
+};
+
 export default class Title extends React.Component<Props> {
   public render() {
     return (
@@ -106,6 +110,3 @@ export default class Title extends React.Component<Props> {
   }
 }
 
-const formatTime = (timeStamp: number): string => {
-  return moment(timeStamp).format("MMM Do HH:mm:ss A");
-};

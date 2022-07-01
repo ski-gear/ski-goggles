@@ -1,6 +1,6 @@
 {
   "name": "ski-goggles",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Some eye protection before skiing into the world of Snowplow",
   "author": "shawn.foo@rea-group.com",
   "homepage": "https://github.com/ski-gear/ski-goggles",
@@ -66,7 +66,7 @@
     "build": "webpack --env.NODE_ENV=production",
     "dev-build": "webpack --env.NODE_ENV=dev",
     "watch": "webpack --watch",
-    "test": "yarn lint && mocha -r ts-node/register --require './src/test-setup.js' './src/**/__tests__/*.test.+(ts|tsx)' --timeout=10000",
+    "test": "set NODE_ENV=test yarn lint && mocha -r ts-node/register './src/test-setup.js' './src/**/__tests__/*.test.ts' './src/**/__tests__/*.test.tsx' --timeout=10000",
     "lint": "tslint -p . --fix",
     "release": "yarn test && yarn build && yarn version",
     "package": "yarn build && zip ./dist/chrome.zip -r ./dist/chrome/"

@@ -60,13 +60,6 @@ export default class MenuBar extends React.Component<Props, State> {
             size="tiny"
           />
         </Menu.Item>
-        <Menu.Item name="tiq-profile-env">
-          <Label size="large" color="blue">
-            {this.nameSpaceInfo(this.props.data)
-              ? this.nameSpaceInfo(this.props.data)
-              : "Tealium Profile/Environment: NA/NA"}
-          </Label>
-        </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item name="bug-menu">
             <Popup

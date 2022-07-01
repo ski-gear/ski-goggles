@@ -56,8 +56,8 @@ describe("Title", () => {
   });
 
   it("Generates the formatted time", () => {
-    const title = titleComponent.find(Label);
-    expect(title.text()).to.contain("Jan 1st 2018 18:09:25");
+    const title = titleComponent;
+    expect(title.text()).to.contain("Jan 1st 18:09:25 PM");
   });
 
 });
