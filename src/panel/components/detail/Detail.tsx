@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import { assoc, defaultTo, groupBy, keys, map, prop, sortBy } from "ramda";
 import * as React from "react";
-import Highlight from "react-highlight.js";
+import SyntaxHighlighter from "react-syntax-highlighter";
 import { Container, Header, Table } from "semantic-ui-react";
 import Divider from "semantic-ui-react/dist/commonjs/elements/Divider/Divider";
 import { FormattedDataItem } from "ski-vendors";
@@ -33,11 +33,11 @@ const renderRows = (rows: FormattedDataItem[]) => {
 };
 
 const format = (valueType: string, value: string): JSX.Element => {
-  if (valueType == "json") {
+  if (valueType === "json") {
     return (
       <Container fluid>
         <JsonMenu value={value} />
-        <Highlight language="json">{value}</Highlight>
+        <SyntaxHighlighter language="json" showLineNumbers>{value}</SyntaxHighlighter>
       </Container>
     );
   } else {
@@ -68,16 +68,16 @@ const wrappedTable = (data: GroupedData): JSX.Element[] => {
 const addMetaData = (data: GroupedData, payload: WebRequestPayload): GroupedData => {
   const metaData = [
     {
+      category: "metaData",
+      formatting: "string",
       label: "Intercepted Time",
       value: formatTime(payload.timeStamp),
-      formatting: "string",
-      category: "metaData",
     },
     {
+      category: "metaData",
+      formatting: "string",
       label: "Intercepted URL",
       value: payload.url,
-      formatting: "string",
-      category: "metaData",
     },
   ];
 

@@ -1,8 +1,8 @@
 {
-  "manifest_version": 2,
-  "minimum_chrome_version": "21.0",
+  "manifest_version": 3,
+  "minimum_chrome_version": "88.0",
   "name": "Ski Goggles",
-  "version": "1.9.4",
+  "version": "2.0.5",
   "description": "Inspect Web Analytic requests including Snowplow, Adobe Analytics, and more",
   "icons": {
     "16": "images/ski-goggles-16.png",
@@ -10,12 +10,12 @@
     "128": "images/ski-goggles-128.png"
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "service_worker": "background.js"
   },
   "devtools_page": "devtools.html",
   "homepage_url": "https://github.com/ski-goggles/ski-goggles",
   "options_page": "options.html",
-  "permissions": ["storage", "webRequest", "*://*/*"],
+  "permissions": ["storage", "webRequest"],
+  "host_permissions": ["*://*/*"],
   "short_name": "Ski Goggles"
 }

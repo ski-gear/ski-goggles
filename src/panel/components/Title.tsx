@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import * as React from "react";
-import { Grid, Icon, Image, Label } from "semantic-ui-react";
+import { Grid, Header, Icon, Image, Label } from "semantic-ui-react";
 import { WebRequestPayload } from "src/types/Types";
 
 import { generateImageUrl } from "../Helpers";
@@ -16,15 +16,15 @@ interface Props {
 const displayKeyInfo = (
   provider: string,
   payload: WebRequestPayload,
-  title: string 
+  title: string,
 ): string => {
   try {
     if (provider === "Snowplow") {
       if (title === "Page View") {
         const pageSchemaVersion = JSON.parse(
           payload.data.data.filter(
-            (item) => item.label === "Context Payload"
-          )[0].value
+            (item) => item.label === "Context Payload",
+          )[0].value,
         )
           .data[0].schema.match(/\d/g)
           .join("-");
@@ -34,7 +34,7 @@ const displayKeyInfo = (
       } else {
         const eventSchemaVersion = JSON.parse(
           payload.data.data.filter((item) => item.label === "Event Payload")[0]
-            .value
+            .value,
         )
           .data.schema.match(/\d/g)
           .join("-");
@@ -44,14 +44,14 @@ const displayKeyInfo = (
       }
     } else if (provider === "Adobe Analytics AppMeasurement") {
       const visitorNamespace = payload.data.data.filter(
-        (item) => item.label === "Visitor namespace"
+        (item) => item.label === "Visitor namespace",
       )[0].value;
       const name = "Visitor: ";
       const result = name.concat(visitorNamespace);
       return result;
     } else if (provider === "Google Analytics") {
       const trackingId = payload.data.data.filter(
-        (item) => item.label === "Tracking ID"
+        (item) => item.label === "Tracking ID",
       )[0].value;
       const name = "Id: ";
       const result = name.concat(trackingId);
@@ -63,32 +63,45 @@ const displayKeyInfo = (
   return "";
 };
 
-const styledSpan = {
-  fontSize: "small",
+const formatTime = (timeStamp: number): string => {
+  return moment(timeStamp).format("MMM Do HH:mm:ss A");
 };
 
 export default class Title extends React.Component<Props> {
   public render() {
     return (
-      <Grid>
-        <Grid.Column floated="left" width={8}>
+      <Grid columns="equal" verticalAlign="middle" centered>
+        <Grid.Column name="logo" width={9}>
           <Icon name="dropdown" />
           <Image src={generateImageUrl(this.props.logo)} avatar spaced />
-          <Label size="tiny" name="title">
+          <Label as="a"
+            basic
+            size="small"
+            color="blue"
+            name="timeStamp"
+            width={4}
+          >
             {this.props.title}
           </Label>
         </Grid.Column>
-        <Grid.Column floated="left" width={4}>
-          <Label size="tiny" name="ketInfo">
+        <Grid.Column name="key-info">
+          <Header name="keyInfo" size="small" as="h5" color="blue">
             {displayKeyInfo(
               this.props.provider,
               this.props.payload,
-              this.props.title
+              this.props.title,
             )}
-          </Label>
+          </Header>
         </Grid.Column>
-        <Grid.Column floated="right" width={4}>
-          <Label size="mini" name="timeStamp">
+        <Grid.Column name="timestamp">
+          <Label
+            as="a"
+            basic
+            size="small"
+            color="blue"
+            name="timeStamp"
+            width={4}
+          >
             {formatTime(this.props.timeStamp)}
           </Label>
         </Grid.Column>
@@ -97,6 +110,3 @@ export default class Title extends React.Component<Props> {
   }
 }
 
-const formatTime = (timeStamp: number): string => {
-  return moment(timeStamp).format("MMM Do YYYY HH:mm:ss");
-};

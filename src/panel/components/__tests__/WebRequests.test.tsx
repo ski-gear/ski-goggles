@@ -21,11 +21,11 @@ describe("WebRequests", () => {
   };
 
   const props = {
-    snapshots: [wrps],
-    data: [wrp],
-    chromeId: "awesome-chromeid",
     addSnapshot,
+    chromeId: "awesome-chromeid",
+    data: [wrp],
     removeSnapshot,
+    snapshots: [wrps],
   };
 
   const wrComponent = Enzyme.mount(

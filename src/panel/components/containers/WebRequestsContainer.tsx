@@ -6,9 +6,9 @@ import WebRequests from "../WebRequests";
 
 const mapStateToProps = (state: PanelState) => {
   return {
+    chromeId: state.metaData.chromeId,
     data: state.webRequests,
     snapshots: state.snapshots,
-    chromeId: state.metaData.chromeId,
   };
 };
 

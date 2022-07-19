@@ -14,9 +14,9 @@ import { getOptions, setOptions } from "./LocalStorage";
 
 const state: GlobalState = {
   masterPattern: /(?:)/,
+  snapShotKey: "skiGogglesSnapshots",
   tabs: {},
   userOptionsKey: "skiGogglesOptions",
-  snapShotKey: "skiGogglesSnapshots",
 };
 
 chrome.runtime.onInstalled.addListener(onInstall(state));
@@ -42,7 +42,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 chrome.runtime.onConnect.addListener(onConnectCallBack(state));
 
-chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
+chrome.runtime.onMessage.addListener((msg: RunTimeMessage, sender: chrome.runtime.MessageSender, sendResponse): void => {
   when(msg.subject)
     .is(OPEN_OPTIONS_TAB, () => {
       chrome.runtime.openOptionsPage(console.log);
@@ -57,8 +57,8 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
         const snapshots = addSnapshot(groomedData, snapshot);
         setOptions(state.snapShotKey, snapshots).then((_: any) => {
           const snapshotMessage: SnapshotMessageEnvelope = {
-            type: "snapshots",
             payload: snapshots,
+            type: "snapshots",
           };
           broadcastToAllTabs(state, snapshotMessage);
         });
@@ -71,13 +71,14 @@ chrome.runtime.onMessage.addListener((msg: RunTimeMessage): void => {
         const snapshots = removeSnapshot(groomedData, snapshot);
         setOptions(state.snapShotKey, snapshots).then((_: any) => {
           const snapshotMessage: SnapshotMessageEnvelope = {
-            type: "snapshots",
             payload: snapshots,
+            type: "snapshots",
           };
           broadcastToAllTabs(state, snapshotMessage);
         });
       });
     });
+  sendResponse({farewell: "goodbye"});
 });
 
 const addSnapshot = (
@@ -93,5 +94,5 @@ const removeSnapshot = (
   state: WebRequestPayloadSnapshot[],
   row: WebRequestPayloadSnapshot,
 ): WebRequestPayloadSnapshot[] => {
-  return filter((wrps: WebRequestPayloadSnapshot) => wrps.browserRequestId != row.browserRequestId, state);
+  return filter((wrps: WebRequestPayloadSnapshot) => wrps.browserRequestId !== row.browserRequestId, state);
 };

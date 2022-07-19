@@ -19,6 +19,7 @@ import {
 import { getOptions, setOptions } from "./LocalStorage";
 
 export const onInstall = curry((state: GlobalState, _details: any): void => {
+  console.debug("SG: chrome.runtime.onInstalled.");
   const defaults = DefaultOptions();
   setOptions(state.userOptionsKey, defaults).then(_data => {
     refreshMasterPattern(state);
@@ -53,14 +54,14 @@ export const processWebRequest = curry(
         let idx = 1;
         forEach(req => {
           const eventData: WebRequestMessageEnvelope = {
-            type: "webRequest",
             payload: {
               browserRequestId: `${browserRequestId}-${idx}`,
-              url,
-              timeStamp,
-              provider,
               data: req,
+              provider,
+              timeStamp,
+              url,
             },
+            type: "webRequest",
           };
           sendToSkiGoggles(state, tabId, eventData);
           idx = idx + 1;
@@ -78,15 +79,15 @@ const buildRawWebRequestData = (
   switch (method) {
     case "GET":
       return {
-        url,
-        requestType: "GET",
         requestParams: parse(url),
+        requestType: "GET",
+        url,
       };
     case "POST":
       return {
-        url,
-        requestType: "POST",
         requestBody,
+        requestType: "POST",
+        url,
       };
     default:
       console.debug(`Unsupported request method: ${method} for url: ${url}`);
@@ -95,7 +96,7 @@ const buildRawWebRequestData = (
 };
 
 export const refreshMasterPattern = (state: GlobalState) => {
-  console.debug("Recreating masterpattern");
+  console.debug("SG: Recreating masterpattern");
   getOptions(state.userOptionsKey, true).then((opts: UserOptions) => {
     const upss = opts.providers || [];
     state.masterPattern = ProviderHelpers.generateMasterPattern(
@@ -111,6 +112,7 @@ export const onConnectCallBack = curry(
       return;
     }
     console.debug(`Registered port: ${port.name}`);
+    refreshMasterPattern(state);
 
     const tabId = getTabId(port);
     state.tabs[tabId] = {
@@ -123,7 +125,7 @@ export const onConnectCallBack = curry(
       delete state.tabs[getTabId(port)];
     });
 
-    // logs messages from the port (in the background page's console!)
+    // Logs messages from the port (in the background page's console!)
     port.onMessage.addListener(msg => {
       console.debug(`Message from port[${tabId}]: `, msg);
     });

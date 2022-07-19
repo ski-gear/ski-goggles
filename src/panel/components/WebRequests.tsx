@@ -1,7 +1,7 @@
 import { defaultTo, map, path } from "ramda";
 import * as React from "react";
-import { Provider } from "react-redux";
 import { Accordion } from "semantic-ui-react";
+import { v4 as uuidv4 } from "uuid";
 import {
   WebRequestPayload,
   WebRequestPayloadSnapshot,
@@ -21,13 +21,13 @@ const panelRows = (
   data: WebRequestPayload[],
   addSnapshot: any,
   removeSnapshot: any,
-  snapshots: WebRequestPayloadSnapshot[]
+  snapshots: WebRequestPayloadSnapshot[],
 ): any[] => {
   const panelRows = map((payload) => {
     const provider = payload.provider;
     const title = defaultTo(
       provider.displayName,
-      path(["meta", "title"], payload.data)
+      path(["meta", "title"], payload.data),
     ) as string;
     const titleElem = (
       <Title
@@ -36,6 +36,7 @@ const panelRows = (
         provider={provider.displayName}
         logo={provider.logo}
         timeStamp={payload.timeStamp}
+        key={ {title} + uuidv4() }
       />
     );
     const contentElem = (
@@ -44,25 +45,21 @@ const panelRows = (
         addSnapshot={addSnapshot}
         removeSnapshot={removeSnapshot}
         snapshots={snapshots}
+        key={uuidv4()}
       />
     );
     const titleNode = (
-      <Accordion.Title key={"title-" + payload.timeStamp}>
+      <Accordion.Title key={"title-" + uuidv4() }>
         {titleElem}
       </Accordion.Title>
     );
-    const contentNode = (
-      <Accordion.Content key={"content-" + payload.timeStamp}>
-        {contentElem}
-      </Accordion.Content>
-    );
-
     return {
-      title: titleNode,
       content: {
         content: contentElem,
-        key: "content-" + payload.timeStamp,
+        key: "content-" + uuidv4(),
       },
+      key: uuidv4(),
+      title: titleNode,
     };
   }, data);
   return panelRows;
@@ -91,8 +88,9 @@ export default class WebRequests extends React.Component<Props> {
             this.props.data,
             this.addSnapshot.bind(this),
             this.removeSnapshot.bind(this),
-            this.props.snapshots
+            this.props.snapshots,
           )}
+          key={uuidv4()}
         />
       </div>
     );

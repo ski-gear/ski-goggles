@@ -7,8 +7,8 @@ import { UserOptionsVersion } from "../Versions";
 
 export const DefaultOptions = (): UserOptions => {
   return {
-    version: UserOptionsVersion,
     providers: preferredProviders(),
+    version: UserOptionsVersion,
   };
 };
 

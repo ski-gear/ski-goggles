@@ -22,9 +22,9 @@ export default class DetailMenu extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      modalCompareOpen: false,
       modalSaveOpen: false,
       snapShotName: "Awesome Event",
-      modalCompareOpen: false,
     };
   }
 
@@ -47,8 +47,8 @@ export default class DetailMenu extends React.Component<Props, State> {
     const title = isEmpty(name) ? "Some Event" : name;
     const snapshotTimeStamp = Date.now();
     const snapshotFields = {
-      title,
       snapshotTimeStamp,
+      title,
     };
     const wrps: WebRequestPayloadSnapshot = merge(this.props.payload, snapshotFields);
     this.props.addSnapshot(wrps);
