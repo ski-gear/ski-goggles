@@ -30,7 +30,7 @@
     "file-loader": "^0.11.2",
     "html-webpack-include-assets-plugin": "^0.0.7",
     "html-webpack-plugin": "^2.30.1",
-    "jsdom": "^19.0.0",
+    "jsdom": "^16.5.0",
     "mocha": "6.2.2",
     "rewiremock": "^3.4.2",
     "sinon": "^4.1.3",
