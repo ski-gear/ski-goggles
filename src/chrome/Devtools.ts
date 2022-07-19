@@ -33,6 +33,7 @@ const panelCreated = (panel: ExtensionPanel) => {
    * Called when the devtools panel is first shown
    */
   const onPanelFirstShow = (panelWindowRef: ChromeWindow): void => {
+    console.log("Ski Goggles: onPanelFirstShow...");
     panel.onShown.removeListener(onPanelFirstShow); // Ensure this fires only once.
 
     panelWindow = panelWindowRef; // Set the global reference

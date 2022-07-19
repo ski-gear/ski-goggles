@@ -19,7 +19,7 @@ import {
 import { getOptions, setOptions } from "./LocalStorage";
 
 export const onInstall = curry((state: GlobalState, _details: any): void => {
-  console.debug("SG: chrome.runtime.onInstalled.");
+  console.debug("Ski Goggles: chrome.runtime.onInstalled.");
   const defaults = DefaultOptions();
   setOptions(state.userOptionsKey, defaults).then(_data => {
     refreshMasterPattern(state);
@@ -90,19 +90,19 @@ const buildRawWebRequestData = (
         url,
       };
     default:
-      console.debug(`Unsupported request method: ${method} for url: ${url}`);
+      console.debug(`Ski Goggles: unsupported request method: ${method} for url: ${url}`);
       return null;
   }
 };
 
 export const refreshMasterPattern = (state: GlobalState) => {
-  console.debug("SG: Recreating masterpattern");
+  console.debug("Ski Goggles: Recreating masterpattern");
   getOptions(state.userOptionsKey, true).then((opts: UserOptions) => {
     const upss = opts.providers || [];
     state.masterPattern = ProviderHelpers.generateMasterPattern(
       enabledProvidersFromOptions(upss),
     );
-    console.log(state.masterPattern);
+    console.debug(`Ski Goggles: masterpattern ${state.masterPattern}`);
   });
 };
 
@@ -111,7 +111,7 @@ export const onConnectCallBack = curry(
     if (port.name.indexOf("skig-") !== 0) {
       return;
     }
-    console.debug(`Registered port: ${port.name}`);
+    console.debug(`Ski Goggles: registered port: ${port.name}`);
     refreshMasterPattern(state);
 
     const tabId = getTabId(port);
@@ -121,13 +121,13 @@ export const onConnectCallBack = curry(
 
     // Remove port when destroyed (e.g. when devtools instance is closed)
     port.onDisconnect.addListener(port => {
-      console.debug(`Disconnecting port ${port.name}`);
+      console.debug(`Ski Goggles: disconnecting port ${port.name}`);
       delete state.tabs[getTabId(port)];
     });
 
     // Logs messages from the port (in the background page's console!)
     port.onMessage.addListener(msg => {
-      console.debug(`Message from port[${tabId}]: `, msg);
+      console.debug(`Ski Goggles: message from port[${tabId}]: `, msg);
     });
   },
 );
@@ -151,7 +151,7 @@ const sendToSkiGoggles = (
   envelope: MessageEnvelope,
 ): void => {
   console.debug(
-    "sending ",
+    "Ski Goggles: sending ",
     envelope.type,
     " message to tabId: ",
     tabId,
@@ -161,7 +161,7 @@ const sendToSkiGoggles = (
   try {
     state.tabs[tabId].port.postMessage(envelope);
   } catch (ex) {
-    console.error("error calling postMessage: ", ex.message);
+    console.error(`Ski Goggles: error calling postMessage: ${ex.message}`);
   }
 };
 

@@ -22,7 +22,7 @@ const state: GlobalState = {
 chrome.runtime.onInstalled.addListener(onInstall(state));
 
 chrome.runtime.onStartup.addListener(() => {
-  console.debug("starting up..");
+  console.debug("Ski Goggles: onStartUp...");
   refreshMasterPattern(state);
 });
 
