@@ -48,7 +48,7 @@
   "dependencies": {
     "clipboard": "^2.0.10",
     "jsondiffpatch": "^0.2.5",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "ramda": "^0.24.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
