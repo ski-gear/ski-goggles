@@ -40,6 +40,10 @@ chrome.webRequest.onBeforeRequest.addListener(
   ["requestBody"],
 );
 
+chrome.webNavigation.onBeforeNavigate.addListener(() => {
+  console.debug("Ski Goggles: chrome.webNavigation.onBeforeNavigate..");
+});
+
 chrome.runtime.onConnect.addListener(onConnectCallBack(state));
 
 chrome.runtime.onMessage.addListener((msg: RunTimeMessage, sender: chrome.runtime.MessageSender, sendResponse): void => {

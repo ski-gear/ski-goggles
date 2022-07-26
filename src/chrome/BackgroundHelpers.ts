@@ -45,7 +45,7 @@ export const processWebRequest = curry(
         requestBody,
       );
       if (isNil(rawRequestData)) {
-        console.debug(`Could not process request with url: ${url}`);
+        console.debug(`Ski Goggles: could not process request with url: ${url}`);
         return;
       }
 
