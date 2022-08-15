@@ -40,8 +40,13 @@ chrome.webRequest.onBeforeRequest.addListener(
   ["requestBody"],
 );
 
-chrome.webNavigation.onBeforeNavigate.addListener(() => {
-  console.debug("Ski Goggles: chrome.webNavigation.onBeforeNavigate..");
+// Wake up the service worker
+chrome.webNavigation.onBeforeNavigate.addListener((details) => {
+  console.log("Ski Goggles: chrome.webNavigation.onBeforeNavigate..", details);
+});
+
+chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
+  console.log("Ski Goggles: chrome.webNavigation.onHistoryStateUpdated..", details);
 });
 
 chrome.runtime.onConnect.addListener(onConnectCallBack(state));
