@@ -15,7 +15,7 @@
   "devtools_page": "devtools.html",
   "homepage_url": "https://github.com/ski-goggles/ski-goggles",
   "options_page": "options.html",
-  "permissions": ["storage", "webRequest"],
+  "permissions": ["storage", "webRequest", "webNavigation"],
   "host_permissions": ["*://*/*"],
   "short_name": "Ski Goggles"
 }

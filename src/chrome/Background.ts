@@ -22,7 +22,7 @@ const state: GlobalState = {
 chrome.runtime.onInstalled.addListener(onInstall(state));
 
 chrome.runtime.onStartup.addListener(() => {
-  console.debug("starting up..");
+  console.debug("Ski Goggles: onStartUp...");
   refreshMasterPattern(state);
 });
 
@@ -39,6 +39,15 @@ chrome.webRequest.onBeforeRequest.addListener(
   },
   ["requestBody"],
 );
+
+// Wake up the service worker
+chrome.webNavigation.onBeforeNavigate.addListener((details) => {
+  console.log("Ski Goggles: chrome.webNavigation.onBeforeNavigate..", details);
+});
+
+chrome.webNavigation.onHistoryStateUpdated.addListener((details) => {
+  console.log("Ski Goggles: chrome.webNavigation.onHistoryStateUpdated..", details);
+});
 
 chrome.runtime.onConnect.addListener(onConnectCallBack(state));
 
