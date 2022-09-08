@@ -5,3 +5,4 @@ key/chrome.pem
 .vscode/
 node_modules
 .editorconfig
+/tmp
